@@ -1,0 +1,807 @@
+/*
+ * 郦道元行旅中国：动态封面样式
+ *
+ * 页面采用固定比例的单屏舞台，所有素材按照参考图 1672 × 941 的构图定位。
+ * 动画顺序为：画卷展开 → 人物与船进入 → 标题和说明显现 → 印章与按钮出现。
+ * 如果只想调整动画快慢，优先修改下方 :root 中的时间变量。
+ */
+:root {
+  /* 页面基础色：正文墨色、辅助墨色、宣纸底色和朱砂印章色。 */
+  --ink: #191713;
+  --muted-ink: #423b32;
+  --paper: #e8dfcf;
+  --cinnabar: #8f392b;
+
+  /*
+   * 封面动画总时间轴：
+   * reveal-duration 控制画卷完全展开所需时间；
+   * reveal-delay 控制页面打开后等待多久开始展开；
+   * content-start 自动计算人物、船和文字开始入场的时间。
+   */
+  --reveal-duration: 2s;
+  --reveal-delay: 0s;
+  /* 画卷展开到一半时启动中间文字、印章和按钮的淡入动画。 */
+  --copy-start: calc(var(--reveal-delay) + var(--reveal-duration) * 0.3);
+  --content-start: calc(var(--reveal-delay) + var(--reveal-duration));
+  /* 人物和船只的入场时长单独抽出，方便控制进场速度。 */
+  --traveller-duration: 3.2s;
+  --boat-duration: 4.4s;
+  /* 按钮必须等人物和船都进入后再出现，因此接在更慢的船只动画后。 */
+  --button-start: 3s;
+}
+
+/* 统一盒模型，防止边框和内边距撑大元素的设计尺寸。 */
+* {
+  box-sizing: border-box;
+}
+
+/* 根节点占满浏览器窗口，为全屏封面提供宽高基准。 */
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+/*
+ * 页面全局环境：
+ * overflow: hidden 禁止动画产生滚动条；
+ * 字体从思源宋体开始逐级回退到系统宋体。
+ */
+body {
+  overflow: hidden;
+  color: var(--ink);
+  background: #302a22;
+  font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+}
+
+/* 让按钮继承页面字体，避免浏览器采用默认无衬线字体。 */
+button {
+  font: inherit;
+}
+
+/*
+ * 最外层封面容器：
+ * 使用网格将舞台始终放在视口中央；
+ * 两侧暗色渐变模拟画卷之外的环境阴影。
+ */
+.cover {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(28, 23, 18, 0.45), transparent 16%, transparent 84%, rgba(28, 23, 18, 0.45)),
+    #cdbfa8;
+}
+
+/*
+ * 封面主舞台：
+ * 宽度同时受视口宽度和高度限制，并保持参考图 1672:941 的比例；
+ * isolation 创建独立层叠环境，便于管理背景、人物、文字和按钮的层级。
+ */
+.stage {
+  position: relative;
+  width: min(100vw, calc(100vh * 1672 / 941));
+  aspect-ratio: 1672 / 941;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--paper);
+  box-shadow: 0 18px 70px rgba(24, 20, 15, 0.36);
+}
+
+/*
+ * 舞台最上层的纸张边缘阴影。
+ * pointer-events: none 确保装饰层不会阻挡按钮点击。
+ */
+.stage::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 58px rgba(67, 54, 38, 0.16),
+    inset 0 0 8px rgba(67, 54, 38, 0.18);
+}
+
+/*
+ * 画卷内容裁切容器：
+ * 初始只显示中央约 0.3% 的窄缝；
+ * unfurl 动画逐步取消左右裁切，形成从中央向两侧展开的效果。
+ */
+.painting {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  clip-path: inset(0 49.85% 0 49.85%);
+  will-change: clip-path;
+  /* 页面打开后立即从中间向左右展开画卷。 */
+  /* animation: unfurl var(--reveal-duration) var(--reveal-delay) cubic-bezier(0.61, 0.02, 0.18, 1) forwards; */
+  animation: unfurl var(--reveal-duration) var(--reveal-delay) linear forwards;
+}
+
+/*
+ * 山水底图：
+ * object-fit: cover 保证图片始终铺满舞台；
+ * 轻微放大可以防止呼吸动画移动时露出图片边缘。
+ */
+.background {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transform: scale(1.012);
+  animation: landscapeBreathe 14s 3s ease-in-out infinite alternate;
+}
+
+/*
+ * 宣纸柔光层：
+ * 中央径向高光为标题留出干净的阅读区域；
+ * 两侧渐变强化画卷边缘，soft-light 模式保留原图细节。
+ */
+.paper-light {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 39%, rgba(255, 251, 237, 0.2), transparent 34%),
+    linear-gradient(90deg, rgba(92, 68, 43, 0.07), transparent 9%, transparent 91%, rgba(92, 68, 43, 0.07));
+  mix-blend-mode: soft-light;
+}
+
+/*
+ * 水面游光层：
+ * 仅覆盖画面下方水域，使用移动的半透明亮带模拟水光；
+ * mix-blend-mode: screen 让亮光自然叠加而不遮住水墨纹理。
+ */
+.water-shimmer {
+  position: absolute;
+  left: 26%;
+  right: 0;
+  bottom: 0;
+  height: 30%;
+  opacity: 0.28;
+  background: linear-gradient(
+    102deg,
+    transparent 0 16%,
+    rgba(255, 252, 238, 0.48) 22%,
+    transparent 29% 48%,
+    rgba(255, 252, 238, 0.34) 56%,
+    transparent 64%
+  );
+  transform: translateX(-18%);
+  mix-blend-mode: screen;
+  animation: shimmer 10s 3s ease-in-out infinite;
+}
+
+/*
+ * 左右卷轴的通用外观：
+ * 细长渐变模拟卷边和木轴的明暗；
+ * 初始位于画面中央，随底图展开移动到两侧并淡出。
+ */
+.scroll-edge {
+  position: absolute;
+  z-index: 16;
+  top: -1%;
+  bottom: -1%;
+  width: clamp(9px, 0.8vw, 15px);
+  border: 1px solid rgba(84, 64, 40, 0.34);
+  background:
+    linear-gradient(90deg, rgba(79, 59, 36, 0.3), rgba(238, 222, 191, 0.98) 38%, rgba(126, 96, 59, 0.26) 76%),
+    #d8c39d;
+  box-shadow:
+    0 0 14px rgba(68, 48, 28, 0.34),
+    inset 0 0 4px rgba(255, 248, 222, 0.78);
+  opacity: 0;
+  will-change: left, right, opacity;
+}
+
+/* 卷轴上下端头的共同尺寸、圆形轮廓、颜色和边框。 */
+.scroll-edge::before,
+.scroll-edge::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  width: 180%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #b89b6f;
+  border: 1px solid rgba(75, 53, 30, 0.46);
+  transform: translateX(-50%);
+}
+
+/* 上端头略微超出舞台顶部，避免出现细小接缝。 */
+.scroll-edge::before {
+  top: -0.3%;
+}
+
+/* 下端头略微超出舞台底部，避免出现细小接缝。 */
+.scroll-edge::after {
+  bottom: -0.3%;
+}
+
+/* 左卷轴从画面中央向左边界运动。 */
+.scroll-edge-left {
+  left: calc(50% - 7px);
+  /* 卷轴边缘必须与底图使用完全相同的持续时间和延迟。 */
+  /* animation: leftRoll var(--reveal-duration) var(--reveal-delay) cubic-bezier(0.61, 0.02, 0.18, 1) forwards; */
+  animation: leftRoll var(--reveal-duration) var(--reveal-delay)  linear forwards;
+}
+
+/* 右卷轴与左卷轴保持镜像运动。 */
+.scroll-edge-right {
+  right: calc(50% - 7px);
+  /* 左右卷轴同步向页面两侧移动。 */
+  /* animation: rightRoll var(--reveal-duration) var(--reveal-delay) cubic-bezier(0.61, 0.02, 0.18, 1) forwards; */
+  animation: rightRoll var(--reveal-duration) var(--reveal-delay)  linear forwards;
+}
+
+/*
+ * 可视差图层的公共规则：
+ * JavaScript 会根据鼠标位置写入 --mx 和 --my；
+ * 不同图层通过 data-depth 形成轻微的远近移动差异。
+ */
+.layer {
+  position: absolute;
+  transform: translate3d(var(--mx, 0), var(--my, 0), 0);
+  will-change: transform, opacity;
+}
+
+/*
+ * 郦道元人物图层：
+ * left、bottom 和 width 已按人物 PNG 的实际非透明区域校准；
+ * 即使原图四周带有较大透明留白，人物仍会落在左下岸边。
+ */
+.traveller {
+  z-index: 7;
+  left: 12.2%;
+  bottom: 5.1%;
+  width: 18%;
+  opacity: 0;
+  transform: translate3d(calc(-42% + var(--mx, 0px)), calc(10% + var(--my, 0px)), 0);
+  /* 画卷完全展开后，郦道元从左下方进入画面。 */
+  animation: travellerArrive var(--traveller-duration) var(--content-start) cubic-bezier(0.22, 0.62, 0.18, 1) forwards;
+}
+
+/*
+ * 人物图片本体：
+ * drop-shadow 让人物与底图产生轻微空间关系；
+ * 入场完成后用极小幅度的上下运动模拟衣袂和呼吸。
+ */
+.traveller img {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 10px 10px rgba(39, 31, 23, 0.18));
+  animation: travellerBreathe 5.8s calc(var(--content-start) + var(--traveller-duration) + 0.25s) ease-in-out infinite alternate;
+}
+
+/*
+ * 船只图层：
+ * 定位依据右下水面的透视关系；
+ * 初始向右偏移 72%，boatArrive 动画会将它平滑驶入画面。
+ */
+.boat {
+  z-index: 6;
+  right: 14.5%;
+  bottom: 4.5%;
+  width: 15%;
+  opacity: 0;
+  transform: translate3d(calc(72% + var(--mx, 0px)), calc(4% + var(--my, 0px)), 0);
+  /* 船只与人物同时启程，但使用更长时长表现水面航行。 */
+  animation: boatArrive var(--boat-duration) var(--content-start) cubic-bezier(0.22, 0.66, 0.2, 1) forwards;
+}
+
+/*
+ * 船只图片本体：
+ * 旋转中心放在船体接触水面的位置，使摇摆更自然；
+ * 蓝灰色阴影用于匹配水面环境。
+ */
+.boat img {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: drop-shadow(0 9px 7px rgba(39, 55, 58, 0.2));
+  transform-origin: 54% 78%;
+  animation: boatBob 3.8s calc(var(--content-start) + var(--boat-duration) + 0.2s) ease-in-out infinite;
+}
+
+/*
+ * 船尾水波：
+ * 使用扁平椭圆的下边框模拟尾流；
+ * 通过横向放大和透明度衰减形成持续扩散的水纹。
+ */
+.boat-wake {
+  position: absolute;
+  z-index: 1;
+  left: 4%;
+  right: 5%;
+  bottom: 18.5%;
+  height: 10%;
+  opacity: 0;
+  border-bottom: 2px solid rgba(75, 116, 126, 0.32);
+  border-radius: 50%;
+  filter: blur(0.5px);
+  animation: wake 3.6s calc(var(--content-start) + 1.2s) ease-out infinite;
+}
+
+/*
+ * 中央文案整体容器：
+ * left: 50% 配合 translateX(-50%) 保持水平居中；
+ * 初始模糊并下移，等画卷展开后再逐渐恢复清晰。
+ */
+.copy {
+  z-index: 8;
+  left: 50%;
+  top: 23%;
+  width: min(68%, 1160px);
+  text-align: center;
+  opacity: 0;
+  clip-path: inset(0 49.85% 0 49.85%);
+  transform: translate3d(calc(-50% + var(--mx, 0px)), calc(18px + var(--my, 0px)), 0);
+  will-change: transform, opacity, clip-path, filter;
+  /* 文字比人物和船稍晚出现，避免画面信息同时涌入。 */
+  animation: wordsAppear 1.3s calc(var(--copy-start) + 0.1s) cubic-bezier(0.18, 0.72, 0.18, 1) forwards;
+}
+
+/* 主标题和朱砂印章采用横向弹性排列，作为一个整体居中。 */
+.title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(10px, 1.2vw, 20px);
+}
+
+/*
+ * 主标题书法样式：
+ * 优先使用系统行楷或楷体；
+ * clamp 限制字号上下界，避免不同桌面尺寸下过大或过小；
+ * 双层阴影用于模拟墨迹厚度，而不是发光效果。
+ */
+.copy h1 {
+  margin: 0;
+  color: #171512;
+  white-space: nowrap;
+  font-family:  "KaiTi", "Kaiti SC", "STKaiti", serif;
+  font-size: clamp(48px, 7.25vw, 122px);
+  font-weight: 700;
+  line-height: 1.04;
+  letter-spacing: 0;
+  text-shadow:
+    0 2px 0 rgba(18, 16, 13, 0.12),
+    0 6px 13px rgba(40, 31, 22, 0.13);
+}
+
+/*
+ * 标题右侧朱砂印章：
+ * 初始放大并隐藏；
+ * sealStamp 动画模拟印章快速落下后轻微回弹。
+ */
+.title-seal {
+  flex: 0 0 auto;
+  width: clamp(31px, 3.2vw, 51px);
+  aspect-ratio: 0.72;
+  display: grid;
+  place-items: center;
+  color: var(--cinnabar);
+  border: 2px solid currentColor;
+  font-size: clamp(10px, 0.92vw, 15px);
+  font-weight: 700;
+  line-height: 0.9;
+  opacity: 0;
+  transform: rotate(2deg) scale(1.32);
+  /* 主标题显现后落下朱红印章。 */
+  animation: sealStamp 420ms calc(var(--copy-start) + 0.72s) cubic-bezier(0.16, 0.76, 0.2, 1.28) forwards;
+}
+
+/*
+ * “踏勘山河”副标题：
+ * 三列网格依次放置左装饰线、正文和右装饰线；
+ * white-space: nowrap 保证桌面端题记保持一行。
+ */
+.subtitle {
+  display: grid;
+  grid-template-columns: minmax(35px, 92px) auto minmax(35px, 92px);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 1.8vw, 28px);
+  margin: clamp(18px, 2.2vw, 34px) auto 0;
+  color: #332e28;
+  font-size: clamp(15px, 1.65vw, 28px);
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+/* 副标题左右两侧的水平墨线。 */
+.subtitle span {
+  width: 100%;
+  height: 1px;
+  background: rgba(72, 62, 50, 0.55);
+}
+
+/*
+ * 主标题下方的内容说明：
+ * 较大的行高模拟古籍题记的疏朗感；
+ * 浅色文字阴影用于提高文字在宣纸底图上的可读性。
+ */
+.intro {
+  margin: clamp(28px, 3.8vw, 60px) auto 0;
+  color: var(--muted-ink);
+  font-size: clamp(13px, 1.25vw, 20px);
+  line-height: 2;
+  letter-spacing: 0;
+  text-shadow: 0 1px rgba(255, 251, 238, 0.65);
+}
+
+/*
+ * “开启行旅”按钮容器：
+ * 使用提供的透明 PNG，不额外绘制文字框；
+ * 绝对定位让按钮处于人物和船只之间的视觉中心；
+ * 按钮最后出现，表示封面动画已经完成。
+ */
+.start-button {
+  z-index: 9;
+  left: 50%;
+  top: 62.5%;
+  width: clamp(220px, 24vw, 405px);
+  aspect-ratio: 1708 / 408;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0;
+  transform: translate3d(calc(-50% + var(--mx, 0px)), calc(16px + var(--my, 0px)), 0) scale(0.96);
+  filter: drop-shadow(0 8px 12px rgba(76, 57, 35, 0.2));
+  /* 按钮最后出现，表示封面动画结束并允许进入主地图。 */
+  animation: buttonAppear 900ms var(--button-start) cubic-bezier(0.16, 0.78, 0.2, 1.16) forwards;
+}
+
+/*
+ * 按钮背后的循环柔光：
+ * 伪元素位于按钮图片下方；
+ * 通过横向扩散和透明度变化提示按钮可以点击。
+ */
+.start-button::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 20% 7%;
+  border-radius: 50%;
+  background: rgba(255, 248, 225, 0.76);
+  opacity: 0;
+  transform: scaleX(0.52);
+  animation: buttonHalo 2.4s calc(var(--button-start) + 0.6s) ease-out infinite;
+}
+
+/* 按钮 PNG 本体，并预设悬停和聚焦时的平滑过渡。 */
+.start-button img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  transition: transform 320ms cubic-bezier(0.18, 0.72, 0.18, 1), filter 320ms ease;
+}
+
+/* 鼠标悬停或键盘聚焦时，按钮轻微上浮并增强清晰度。 */
+.start-button:hover img,
+.start-button:focus-visible img {
+  transform: translateY(-3px) scale(1.025);
+  filter: contrast(1.04) saturate(1.05);
+}
+
+/* 按下按钮时略微缩小，为用户提供即时点击反馈。 */
+.start-button:active img {
+  transform: translateY(0) scale(0.985);
+}
+
+/* 键盘操作时显示朱砂色焦点框，鼠标点击时不会额外出现。 */
+.start-button:focus-visible {
+  outline: 2px solid var(--cinnabar);
+  outline-offset: 6px;
+}
+
+/*
+ * 点击按钮后，JavaScript 会为舞台添加 leaving 类。
+ * 页面先放大、模糊并淡出，再跳转到主地图，避免生硬切页。
+ */
+.stage.leaving {
+  animation: pageLeave 740ms cubic-bezier(0.56, 0.02, 0.42, 1) forwards;
+  pointer-events: none;
+}
+
+/*
+ * 仅供屏幕阅读器读取的状态文字：
+ * 元素在视觉上隐藏，但仍留在无障碍树中播报“画卷已展开”等状态。
+ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =========================================================
+ * 动画关键帧
+ * 这里只描述运动过程，动画时长和延迟在对应元素中设置。
+ * ======================================================= */
+
+/*
+ * 画卷展开：
+ * 从中央窄缝开始，前 28% 时间缓慢起势，
+ * 随后向两侧加速展开，最终显示完整山水底图。
+ */
+@keyframes unfurl {
+  0% {
+    clip-path: inset(0 49.85% 0 49.85%);
+  }
+  /* 28% {
+    clip-path: inset(0 40% 0 40%);
+  } */
+  100% {
+    clip-path: inset(0);
+  }
+}
+
+/* 左卷轴由中央移动到左边界，并在抵达边缘时淡出。 */
+@keyframes leftRoll {
+  0% {
+    left: calc(50% - 7px);
+    opacity: 1;
+  }
+  /* 88% {
+    opacity: 1;
+  } */
+  100% {
+    left: -16px;
+    opacity: 0;
+  }
+}
+
+/* 右卷轴是左卷轴的镜像运动，保证左右展开完全同步。 */
+@keyframes rightRoll {
+  0% {
+    right: calc(50% - 7px);
+    opacity: 1;
+  }
+  /* 88% {
+    opacity: 1;
+  } */
+  100% {
+    right: -16px;
+    opacity: 0;
+  }
+}
+
+/* 底图长期缓慢放大和平移，让静态山水保持轻微生命感。 */
+@keyframes landscapeBreathe {
+  from {
+    transform: scale(1.012) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.028) translate3d(-0.25%, -0.2%, 0);
+  }
+}
+
+/* 水面亮带在左右之间往返，并同步调整透明度形成波光。 */
+@keyframes shimmer {
+  0%,
+  100% {
+    opacity: 0.16;
+    transform: translateX(-18%);
+  }
+  50% {
+    opacity: 0.32;
+    transform: translateX(18%);
+  }
+}
+
+/* 人物从左下方进入，由透明状态移动到最终岸边位置。 */
+@keyframes travellerArrive {
+  0% {
+    opacity: 0;
+    transform: translate3d(calc(-42% + var(--mx, 0px)), calc(10% + var(--my, 0px)), 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+  }
+}
+
+/* 人物入场后的微小上下浮动，运动幅度控制在 1% 以内。 */
+@keyframes travellerBreathe {
+  to {
+    transform: translateY(-0.7%);
+  }
+}
+
+/*
+ * 船只从画面右侧驶入：
+ * 前 36% 时间完成显现，剩余时间继续减速航行到定位点。
+ */
+@keyframes boatArrive {
+  0% {
+    opacity: 0;
+    transform: translate3d(calc(72% + var(--mx, 0px)), calc(4% + var(--my, 0px)), 0);
+  }
+  36% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(var(--mx, 0px), var(--my, 0px), 0);
+  }
+}
+
+/* 船只入场后的水平缓行和轻微摇摆，用来模拟水流推动。 */
+@keyframes boatBob {
+  0%,
+  100% {
+    transform: translate3d(2%, 0, 0) rotate(-0.35deg);
+  }
+  50% {
+    transform: translate3d(-5%, -3%, 0) rotate(0.45deg);
+  }
+}
+
+/* 船尾水纹从较窄状态向外扩散，并逐渐完全透明。 */
+@keyframes wake {
+  0% {
+    opacity: 0.38;
+    transform: scaleX(0.55);
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1.28);
+  }
+}
+
+/* 中央文案从中间窄缝向左右展开，同时由模糊、下移状态恢复清晰。 */
+@keyframes wordsAppear {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 49.85% 0 49.85%);
+    filter: blur(8px);
+    transform: translate3d(calc(-50% + var(--mx, 0px)), calc(18px + var(--my, 0px)), 0);
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0);
+    filter: blur(0);
+    transform: translate3d(calc(-50% + var(--mx, 0px)), var(--my, 0px), 0);
+  }
+}
+
+/* 朱砂印章快速压下，再小幅回弹至正常尺寸。 */
+@keyframes sealStamp {
+  72% {
+    opacity: 1;
+    transform: rotate(2deg) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(2deg) scale(1);
+  }
+}
+
+/* 按钮由下方轻微上移，同时从透明和缩小状态恢复。 */
+@keyframes buttonAppear {
+  to {
+    opacity: 1;
+    transform: translate3d(calc(-50% + var(--mx, 0px)), var(--my, 0px), 0) scale(1);
+  }
+}
+
+/* 按钮柔光持续横向扩散并消失，形成克制的呼吸提示。 */
+@keyframes buttonHalo {
+  0% {
+    opacity: 0;
+    transform: scaleX(0.52);
+  }
+  42% {
+    opacity: 0.52;
+  }
+  100% {
+    opacity: 0;
+    transform: scaleX(1.08);
+  }
+}
+
+/* 点击按钮后的整页退场动画，为主地图页面提供视觉衔接。 */
+@keyframes pageLeave {
+  to {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(1.025);
+  }
+}
+
+/* =========================================================
+ * 窄屏适配
+ * 当视口比 4:3 更窄时，切换为全屏裁切布局并重新安排主要元素。
+ * ======================================================= */
+@media (max-aspect-ratio: 4 / 3) {
+  /* 窄屏不再强制参考图比例，直接使用完整浏览器视口。 */
+  .stage {
+    width: 100vw;
+    height: 100vh;
+    aspect-ratio: auto;
+  }
+
+  /* 保持底图中央区域可见，允许左右两侧被适度裁切。 */
+  .background {
+    object-position: center;
+  }
+
+  /* 扩大文案可用宽度，并将它上移，为人物和按钮留出空间。 */
+  .copy {
+    top: 18%;
+    width: 92%;
+  }
+
+  /* 标题根据窄屏宽度缩放，同时保留字号上下限。 */
+  .copy h1 {
+    font-size: clamp(42px, 10vw, 78px);
+  }
+
+  /* 缩短副标题装饰线和间距，避免整行超出屏幕。 */
+  .subtitle {
+    grid-template-columns: 28px auto 28px;
+    gap: 9px;
+    font-size: clamp(13px, 3.6vw, 19px);
+  }
+
+  /* 限制说明文字行宽，使移动端文字保持易读。 */
+  .intro {
+    width: 78%;
+    margin-top: 24px;
+    font-size: clamp(12px, 3vw, 16px);
+  }
+
+  /* 移动端将人物放大，并靠近左下角形成前景。 */
+  .traveller {
+    left: -5%;
+    bottom: -3%;
+    width: 48%;
+  }
+
+  /* 移动端将船只放在右下角，与人物形成对角构图。 */
+  .boat {
+    right: -3%;
+    bottom: 3%;
+    width: 38%;
+  }
+
+  /* 移动端按钮保持在中央，并限制最大宽度。 */
+  .start-button {
+    top: 63%;
+    width: min(62vw, 340px);
+  }
+}
+
+/*
+ * 减少动态效果的无障碍适配：
+ * 当用户在系统中开启“减少动态效果”时，将动画压缩为瞬间完成，
+ * 并停止无限循环，避免眩晕和持续注意力干扰。
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}

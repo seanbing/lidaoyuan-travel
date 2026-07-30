@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="512" height="512">
+  <title>Q版郦道元 - 2.5头身行走姿态</title>
+  <desc>活泼国风Q版卡通郦道元形象，左向行走姿态，地图定位锚点(64,115)，分层结构便于动画拆分</desc>
+
+  <!-- ====== Layer 0: 地面阴影 ====== -->
+  <g id="layer-shadow">
+    <ellipse cx="62" cy="116" rx="26" ry="5" fill="#d4c4a8" opacity="0.7"/>
+  </g>
+
+  <!-- ====== Layer 1: 后背道具（木杖·斗笠·行囊） ====== -->
+  <g id="layer-back-props">
+    <!-- 木杖（斜挎右肩，右上→左下） -->
+    <line x1="84" y1="12" x2="60" y2="78" stroke="#b47842" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- 杖顶小绳环 -->
+    <circle cx="84" cy="10" r="3.5" fill="none" stroke="#b47842" stroke-width="1.5"/>
+    <!-- 斗笠（扁椭圆，挂于杖身上部） -->
+    <ellipse cx="78" cy="28" rx="11" ry="5" fill="#b47842" stroke="#222" stroke-width="2" transform="rotate(-20 78 28)"/>
+    <!-- 布囊（收口，挂于杖身下部） -->
+    <path d="M72,42 C67,44 65,52 67,58 C69,63 76,64 78,59 C80,54 79,44 74,42 Z" fill="#d48c58" stroke="#222" stroke-width="2"/>
+    <!-- 布囊收口绳 -->
+    <path d="M71,44 Q74,42 76,44" fill="none" stroke="#8b5e3c" stroke-width="1.5"/>
+    <!-- 肩带 -->
+    <path d="M74,42 Q65,50 58,60" fill="none" stroke="#8b5e3c" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- ====== Layer 2: 左腿（后腿·画面右侧） ====== -->
+  <g id="layer-leg-back">
+    <path d="M62,86 L66,105 L74,105 L70,86 Z" fill="#4a6270" stroke="#222" stroke-width="2" stroke-linejoin="round"/>
+    <!-- 深棕色圆头布鞋 -->
+    <path d="M63,103 C62,106 61,110 64,113 C67,115 73,115 76,113 C78,111 77,106 75,104 Z" fill="#6b4226" stroke="#222" stroke-width="2"/>
+  </g>
+
+  <!-- ====== Layer 3: 外袍主体 ====== -->
+  <g id="layer-robe">
+    <!-- 灰蓝色交领长袍，衣摆飘动，前摆开衩 -->
+    <path d="M48,58
+             C46,63 44,70 42,80
+             C40,88 39,93 40,95
+             Q43,96 47,95
+             L54,86
+             L59,94
+             Q65,97 72,96
+             C76,95 79,91 80,86
+             C82,78 82,70 80,63
+             C78,58 76,56 74,56
+             Z"
+          fill="#82a3b1" stroke="#222" stroke-width="2" stroke-linejoin="round"/>
+    <!-- 前摆开衩处露出深色内裤 -->
+    <path d="M54,86 L56,93 Q58,94 60,93 L59,86 Z" fill="#4a6270"/>
+    <!-- 交领右衽线条 -->
+    <path d="M56,58 L61,66 L66,58" fill="none" stroke="#222" stroke-width="1.5"/>
+  </g>
+
+  <!-- ====== Layer 4: 右腿（前腿·画面左侧·迈步） ====== -->
+  <g id="layer-leg-front">
+    <path d="M44,86 L39,105 L48,105 L52,86 Z" fill="#4a6270" stroke="#222" stroke-width="2" stroke-linejoin="round"/>
+    <!-- 深棕色圆头布鞋 -->
+    <path d="M36,103 C35,106 34,110 37,113 C40,115 46,115 49,113 C51,111 50,106 49,104 Z" fill="#6b4226" stroke="#222" stroke-width="2"/>
+  </g>
+
+  <!-- ====== Layer 5: 内领·腰带 ====== -->
+  <g id="layer-collar-belt">
+    <!-- 浅米白内衬领口 -->
+    <path d="M54,56 L61,64 L68,56 L65,53 L61,59 L57,53 Z" fill="#f5f0e0" stroke="#222" stroke-width="1.5"/>
+    <!-- 暖棕色宽布腰带 -->
+    <path d="M46,73 Q60,70 76,73 Q77,77 76,78 Q60,75 46,78 Q45,76 46,73 Z" fill="#b47842" stroke="#222" stroke-width="2"/>
+    <!-- 腰带系结 -->
+    <circle cx="61" cy="75.5" r="2.5" fill="#d48c58" stroke="#222" stroke-width="1"/>
+    <!-- 腰带垂带 -->
+    <path d="M61,78 L59,85 M61,78 L63,84" stroke="#b47842" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- ====== Layer 6: 左臂+竹简（画面右侧·横抱竹简） ====== -->
+  <g id="layer-arm-left-bamboo">
+    <!-- 左臂（袖口深色） -->
+    <path d="M74,60 C80,64 85,68 87,72 C88,75 86,76 83,74 C80,72 76,68 74,64 Z"
+          fill="#4a6270" stroke="#222" stroke-width="2" stroke-linejoin="round"/>
+    <!-- 左手（肤色） -->
+    <ellipse cx="86" cy="73" rx="4" ry="3.5" fill="#ffe8d6" stroke="#222" stroke-width="2"/>
+    <!-- 竹简主体 -->
+    <rect x="78" y="66" width="24" height="13" rx="2" fill="#e2d0b0" stroke="#222" stroke-width="2"/>
+    <!-- 竹简分格线（代表竹片） -->
+    <line x1="82" y1="66" x2="82" y2="79" stroke="#c4b090" stroke-width="0.8"/>
+    <line x1="86" y1="66" x2="86" y2="79" stroke="#c4b090" stroke-width="0.8"/>
+    <line x1="90" y1="66" x2="90" y2="79" stroke="#c4b090" stroke-width="0.8"/>
+    <line x1="94" y1="66" x2="94" y2="79" stroke="#c4b090" stroke-width="0.8"/>
+    <line x1="98" y1="66" x2="98" y2="79" stroke="#c4b090" stroke-width="0.8"/>
+    <!-- 竹简卷轴端 -->
+    <circle cx="78" cy="72.5" r="3" fill="#d48c58" stroke="#222" stroke-width="1.5"/>
+    <circle cx="102" cy="72.5" r="3" fill="#d48c58" stroke="#222" stroke-width="1.5"/>
+  </g>
+
+  <!-- ====== Layer 7: 头部 ====== -->
+  <g id="layer-head">
+    <!-- 发髻（丸子头，位于头顶后方） -->
+    <ellipse cx="64" cy="14" rx="8" ry="6" fill="#2c2c2c" stroke="#222" stroke-width="2"/>
+    <!-- 发巾包裹 -->
+    <path d="M57,14 Q64,8 71,14" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+
+    <!-- 脸部（圆润鹅蛋脸） -->
+    <ellipse cx="61" cy="38" rx="22" ry="23" fill="#ffe8d6" stroke="#222" stroke-width="2"/>
+
+    <!-- 头发覆盖额头与两侧 -->
+    <path d="M39,35
+             C39,22 46,15 61,14
+             C76,15 83,22 83,35
+             C83,29 78,23 72,21
+             L67,23 L61,21 L55,23 L50,21
+             C44,23 39,29 39,35 Z"
+          fill="#2c2c2c" stroke="#222" stroke-width="2"/>
+
+    <!-- 鬓角碎发（左） -->
+    <path d="M40,34 C38,37 37,41 39,43" fill="none" stroke="#2c2c2c" stroke-width="2" stroke-linecap="round"/>
+    <!-- 鬓角碎发（右） -->
+    <path d="M82,34 C84,37 85,41 83,43" fill="none" stroke="#2c2c2c" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- 脑后发带（向右飘动，体现行走动态） -->
+    <path d="M74,20 C82,22 90,26 94,34 C92,30 86,24 78,21" fill="#3a3a3a" stroke="#222" stroke-width="1.5"/>
+
+    <!-- 浅粉腮红（左颊） -->
+    <circle cx="47" cy="44" r="5" fill="#f5c0b0" opacity="0.45"/>
+    <!-- 浅粉腮红（右颊） -->
+    <circle cx="73" cy="44" r="5" fill="#f5c0b0" opacity="0.45"/>
+
+    <!-- 左眼（大圆眼，微偏左望） -->
+    <circle cx="52" cy="37" r="5" fill="#222"/>
+    <circle cx="50.5" cy="35.5" r="2" fill="#fff"/>
+    <circle cx="53.5" cy="37.5" r="1" fill="#fff" opacity="0.5"/>
+    <!-- 右眼 -->
+    <circle cx="68" cy="37" r="5" fill="#222"/>
+    <circle cx="66.5" cy="35.5" r="2" fill="#fff"/>
+    <circle cx="69.5" cy="37.5" r="1" fill="#fff" opacity="0.5"/>
+
+    <!-- 黑色细眉（微微上扬） -->
+    <path d="M47,30 Q52,27 57,29" fill="none" stroke="#2c2c2c" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M63,29 Q68,27 73,30" fill="none" stroke="#2c2c2c" stroke-width="1.8" stroke-linecap="round"/>
+
+    <!-- 鼻子 -->
+    <path d="M59,42 Q60,44 62,42" fill="none" stroke="#222" stroke-width="1.2" stroke-linecap="round"/>
+
+    <!-- 嘴角微笑 -->
+    <path d="M54,48 Q60,53 66,48" fill="none" stroke="#222" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- ====== Layer 8: 右臂+测杆（画面左侧·前伸持杆） ====== -->
+  <g id="layer-arm-right-rod">
+    <!-- 右臂（袖口深色，向左前伸） -->
+    <path d="M48,60 C42,63 36,68 34,72 C33,75 35,76 38,74 C41,72 45,68 48,64 Z"
+          fill="#4a6270" stroke="#222" stroke-width="2" stroke-linejoin="round"/>
+    <!-- 右手（肤色） -->
+    <ellipse cx="36" cy="73" rx="4" ry="3.5" fill="#ffe8d6" stroke="#222" stroke-width="2"/>
+    <!-- 水文测杆（浅棕色长杆） -->
+    <line x1="37" y1="14" x2="37" y2="112" stroke="#b47842" stroke-width="3" stroke-linecap="round"/>
+    <!-- 杆顶绳环 -->
+    <circle cx="37" cy="12" r="4" fill="none" stroke="#d48c58" stroke-width="1.5"/>
+    <!-- 杆身绑绳细节 -->
+    <path d="M35,42 Q37,40 39,42 M35,62 Q37,60 39,62" fill="none" stroke="#8b5e3c" stroke-width="1"/>
+  </g>
+
+</svg>

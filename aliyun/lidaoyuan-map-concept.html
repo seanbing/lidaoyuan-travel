@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>水经行旅：郦道元笔下的山河中国</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;background:#efe6d5;color:#28251f;font-family:"STSong","SimSun","Noto Serif SC",serif}
+    .page{width:100vw;height:100vh;min-height:720px;position:relative;overflow:hidden;background:
+      radial-gradient(circle at 72% 30%,rgba(91,139,155,.12),transparent 34%),
+      radial-gradient(circle at 28% 70%,rgba(169,123,67,.08),transparent 38%),
+      linear-gradient(180deg,#f6f0e5,#eee3d0)}
+    .page:before,.page:after{content:"";position:absolute;left:18.5%;right:0;height:190px;opacity:.22;pointer-events:none;background:
+      linear-gradient(135deg,transparent 42%,rgba(62,78,72,.34) 43% 45%,transparent 46%) 0 30px/170px 125px,
+      linear-gradient(135deg,transparent 43%,rgba(62,78,72,.2) 44% 47%,transparent 48%) 80px 0/210px 150px}
+    .page:before{top:0;mask-image:linear-gradient(#000,transparent)}
+    .page:after{bottom:0;transform:scaleY(-1);mask-image:linear-gradient(#000,transparent)}
+    .side{position:absolute;left:0;top:0;bottom:0;width:18.5%;padding:2.2vh .9vw;border-right:1px solid rgba(132,105,67,.28);background:rgba(245,238,225,.72);z-index:5}
+    .back{display:inline-block;padding:8px 16px;border:1px solid rgba(144,115,72,.35);background:rgba(255,252,245,.75);font-size:17px}
+    .side-ink{height:13vh;margin:1.2vh 0 2vh;background:
+      linear-gradient(135deg,transparent 42%,rgba(52,73,70,.28) 43% 45%,transparent 46%) 10px 0/90px 70px,
+      linear-gradient(135deg,transparent 42%,rgba(52,73,70,.18) 43% 46%,transparent 47%) 62px 16px/110px 86px;opacity:.7}
+    .inset{border:1px solid rgba(132,105,67,.35);background:rgba(250,244,234,.58);padding:12px;margin-bottom:2vh}
+    .inset h3{margin:0 0 10px;text-align:center;font-size:18px;font-weight:600}
+    .mini{width:100%;aspect-ratio:1/.68}
+    .legend{padding:0 1vw;margin-top:2vh}
+    .legend h3{font-size:20px;margin:.5vh 0 1.2vh;letter-spacing:.25em}
+    .legend p{display:flex;align-items:center;gap:10px;margin:12px 0;font-size:16px;color:#544f45}
+    .legend i{width:24px;height:24px;display:inline-grid;place-items:center;border-radius:50%;border:1px solid rgba(132,105,67,.35);color:#b14835;background:#fbf7ed;font-style:normal}
+    .title{position:absolute;left:18.5%;right:0;top:2vh;text-align:center;z-index:6;pointer-events:none}
+    .title h1{font-size:clamp(42px,5.5vw,86px);font-weight:700;letter-spacing:.08em;margin:0;text-shadow:0 2px 0 rgba(255,255,255,.45)}
+    .title p{font-size:clamp(17px,1.65vw,27px);letter-spacing:.25em;margin:1vh 0;color:#4e4a42}
+    .map{position:absolute;left:18.5%;right:0;top:0;bottom:0}
+    .map svg{position:absolute;left:3%;right:3%;top:12%;width:94%;height:68%;z-index:1}
+    .china{fill:rgba(247,241,229,.42);stroke:rgba(98,89,72,.32);stroke-width:1.4}
+    .province{fill:none;stroke:rgba(104,96,82,.13);stroke-width:1}
+    .mount{fill:none;stroke:rgba(60,77,72,.24);stroke-width:2.2}
+    .water{fill:none;stroke:rgba(61,130,165,.45);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+    .route-bg{fill:none;stroke:rgba(92,83,69,.25);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:10 10}
+    .route{fill:none;stroke:#287da8;stroke-width:8;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 9px rgba(40,125,168,.36));stroke-dasharray:1150;stroke-dashoffset:var(--dash,980);transition:stroke-dashoffset .9s ease}
+    .node{fill:#fbf3e6;stroke:#c84d3b;stroke-width:4}
+    .label{font-size:20px;font-weight:700;fill:#2c2923}
+    .water-label{font-size:28px;font-weight:700;fill:#287da8;letter-spacing:.2em}
+    .person{position:absolute;left:var(--x);top:var(--y);width:36px;height:52px;transform:translate(-50%,-92%);z-index:8;transition:left .9s cubic-bezier(.22,.8,.26,1),top .9s cubic-bezier(.22,.8,.26,1)}
+    .person:before{content:"";position:absolute;left:10px;top:0;width:16px;height:16px;border-radius:50%;background:#2d2b26}
+    .person:after{content:"";position:absolute;left:5px;top:17px;width:26px;height:31px;border-radius:13px 13px 5px 5px;background:#3f879b;box-shadow:inset 0 -10px rgba(0,0,0,.15)}
+    .story{position:absolute;right:3.2%;top:16.5%;width:39%;height:27%;display:grid;grid-template-columns:64px 1fr 35%;gap:18px;padding:24px 24px 22px;border:1px solid rgba(143,113,72,.36);background:rgba(250,246,237,.88);box-shadow:0 18px 42px rgba(65,49,29,.18);z-index:9}
+    .story:after{content:"×";position:absolute;right:14px;top:8px;font-size:30px;color:#9b927f}
+    .tag{position:relative;writing-mode:vertical-rl;display:grid;place-items:center;border:1px solid rgba(143,113,72,.36);background:rgba(255,252,245,.75);font-size:28px;font-weight:700;letter-spacing:.12em}
+    .tag:before{content:"注";position:absolute;left:-8px;top:-14px;width:30px;height:30px;display:grid;place-items:center;border:2px solid #b74235;color:#b74235;background:#faf3e6;font-size:16px;writing-mode:horizontal-tb;transform:rotate(-5deg)}
+    .copy h2{font-size:25px;margin:4px 0 12px}
+    .copy p{font-size:17px;line-height:1.72;color:#4d473d;margin:0}
+    .chips{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+    .chips span{font-size:14px;padding:5px 12px;border-radius:999px;background:#e8decc;color:#5b5142}
+    .art{align-self:center;height:90%;opacity:.72;background:
+      linear-gradient(135deg,transparent 42%,rgba(50,69,66,.24) 43% 45%,transparent 46%) 10px 20px/80px 60px,
+      radial-gradient(ellipse at 62% 72%,rgba(49,116,142,.2),transparent 62%)}
+    .summary{position:absolute;left:25%;bottom:18%;width:38%;padding:20px 26px;border:1px solid rgba(143,113,72,.3);background:rgba(250,246,237,.68);box-shadow:0 10px 30px rgba(65,49,29,.08);z-index:4}
+    .summary h2{font-size:25px;margin:0 0 10px}
+    .summary p{font-size:17px;line-height:1.7;color:#4d473d;margin:0}
+    .timeline{position:absolute;left:22.5%;right:3%;bottom:3.8%;display:grid;grid-template-columns:repeat(5,1fr);gap:1vw;z-index:10}
+    .time{height:82px;border:1px solid rgba(143,113,72,.35);background:rgba(250,246,237,.82);display:grid;grid-template-columns:46px 1fr;align-items:center;gap:12px;padding:10px 16px;box-shadow:0 8px 20px rgba(65,49,29,.08);cursor:pointer;color:#2d2922;text-align:left;font-family:inherit}
+    .time[aria-pressed=true]{outline:2px solid rgba(47,133,176,.72);box-shadow:0 0 18px rgba(47,133,176,.28);background:#fbf8ef}
+    .time i{width:42px;height:42px;display:grid;place-items:center;border-radius:4px;color:#8d6940;font-style:normal;font-size:25px;background:rgba(181,153,103,.16)}
+    .time strong{display:block;font-size:21px;color:#b44435;white-space:nowrap}
+    .time span{font-size:14px;color:#5b5142}
+  </style>
+</head>
+<body>
+<div class="page">
+  <aside class="side">
+    <div class="back">返回总图</div>
+    <div class="side-ink"></div>
+    <section class="inset">
+      <h3>中国水经流域概览</h3>
+      <svg class="mini" viewBox="0 0 300 200">
+        <path d="M38 101 C54 61 96 39 141 31 C191 21 244 56 266 99 C286 140 235 171 178 166 C127 161 91 177 57 145 C42 131 30 119 38 101Z" fill="none" stroke="#6d6659" opacity=".55"/>
+        <path d="M56 126 C104 95 151 104 193 127 C225 144 246 141 270 125" fill="none" stroke="#287da8" stroke-width="4" opacity=".7"/>
+      </svg>
+    </section>
+    <section class="inset">
+      <h3>郦道元行旅路线</h3>
+      <svg class="mini" viewBox="0 0 300 200">
+        <path d="M38 101 C54 61 96 39 141 31 C191 21 244 56 266 99 C286 140 235 171 178 166 C127 161 91 177 57 145 C42 131 30 119 38 101Z" fill="none" stroke="#6d6659" opacity=".45"/>
+        <path d="M106 90 C138 60 169 69 193 95 C215 120 238 129 262 117" fill="none" stroke="#b88a3c" stroke-width="4"/>
+        <rect x="98" y="62" width="92" height="66" fill="none" stroke="#c84d3b" stroke-dasharray="5 4" opacity=".75"/>
+      </svg>
+    </section>
+    <div class="legend">
+      <h3>图例</h3>
+      <p><i>●</i>重要节点</p>
+      <p><i>山</i>山脉关隘</p>
+      <p><i>水</i>主要水系</p>
+      <p><i>城</i>历史城邑</p>
+    </div>
+  </aside>
+
+  <header class="title">
+    <h1>水经行旅：郦道元笔下的山河中国</h1>
+    <p>循水越山 · 注川成史 · 百川入海</p>
+  </header>
+
+  <main class="map">
+    <svg viewBox="0 0 1200 650" aria-label="中国水经行旅地图">
+      <path class="china" d="M118 318 C138 238 215 174 305 151 C407 125 482 82 582 109 C664 131 721 101 806 132 C909 169 1007 190 1080 264 C1152 338 1163 435 1102 510 C1037 589 918 603 815 576 C737 556 676 594 581 576 C490 559 426 504 335 506 C238 508 122 437 118 318 Z"/>
+      <path class="province" d="M256 204 C338 235 376 295 362 375 C349 443 397 486 459 515"/>
+      <path class="province" d="M516 126 C484 194 506 254 568 291 C630 327 635 386 604 462"/>
+      <path class="province" d="M704 142 C680 213 707 281 778 316 C858 354 884 426 850 516"/>
+      <path class="province" d="M864 181 C848 262 890 333 961 374 C1018 408 1045 456 1030 519"/>
+      <path class="mount" d="M170 356 C244 273 325 268 395 306"/>
+      <path class="mount" d="M205 247 C278 188 342 171 423 177"/>
+      <path class="mount" d="M694 446 C780 390 866 398 942 456"/>
+      <path class="water" d="M174 391 C253 352 319 361 399 386 C493 415 565 384 643 338 C742 278 826 315 906 374 C974 424 1035 432 1095 394"/>
+      <path class="water" d="M505 183 C522 237 554 272 643 338"/>
+      <path class="water" d="M676 174 C673 251 676 299 643 338"/>
+      <path class="route-bg" d="M322 294 C413 222 509 238 578 294 C642 345 733 299 823 340 C915 381 977 430 1056 398"/>
+      <path id="route" class="route" d="M322 294 C413 222 509 238 578 294 C642 345 733 299 823 340 C915 381 977 430 1056 398"/>
+      <circle class="node" cx="322" cy="294" r="9"/><text class="label" x="292" y="268">洛阳</text>
+      <circle class="node" cx="509" cy="238" r="9"/><text class="label" x="466" y="212">黄河太行</text>
+      <circle class="node" cx="642" cy="345" r="9"/><text class="label" x="607" y="383">江淮</text>
+      <circle class="node" cx="823" cy="340" r="9"/><text class="label" x="778" y="316">长江</text>
+      <circle class="node" cx="1056" cy="398" r="9"/><text class="label" x="986" y="430">百川入海</text>
+      <text class="water-label" x="676" y="392">水经注</text>
+    </svg>
+    <div id="person" class="person" style="--x:39%;--y:41.5%"></div>
+
+    <section class="story">
+      <div id="tag" class="tag">洛水</div>
+      <div class="copy">
+        <h2 id="storyTitle">北魏洛阳：以水识天下</h2>
+        <p id="storyText">郦道元从洛阳政治中心出发，阅读旧籍、考察地方水道，把河流、城邑、古迹与传说放入同一张地理图卷。</p>
+        <div id="chips" class="chips"><span>洛阳</span><span>洛水</span><span>北魏地理</span></div>
+      </div>
+      <div class="art"></div>
+    </section>
+
+    <section class="summary">
+      <h2>郦道元游记：中国水系的知识之路</h2>
+      <p>以小人行走串联《水经注》：从洛阳出发，循黄河、越太行、望江淮、入长江，最后汇成山海中国的水系图卷。</p>
+    </section>
+
+    <nav class="timeline" aria-label="时间轴">
+      <button class="time" data-step="0" aria-pressed="true"><i>卷</i><div><strong>北魏洛阳</strong><span>任官、读图与水道资料</span></div></button>
+      <button class="time" data-step="1" aria-pressed="false"><i>山</i><div><strong>黄河太行</strong><span>都城、山脉、关隘与水患</span></div></button>
+      <button class="time" data-step="2" aria-pressed="false"><i>淮</i><div><strong>江淮南望</strong><span>跨越南北地理边界</span></div></button>
+      <button class="time" data-step="3" aria-pressed="false"><i>江</i><div><strong>长江入注</strong><span>水网、古城与历史记忆</span></div></button>
+      <button class="time" data-step="4" aria-pressed="false"><i>海</i><div><strong>百川入海</strong><span>山海成书，中国水系总览</span></div></button>
+    </nav>
+  </main>
+</div>
+
+<script>
+  const data=[
+    {x:"39%",y:"41.5%",dash:980,tag:"洛水",title:"北魏洛阳：以水识天下",text:"郦道元从洛阳政治中心出发，阅读旧籍、考察地方水道，把河流、城邑、古迹与传说放入同一张地理图卷。",chips:["洛阳","洛水","北魏地理"]},
+    {x:"49.7%",y:"34.2%",dash:730,tag:"黄河",title:"黄河太行：山河塑造秩序",text:"黄河与太行构成北方政治地理骨架。都城、渡口、关隘、水患和农田沿河展开，形成最厚重的山河叙事。",chips:["黄河","太行","关隘"]},
+    {x:"57.2%",y:"49%",dash:510,tag:"江淮",title:"江淮南望：跨过南北界线",text:"视线由北方山河转入江淮之间，河流成为南北交通、军事边界与地域想象的转换带。",chips:["淮水","江北","南北交通"]},
+    {x:"67.7%",y:"48.3%",dash:235,tag:"长江",title:"长江入注：水网串起古城",text:"沿长江中下游，郦道元式注记把城市、渡口、古迹与山水传说串联起来，每个节点都能展开地方历史。",chips:["长江","古城","渡口"]},
+    {x:"81%",y:"56.2%",dash:0,tag:"山海",title:"百川入海：注川成史",text:"最后视角抵达入海方向，路线完整点亮。山、河、湖、海被组织成理解中国空间的知识体系，回应跨越山海。",chips:["入海","水经注","山海中国"]}
+  ];
+  const person=document.getElementById("person"), route=document.getElementById("route");
+  const tag=document.getElementById("tag"), title=document.getElementById("storyTitle"), text=document.getElementById("storyText"), chips=document.getElementById("chips");
+  document.querySelectorAll(".time").forEach(btn=>btn.addEventListener("click",()=>{
+    const d=data[+btn.dataset.step];
+    person.style.setProperty("--x",d.x); person.style.setProperty("--y",d.y);
+    route.style.setProperty("--dash",d.dash);
+    tag.textContent=d.tag; title.textContent=d.title; text.textContent=d.text;
+    chips.innerHTML=d.chips.map(c=>`<span>${c}</span>`).join("");
+    document.querySelectorAll(".time").forEach(b=>b.setAttribute("aria-pressed",b===btn));
+  }));
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>水韵江苏：太湖文化母体</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--paper:#f5efe3;--ink:#302b25;--red:#b64a38;--teal:#31877e}
+html,body{width:100%;height:100%;overflow:hidden;background:#e9dfcf;color:var(--ink)}body{font-family:"Noto Serif SC","Songti SC","SimSun",serif}button{font:inherit}
+.page{position:fixed;inset:0;overflow:hidden;background:var(--paper)}.reference-map{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
+.back{position:absolute;z-index:20;left:1.35%;top:2.4%;padding:9px 14px;text-decoration:none;color:#43392f;background:rgba(249,245,236,.93);border:1px solid rgba(136,105,69,.42);box-shadow:0 5px 15px rgba(57,39,21,.08)}
+.focus-dot{position:absolute;z-index:8;left:var(--x);top:var(--y);width:15px;height:15px;border-radius:50%;transform:translate(-50%,-50%);background:#c64a35;border:3px solid #fff6e8;box-shadow:0 0 0 5px rgba(198,74,53,.16);transition:left .38s ease,top .38s ease}
+.story-card{position:absolute;z-index:12;left:72.9%;top:42.9%;width:24.4%;height:35.8%;display:flex;flex-direction:column;padding:22px 24px 15px;background:linear-gradient(180deg,rgba(249,245,236,.965),rgba(246,240,228,.91));border:1px solid rgba(142,126,92,.42);outline:1px solid rgba(142,126,92,.18);outline-offset:-8px;box-shadow:0 12px 25px rgba(62,46,29,.14),inset 0 0 28px rgba(255,252,243,.35);overflow:visible}
+.story-card::before{content:"";position:absolute;inset:8px;border:1px solid rgba(178,152,104,.18);pointer-events:none;background:linear-gradient(90deg,rgba(178,152,104,.2) 18px,transparent 18px) left top/42px 1px no-repeat,linear-gradient(180deg,rgba(178,152,104,.2) 18px,transparent 18px) left top/1px 42px no-repeat,linear-gradient(270deg,rgba(178,152,104,.2) 18px,transparent 18px) right top/42px 1px no-repeat,linear-gradient(180deg,rgba(178,152,104,.2) 18px,transparent 18px) right top/1px 42px no-repeat}
+.story-card::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 12px 12px,transparent 8px,rgba(178,152,104,.24) 8.5px,transparent 10px),radial-gradient(circle at calc(100% - 12px) 12px,transparent 8px,rgba(178,152,104,.24) 8.5px,transparent 10px);opacity:.65}
+.story-head{display:flex;align-items:flex-start;gap:10px;margin-bottom:7px}.story-seal{width:29px;height:29px;display:grid;place-items:center;background:#aa4a36;color:#fff4e4;font-size:12px;flex:0 0 auto}.story-title{font-size:18px;line-height:1.35;color:#2e2923}.divider{height:1px;background:linear-gradient(90deg,transparent,#799b90,transparent);margin-bottom:8px}.summary{font-size:11.8px;line-height:1.68;color:#51483f}.points{display:none}.story-art{margin-top:auto;width:100%;height:37%;object-fit:contain;filter:saturate(.68) sepia(.07) contrast(.92);opacity:.82}.pager{position:relative;display:flex;justify-content:center;gap:8px;margin-top:4px}.pager::before{content:"‹";position:absolute;left:0;bottom:-8px;color:rgba(92,82,70,.44);font-size:30px;line-height:1;font-family:Georgia,serif}.pager::after{content:"›";position:absolute;right:0;bottom:-8px;color:rgba(92,82,70,.44);font-size:30px;line-height:1;font-family:Georgia,serif}.pager i{width:9px;height:9px;border-radius:50%;background:#c9c1b3}.pager i.active{background:#ba593e}
+.timeline{position:absolute;z-index:14;left:21.8%;right:2.4%;bottom:2.7%;height:12.5%;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.era-btn{position:relative;display:block;padding:0;border:0;border-radius:0;background:transparent;color:transparent;text-align:left;cursor:pointer;box-shadow:none;overflow:visible;transition:transform .22s ease,filter .22s ease}.era-btn::after{content:"";position:absolute;inset:9% 6%;border-radius:14px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(219,255,238,.48),rgba(255,255,255,0));opacity:0;pointer-events:none;mix-blend-mode:screen;transition:opacity .22s ease}.era-btn:hover{transform:translateY(-4px);filter:drop-shadow(0 10px 16px rgba(55,80,66,.16))}.era-btn:hover::after{opacity:.52}.era-btn.active{transform:translateY(-3px);filter:drop-shadow(0 0 7px rgba(79,150,140,.36)) drop-shadow(0 9px 15px rgba(55,80,66,.15))}.era-btn.active::after{opacity:.72}.era-icon{width:100%;height:100%;display:block;object-fit:contain;filter:none}.era-btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+@media(max-width:1250px){.story-card{padding:14px 15px 10px}.story-title{font-size:14px}.summary{font-size:10px;line-height:1.5}.points span{font-size:8px}.timeline{gap:8px}}
+.timeline{bottom:2.5%;height:15%}
+</style>
+</head>
+<body>
+<main class="page">
+ <img class="reference-map" src="../Data/参考/太湖2.png" alt="太湖水系国风叙事地图">
+ <a class="back" href="Map_前景.html?view=map">返回三水总图</a>
+ <div class="focus-dot" id="focusDot" aria-hidden="true"></div>
+ <section class="story-card" id="storyCard" aria-live="polite"></section>
+ <nav class="timeline" id="timeline" aria-label="太湖历史阶段"></nav>
+</main>
+<script>
+const ERAS=[
+ {id:'ancient',period:'先 秦',tag:'史',title:'吴文化起源，太湖奠定江南底色',summary:'太湖周边早期聚落依水而居，稻作、渔猎、舟楫和水道构成生活基础。吴文化在湖荡之间生长，形成江南柔韧、重文、善工的地域性格。',points:['良渚与吴地文明孕育','伍子胥开挖胥溪','泰伯奔吴水乡成形'],x:'52%',y:'33%',art:'assets/redrawn-architecture-hd/07_river_port_town.png',buttonArt:'assets/14.png'},
+ {id:'tangSong',period:'汉魏—唐宋',tag:'史',title:'塘浦圩田，鱼米之乡成形',summary:'太湖流域通过塘浦圩田和密集河港组织农业生产，水网既排涝灌溉，也承载交通。江南从自然湖荡走向精细化水利社会。',points:['塘浦圩田建成','白居易范仲淹治水','莼鲈之思塑造文人意象'],x:'63%',y:'45%',art:'assets/redrawn-architecture-hd/06_ancient_sluice.png',buttonArt:'assets/15.png'},
+ {id:'mingQing',period:'明 清',tag:'史',title:'园林书画戏曲，江南文化登峰',summary:'明清时期，太湖周边经济富庶、文风鼎盛。园林借太湖石成景，昆曲在水乡流转，吴门画派把湖山烟水转化为江南审美。',points:['苏州园林借太湖山水','吴门画派以湖山入画','昆曲评弹构成水乡文脉'],x:'63%',y:'45%',art:'assets/redrawn-architecture-hd/05_garden_pavilion_bridge.png',buttonArt:'assets/16.png'},
+ {id:'modern',period:'近 代',tag:'史',title:'实业与文教，江南精神转向现代',summary:'近代太湖流域的文教传统转化为实业、教育和社会改良。无锡、苏州等地在水乡工商基础上进入现代化进程。',points:['荣氏薛福成兴办实业','传统市镇走向工业化','太湖延续地方认同'],x:'54%',y:'34%',art:'assets/redrawn-architecture-hd/01_jiangnan_arch_bridge.png',buttonArt:'assets/17.png'},
+ {id:'today',period:'当 代',tag:'史',title:'生态治理与文旅融合，水乡走向当代',summary:'当代太湖以生态治理为基础，把古镇、园林、湖湾、湿地和城市生活重新连接。水乡不只是历史景观，也成为现代江南生活方式。',points:['湖湾湿地与河网修复','古镇园林文化活化','水韵江南成为文化名片'],x:'48%',y:'70%',art:'assets/redrawn-architecture-hd/03_pagoda_temple.png',buttonArt:'assets/18.png'}
+];
+let current='ancient';
+const storyCard=document.getElementById('storyCard'),timeline=document.getElementById('timeline'),focusDot=document.getElementById('focusDot');
+function render(){const era=ERAS.find(e=>e.id===current)||ERAS[0];focusDot.style.setProperty('--x',era.x);focusDot.style.setProperty('--y',era.y);storyCard.innerHTML=`<div class="story-head"><span class="story-seal">${era.tag}</span><h2 class="story-title">${era.title}</h2></div><div class="divider"></div><p class="summary">${era.summary}</p><div class="points">${era.points.map(p=>`<span>${p}</span>`).join('')}</div><img class="story-art" src="${era.art}" alt="${era.title}建筑意象"><div class="pager">${ERAS.map(e=>`<i class="${e.id===current?'active':''}"></i>`).join('')}</div>`;timeline.innerHTML=ERAS.map(e=>`<button class="era-btn ${e.id===current?'active':''}" data-era="${e.id}"><img class="era-icon" src="${e.buttonArt}" alt=""><span><b>${e.period}</b><small>${e.title}</small></span></button>`).join('');timeline.querySelectorAll('.era-btn').forEach(btn=>btn.addEventListener('click',()=>{current=btn.dataset.era;render()}))}
+render();
+</script>
+</body>
+</html>

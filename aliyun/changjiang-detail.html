@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>水韵江苏：长江政治格局</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--paper:#f5efe3;--ink:#302b25;--red:#b64a38;--blue:#2e7fa9;--gold:#a7834e}
+html,body{width:100%;height:100%;overflow:hidden;background:#e9dfcf;color:var(--ink)}
+body{font-family:"Noto Serif SC","Songti SC","SimSun",serif}
+button{font:inherit}
+.page{position:fixed;inset:0;overflow:hidden;background:var(--paper)}
+.reference-map{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;display:block}
+.page-title{position:absolute;z-index:7;left:19.2%;right:8.8%;top:2.8%;text-align:center;font-size:clamp(34px,4.1vw,68px);line-height:1;font-weight:800;letter-spacing:.04em;color:#1f1d1a;text-shadow:0 2px 0 rgba(255,250,239,.7)}
+.page-subtitle{position:absolute;z-index:7;left:19.2%;right:8.8%;top:11.2%;text-align:center;font-size:clamp(13px,1.25vw,22px);letter-spacing:.26em;color:#4b4239}
+.back{position:absolute;z-index:20;left:1.35%;top:2.4%;padding:9px 14px;text-decoration:none;color:#43392f;background:rgba(249,245,236,.93);border:1px solid rgba(136,105,69,.42);box-shadow:0 5px 15px rgba(57,39,21,.08)}
+.focus-dot{position:absolute;z-index:11;left:var(--x);top:var(--y);width:15px;height:15px;border-radius:50%;transform:translate(-50%,-50%);background:#c64a35;border:3px solid #fff6e8;box-shadow:0 0 0 5px rgba(198,74,53,.16);transition:left .38s ease,top .38s ease}
+
+.story-card{position:absolute;z-index:12;left:58.4%;top:16.4%;width:39%;height:32.2%;display:grid;grid-template-columns:60px minmax(0,1fr) 40%;gap:12px;padding:17px 20px 16px 18px;background:linear-gradient(90deg,rgba(249,245,236,.985),rgba(249,245,236,.95) 53%,rgba(249,245,236,.72));border:1px solid rgba(153,119,75,.48);outline:1px solid rgba(184,158,119,.35);outline-offset:-8px;border-radius:6px;box-shadow:0 10px 24px rgba(60,43,27,.22),inset 0 0 30px rgba(255,252,242,.42);overflow:visible}
+.story-card::before{content:"";position:absolute;inset:7px;border:1px solid rgba(190,165,124,.2);border-radius:3px;pointer-events:none}
+.story-card::after{content:"×";position:absolute;right:12px;top:8px;color:rgba(96,83,67,.54);font-size:25px;line-height:1;font-family:Arial,sans-serif}
+.story-tag{position:relative;align-self:stretch;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:upright;background:rgba(247,241,229,.92);border:1px solid rgba(171,139,91,.4);box-shadow:0 5px 14px rgba(77,56,33,.08),inset 0 0 18px rgba(255,255,255,.35);font-size:22px;font-weight:700;letter-spacing:.08em;color:#2d2924}
+.story-tag::before{content:"史";position:absolute;left:9px;top:-18px;width:27px;height:27px;display:grid;place-items:center;border:1.6px solid var(--red);color:var(--red);background:rgba(249,245,236,.96);font-size:12px;transform:rotate(-5deg);box-shadow:0 2px 5px rgba(100,55,35,.12)}
+.story-copy{min-width:0;padding-top:5px;z-index:1}
+.period{color:var(--red);font-weight:700;font-size:13px;letter-spacing:.18em;margin-bottom:5px}
+.story-copy h2{margin:3px 0 7px;font-size:19px;line-height:1.3;color:#2d2924}
+.summary{font-size:11.8px;line-height:1.62;color:#554a3e;max-width:99%}
+.points{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.points span{padding:3px 9px;border-radius:11px;background:rgba(143,128,105,.18);color:#665a4e;font-size:10px;line-height:1.28}
+.story-art-wrap{position:relative;align-self:stretch;display:flex;align-items:center;justify-content:center;min-width:0;overflow:hidden}
+.story-art-wrap::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(226,222,204,.32),rgba(249,245,236,0) 68%)}
+.story-art{position:relative;width:110%;height:110%;object-fit:contain;align-self:center;filter:saturate(.62) sepia(.12) contrast(.9);opacity:.78}
+.timeline{position:absolute;z-index:14;left:20.6%;right:2.1%;bottom:2.4%;height:13.8%;display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.era-btn{
+  position:relative;
+  display:block;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  color:transparent;
+  text-align:left;
+  cursor:pointer;
+  box-shadow:none;
+  overflow:visible;
+  transition:transform .22s ease,filter .22s ease
+}
+.era-btn::after{
+  content:"";
+  position:absolute;
+  inset:9% 6%;
+  border-radius:14px;
+  background:linear-gradient(90deg,rgba(255, 255, 255, 0),rgba(255,248,212,.55),rgba(255,255,255,0));
+  opacity:0;
+  pointer-events:none;
+  mix-blend-mode:screen;
+  transition:opacity .22s ease
+}
+.era-btn:hover{transform:translateY(-4px);filter:drop-shadow(0 10px 16px rgba(86,59,31,.16))}
+.era-btn:hover::after{opacity:.52}
+.era-btn.active{
+  transform:translateY(-3px);
+  filter:drop-shadow(0 0 7px rgba(54,132,174,.34)) drop-shadow(0 9px 15px rgba(93,61,30,.16))
+}
+.era-btn.active::after{opacity:.72}
+.era-icon{width:100%;height:100%;display:block;object-fit:contain;filter:none}
+.era-btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+@media(max-width:1250px){.story-card{grid-template-columns:52px minmax(0,1fr) 31%;gap:10px;padding:12px 16px 12px 16px}.story-tag{font-size:18px}.story-copy h2{font-size:15.5px}.summary{font-size:10.5px;line-height:1.45}.points{margin-top:5px}.points span{font-size:8.8px;padding:3px 8px}.timeline{gap:8px}.page-title{top:2.4%}.page-subtitle{top:10.7%}}
+</style>
+</head>
+<body>
+<main class="page">
+  <img class="reference-map" src="../Data/参考/长江3.png" alt="长江江苏段国风叙事地图">
+  <h1 class="page-title"></h1>
+  <div class="page-subtitle"></div>
+  <a class="back" href="Map_前景.html?view=map">返回三水总图</a>
+  <svg class="guide-layer" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <polyline class="guide-line" id="guideLine" points=""></polyline>
+  </svg>
+  <div class="focus-dot" id="focusDot" aria-hidden="true"></div>
+  <section class="story-card" id="storyCard" aria-live="polite"></section>
+  <nav class="timeline" id="timeline" aria-label="长江历史阶段"></nav>
+</main>
+<script>
+const ERAS=[
+ {id:'ancient',period:'先秦—南北朝',tag:'建业江防',title:'南北对峙的核心政治边界',summary:'长江首先体现为江防边界。吴国、东吴与东晋南朝都依托长江屏障控制江南，南京一带由军事节点逐渐转为政治中心。',points:['京口、广陵建沿江要塞','东吴定都建业','建康六朝以江为防'],x:'28%',y:'42.5%',art:'assets/redrawn-architecture-hd/08_watchtower_gate.png',buttonArt:'assets/4.png'},
+ {id:'suiTang',period:'隋唐宋元',tag:'京口瓜洲',title:'王朝统治江南的政治主轴',summary:'统一王朝重新组织江南，长江沿岸重镇承担巡幸、漕运、军政和江防功能；运河与长江交汇，使镇江、扬州成为关键节点。',points:['润州、江都沿江设镇','镇江扬州水运枢纽','采石京口瓜洲要塞'],x:'40.8%',y:'47%',art:'assets/redrawn-architecture-hd/04_canal_wharf.png',buttonArt:'assets/5.png'},
+ {id:'mingQing',period:'明 清',tag:'南都屏障',title:'南直隶核心，皇权直辖腹地',summary:'明清时期，南京与两江治理强化了长江的政治控制功能。江面防务、漕运转输与南北政区格局，都围绕长江展开。',points:['明初定都南京','操江御史管江防','两江总督节制军政'],x:'60.4%',y:'58.5%',art:'assets/redrawn-architecture-hd/02_city_gate_wall.png',buttonArt:'assets/6.png'},
+ {id:'modern',period:'近 代',tag:'下关江阴',title:'改写近代史的政治舞台',summary:'近代以来，长江江苏段成为条约、战争、都城与要塞共同叠加的政治舞台。南京、下关、江阴等节点承载近代转折。',points:['南京条约签于下关江面','太平天国定都天京','江阴要塞守卫江防'],x:'70.8%',y:'58.6%',art:'assets/redrawn-architecture-hd/07_river_port_town.png',buttonArt:'assets/7.png'},
+ {id:'today',period:'当 代',tag:'黄金水道',title:'国家战略枢纽，区域治理核心',summary:'当代长江从分割线转为联通带，承担黄金水道、长江经济带、长江大保护与跨江融合等多重国家战略功能。',points:['苏南苏北由分割转纽带','国家级战略水道','大保护与跨江融合'],x:'93.2%',y:'64.5%',art:'assets/redrawn-architecture-hd/04_canal_wharf.png',buttonArt:'assets/8.png'}
+];
+let current='modern';
+const storyCard=document.getElementById('storyCard');
+const timeline=document.getElementById('timeline');
+const focusDot=document.getElementById('focusDot');
+const guideLine=document.getElementById('guideLine');
+function render(){
+ const era=ERAS.find(item=>item.id===current)||ERAS[0];
+ focusDot.style.setProperty('--x',era.x);focusDot.style.setProperty('--y',era.y);
+ const sx=parseFloat(era.x), sy=parseFloat(era.y);
+ const tx=58.4, ty=31.5;
+ const bendX=Math.max(Math.min(sx + (tx-sx)*.38, 56), 33);
+ const bendY=Math.min(sy, ty) - 5.8;
+ guideLine.setAttribute('points',`${sx},${sy} ${bendX},${bendY} ${tx},${ty}`);
+ storyCard.innerHTML=`<div class="story-tag">${era.tag}</div><div class="story-copy"><div class="period">${era.period}</div><h2>${era.title}</h2><p class="summary">${era.summary}</p><div class="points">${era.points.map(p=>`<span>${p}</span>`).join('')}</div></div><div class="story-art-wrap"><img class="story-art" src="${era.art}" alt="${era.tag}建筑意象"></div>`;
+ timeline.innerHTML=ERAS.map(era=>`<button class="era-btn ${era.id===current?'active':''}" data-era="${era.id}"><img class="era-icon" src="${era.buttonArt}" alt=""><span><b>${era.period}</b><small>${era.title}</small></span></button>`).join('');
+ timeline.querySelectorAll('.era-btn').forEach(btn=>btn.addEventListener('click',()=>{current=btn.dataset.era;render()}));
+}
+render();
+</script>
+</body>
+</html>

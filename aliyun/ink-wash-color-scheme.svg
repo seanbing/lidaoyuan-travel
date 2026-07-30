@@ -1,0 +1,284 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 860" font-family="'Noto Serif SC','SimSun',serif">
+  <defs>
+    <!-- 宣纸底纹 -->
+    <filter id="paper" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" seed="7" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0.96  0 0 0 0 0.93  0 0 0 0 0.86  0 0 0 0.035 0" result="tx"/>
+      <feComposite in="SourceGraphic" in2="tx" operator="over"/>
+    </filter>
+    <!-- 长江渐变 -->
+    <linearGradient id="gY" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6B7B85"/><stop offset="50%" stop-color="#94A4AF"/><stop offset="100%" stop-color="#B5C2CB"/>
+    </linearGradient>
+    <linearGradient id="gY-hi" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D8DEE4"/><stop offset="100%" stop-color="#EDF1F4"/>
+    </linearGradient>
+    <!-- 运河渐变 -->
+    <linearGradient id="gC" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8A9AA5"/><stop offset="50%" stop-color="#B0C0CB"/><stop offset="100%" stop-color="#C8D2DA"/>
+    </linearGradient>
+    <linearGradient id="gC-hi" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#D5DDE4"/><stop offset="100%" stop-color="#EDF1F4"/>
+    </linearGradient>
+    <!-- 淮河渐变 -->
+    <linearGradient id="gH" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#9AA3AA"/><stop offset="50%" stop-color="#BFC8D0"/><stop offset="100%" stop-color="#D0D8DF"/>
+    </linearGradient>
+    <linearGradient id="gH-hi" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#DDE3E8"/><stop offset="100%" stop-color="#EDF1F4"/>
+    </linearGradient>
+    <!-- 太湖径向 -->
+    <radialGradient id="gT" cx="48%" cy="46%" r="52%">
+      <stop offset="0%" stop-color="rgba(148,160,175,0.25)"/>
+      <stop offset="60%" stop-color="rgba(176,192,203,0.15)"/>
+      <stop offset="100%" stop-color="rgba(200,210,218,0.05)"/>
+    </radialGradient>
+    <!-- 水纹pattern -->
+    <pattern id="wp" x="0" y="0" width="12" height="12" patternUnits="userSpaceOnUse">
+      <path d="M0 6Q3 4 6 6Q9 8 12 6" stroke="rgba(148,160,175,0.10)" fill="none" stroke-width="0.5"/>
+    </pattern>
+    <!-- 暗角 -->
+    <radialGradient id="vig" cx="50%" cy="50%" r="65%">
+      <stop offset="60%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="rgba(44,44,44,0.06)"/>
+    </radialGradient>
+    <!-- 流动虚线动画 -->
+    <style>
+      @keyframes flow{from{stroke-dashoffset:0}to{stroke-dashoffset:-40}}
+      .flow{stroke-dasharray:6,34;animation:flow 3s linear infinite}
+      @keyframes pulse{0%,100%{r:11;opacity:0.4}50%{r:16;opacity:0.08}}
+      .ring{animation:pulse 2.5s ease-in-out infinite}
+      text{fill:#3A3A3A}
+      .title{fill:#2C2C2C}
+    </style>
+  </defs>
+
+  <!-- ===== 宣纸底 ===== -->
+  <rect width="1200" height="860" fill="#F7F3E9" filter="url(#paper)"/>
+
+  <!-- ===== 标题 ===== -->
+  <text x="600" y="52" text-anchor="middle" font-size="30" font-weight="900" class="title" letter-spacing="6">淡墨水韵 · 水墨风配色方案</text>
+  <line x1="430" y1="68" x2="770" y2="68" stroke="#A82E2E" stroke-width="1.5" opacity="0.5"/>
+  <text x="600" y="88" text-anchor="middle" font-size="13" fill="#8A8A8A" letter-spacing="4">宣纸底 · 灰墨水系 · 朱砂点睛</text>
+
+  <!-- ===== 左半：四水系示意 ===== -->
+  <text x="50" y="130" font-size="16" font-weight="700" class="title" letter-spacing="2">一 · 四水系墨色层次</text>
+  <text x="50" y="150" font-size="11" fill="#8A8A8A">每条河由5层叠加：泛洪→外发光→河岸阴影→主水体→中央高光</text>
+
+  <!-- 省界 -->
+  <path d="M50,180 C90,168 160,155 230,152 C310,148 380,155 450,165
+           C500,172 540,168 570,185 C600,200 615,230 620,275
+           C622,310 612,340 590,365 C575,380 568,400 575,430
+           C582,460 585,480 575,495 C555,508 515,514 470,508
+           C425,500 385,490 350,494 C315,498 280,504 250,498
+           C220,488 190,470 165,445 C140,418 120,388 105,355
+           C90,320 82,280 88,235 C92,205 98,188 105,175 Z"
+    fill="rgba(234,230,224,0.5)" stroke="#C4C4C4" stroke-width="1"/>
+
+  <!-- 长江 (最宽) -->
+  <g>
+    <path d="M55,335 Q110,322 170,327 Q230,333 290,343 Q340,350 380,345 Q420,340 460,335 Q500,330 550,338 Q580,343 600,350" fill="none" stroke="#C8D2DA" stroke-width="32" opacity="0.08" stroke-linecap="round"/>
+    <path d="M55,335 Q110,322 170,327 Q230,333 290,343 Q340,350 380,345 Q420,340 460,335 Q500,330 550,338 Q580,343 600,350" fill="none" stroke="url(#gY)" stroke-width="18" opacity="0.22" stroke-linecap="round"/>
+    <path d="M55,338 Q110,326 170,331 Q230,337 290,347 Q340,353 380,348 Q420,343 460,338 Q500,333 550,341 Q580,346 600,353" fill="none" stroke="#5A6A75" stroke-width="14" opacity="0.14" stroke-linecap="round"/>
+    <path d="M55,335 Q110,322 170,327 Q230,333 290,343 Q340,350 380,345 Q420,340 460,335 Q500,330 550,338 Q580,343 600,350" fill="none" stroke="url(#gY)" stroke-width="9" stroke-linecap="round"/>
+    <path d="M80,328 Q140,320 200,325 Q260,331 320,340 Q360,345 400,340 Q440,335 480,330 Q520,328 560,335" fill="none" stroke="url(#gY-hi)" stroke-width="2.5" opacity="0.4" stroke-linecap="round"/>
+    <path class="flow" d="M55,335 Q110,322 170,327 Q230,333 290,343 Q340,350 380,345 Q420,340 460,335 Q500,330 550,338 Q580,343 600,350" fill="none" stroke="rgba(168,178,191,0.5)" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="240" y="318" font-size="14" font-weight="700" fill="#94A4AF" letter-spacing="3">长 江</text>
+  </g>
+
+  <!-- 淮河 -->
+  <g>
+    <path d="M55,205 Q110,198 170,208 Q230,218 290,212 Q340,206 390,202 Q440,198 490,205 Q540,212 580,208" fill="none" stroke="#D6DDE3" stroke-width="24" opacity="0.07" stroke-linecap="round"/>
+    <path d="M55,205 Q110,198 170,208 Q230,218 290,212 Q340,206 390,202 Q440,198 490,205 Q540,212 580,208" fill="none" stroke="url(#gH)" stroke-width="14" opacity="0.2" stroke-linecap="round"/>
+    <path d="M55,207 Q110,200 170,210 Q230,220 290,214 Q340,208 390,204 Q440,200 490,207 Q540,214 580,210" fill="none" stroke="#8A939A" stroke-width="8" opacity="0.12" stroke-linecap="round"/>
+    <path d="M55,205 Q110,198 170,208 Q230,218 290,212 Q340,206 390,202 Q440,198 490,205 Q540,212 580,208" fill="none" stroke="url(#gH)" stroke-width="5" stroke-linecap="round"/>
+    <path d="M80,200 Q140,196 200,206 Q260,214 320,208 Q360,203 400,200 Q440,198 480,202 Q520,206 560,204" fill="none" stroke="url(#gH-hi)" stroke-width="1.5" opacity="0.35" stroke-linecap="round"/>
+    <path class="flow" d="M55,205 Q110,198 170,208 Q230,218 290,212 Q340,206 390,202 Q440,198 490,205 Q540,212 580,208" fill="none" stroke="rgba(191,200,208,0.5)" stroke-width="1" stroke-linecap="round"/>
+    <text x="200" y="190" font-size="12" font-weight="700" fill="#BFC8D0" letter-spacing="3">淮 河</text>
+  </g>
+
+  <!-- 运河 -->
+  <g>
+    <path d="M280,170 Q290,210 300,255 Q310,300 320,340 Q325,370 330,400 Q335,430 340,465" fill="none" stroke="url(#gC)" stroke-width="12" opacity="0.18" stroke-linecap="round"/>
+    <path d="M282,172 Q292,212 302,256 Q312,300 322,340 Q327,370 332,400 Q337,430 342,464" fill="none" stroke="#7A8893" stroke-width="6" opacity="0.1" stroke-linecap="round"/>
+    <path d="M280,170 Q290,210 300,255 Q310,300 320,340 Q325,370 330,400 Q335,430 340,465" fill="none" stroke="url(#gC)" stroke-width="4" stroke-linecap="round"/>
+    <path d="M282,185 Q292,220 302,260 Q312,305 322,342 Q327,372 332,402 Q337,432 342,462" fill="none" stroke="url(#gC-hi)" stroke-width="1.2" opacity="0.35" stroke-linecap="round"/>
+    <path class="flow" d="M280,170 Q290,210 300,255 Q310,300 320,340 Q325,370 330,400 Q335,430 340,465" fill="none" stroke="rgba(176,192,203,0.45)" stroke-width="1" stroke-linecap="round"/>
+    <text x="258" y="300" font-size="11" font-weight="700" fill="#B0C0CB" letter-spacing="2" transform="rotate(82,258,300)">京杭大运河</text>
+  </g>
+
+  <!-- 太湖 -->
+  <g>
+    <path d="M430,430 Q440,408 465,400 Q490,395 515,402 Q538,412 548,430
+             Q554,448 544,465 Q530,478 508,482 Q485,484 465,478
+             Q448,470 438,455 Q432,442 430,430 Z"
+      fill="none" stroke="#E0E7ED" stroke-width="10" opacity="0.06"/>
+    <path d="M434,432 Q444,410 468,402 Q492,397 516,404 Q538,414 548,432
+             Q554,448 544,465 Q530,478 508,482 Q485,484 465,478
+             Q448,470 438,455 Q432,442 434,432 Z"
+      fill="url(#gT)" stroke="#E0E7ED" stroke-width="1.5" opacity="0.9"/>
+    <path d="M434,432 Q444,410 468,402 Q492,397 516,404 Q538,414 548,432
+             Q554,448 544,465 Q530,478 508,482 Q485,484 465,478
+             Q448,470 438,455 Q432,442 434,432 Z" fill="url(#wp)" pointer-events="none"/>
+    <ellipse cx="488" cy="440" rx="5" ry="3" fill="rgba(234,230,224,0.7)" stroke="#E0E7ED" stroke-width="0.5" opacity="0.7" transform="rotate(-15,488,440)"/>
+    <text x="490" y="450" text-anchor="middle" font-size="11" font-weight="700" fill="#E0E7ED" letter-spacing="2">太 湖</text>
+  </g>
+
+  <!-- 点位示意 -->
+  <text x="50" y="535" font-size="14" font-weight="700" class="title" letter-spacing="2">二 · 历史点位符号</text>
+  <g transform="translate(60,560)">
+    <!-- 漕运码头 -->
+    <circle cx="20" cy="20" r="9" fill="#D8C8B4" stroke="#C4C4C4" stroke-width="1"/>
+    <circle cx="20" cy="20" r="4" fill="#D8C8B4" stroke="#F7F3E9" stroke-width="1.5"/>
+    <text x="38" y="18" font-size="11" font-weight="600">漕运码头</text>
+    <text x="38" y="32" font-size="9" fill="#8A8A8A">#D8C8B4 · 浅赭石</text>
+    <!-- 古镇/城池 -->
+    <circle cx="170" cy="20" r="9" fill="#B9CBD6" stroke="#C4C4C4" stroke-width="1"/>
+    <circle cx="170" cy="20" r="4" fill="#B9CBD6" stroke="#F7F3E9" stroke-width="1.5"/>
+    <text x="188" y="18" font-size="11" font-weight="600">古镇 / 城池</text>
+    <text x="188" y="32" font-size="9" fill="#8A8A8A">#B9CBD6 · 浅青灰</text>
+    <!-- 水利闸坝 -->
+    <circle cx="320" cy="20" r="9" fill="#9CB8C9" stroke="#C4C4C4" stroke-width="1"/>
+    <circle cx="320" cy="20" r="4" fill="#9CB8C9" stroke="#F7F3E9" stroke-width="1.5"/>
+    <text x="338" y="18" font-size="11" font-weight="600">水利闸坝</text>
+    <text x="338" y="32" font-size="9" fill="#8A8A8A">#9CB8C9 · 浅石青</text>
+    <!-- 古战场 -->
+    <circle cx="470" cy="20" r="9" fill="#D9B8A6" stroke="#C4C4C4" stroke-width="1"/>
+    <circle cx="470" cy="20" r="4" fill="#D9B8A6" stroke="#F7F3E9" stroke-width="1.5"/>
+    <text x="488" y="18" font-size="11" font-weight="600">古战场</text>
+    <text x="488" y="32" font-size="9" fill="#8A8A8A">#D9B8A6 · 淡赭红</text>
+    <!-- 名人故里 -->
+    <circle cx="590" cy="20" r="9" fill="#B8C9BC" stroke="#C4C4C4" stroke-width="1"/>
+    <circle cx="590" cy="20" r="4" fill="#B8C9BC" stroke="#F7F3E9" stroke-width="1.5"/>
+    <text x="608" y="18" font-size="11" font-weight="600">名人故里 / 文化遗址</text>
+    <text x="608" y="32" font-size="9" fill="#8A8A8A">#B8C9BC · 浅豆绿</text>
+  </g>
+
+  <!-- ===== 右半：色卡 ===== -->
+  <text x="660" y="130" font-size="16" font-weight="700" class="title" letter-spacing="2">三 · 全套色卡</text>
+
+  <!-- 底色 -->
+  <g transform="translate(660,150)">
+    <rect width="100" height="40" fill="#F7F3E9" stroke="#C4C4C4" stroke-width="0.5"/>
+    <rect x="100" width="100" height="40" fill="#EAE6E0" stroke="#C4C4C4" stroke-width="0.5"/>
+    <rect x="200" width="100" height="40" fill="#DDD8D0" stroke="#C4C4C4" stroke-width="0.5"/>
+    <text x="50" y="55" text-anchor="middle" font-size="10">宣纸底 #F7F3E9</text>
+    <text x="150" y="55" text-anchor="middle" font-size="10">陆地 #EAE6E0</text>
+    <text x="250" y="55" text-anchor="middle" font-size="10">网格 #DDD8D0</text>
+  </g>
+
+  <!-- 四水系墨色 -->
+  <g transform="translate(660,225)">
+    <text x="0" y="0" font-size="12" font-weight="600">四水系墨色（锥状渐变 + 飞白纹理 + 30%柔光）</text>
+    <!-- 长江 -->
+    <rect y="15" width="300" height="32" fill="#94A4AF" opacity="0.9"/>
+    <rect y="15" width="300" height="32" fill="url(#gY)" opacity="0.4"/>
+    <text x="10" y="36" font-size="13" font-weight="700" fill="#F7F3E9">长江 #94A4AF</text>
+    <text x="280" y="36" text-anchor="end" font-size="9" fill="#F7F3E9" opacity="0.7">中度灰墨 · 最宽</text>
+    <!-- 运河 -->
+    <rect y="52" width="300" height="28" fill="#B0C0CB" opacity="0.9"/>
+    <rect y="52" width="300" height="28" fill="url(#gC)" opacity="0.4"/>
+    <text x="10" y="71" font-size="13" font-weight="700" fill="#F7F3E9">运河 #B0C0CB</text>
+    <text x="280" y="71" text-anchor="end" font-size="9" fill="#F7F3E9" opacity="0.7">青灰淡墨 · 偏冷</text>
+    <!-- 淮河 -->
+    <rect y="85" width="300" height="28" fill="#BFC8D0" opacity="0.9"/>
+    <rect y="85" width="300" height="28" fill="url(#gH)" opacity="0.4"/>
+    <text x="10" y="104" font-size="13" font-weight="700" fill="#F7F3E9">淮河 #BFC8D0</text>
+    <text x="280" y="104" text-anchor="end" font-size="9" fill="#F7F3E9" opacity="0.7">冷浅灰 · 清冷感</text>
+    <!-- 太湖 -->
+    <rect y="118" width="300" height="28" fill="#E0E7ED" opacity="0.9"/>
+    <rect y="118" width="300" height="28" fill="url(#gT)" opacity="0.5"/>
+    <text x="10" y="137" font-size="13" font-weight="700" fill="#5A6A75">太湖 #E0E7ED</text>
+    <text x="280" y="137" text-anchor="end" font-size="9" fill="#5A6A75" opacity="0.7">极浅灰 · 留白感</text>
+  </g>
+
+  <!-- 文字与点睛 -->
+  <g transform="translate(660,400)">
+    <text x="0" y="0" font-size="12" font-weight="600">文字 · 印章 · 装饰</text>
+    <rect y="15" width="60" height="32" fill="#2C2C2C"/>
+    <text x="70" y="36" font-size="10">标题浓墨 #2C2C2C</text>
+    <rect y="52" width="60" height="28" fill="#3A3A3A"/>
+    <text x="70" y="71" font-size="10">正文深墨 #3A3A3A</text>
+    <rect y="85" width="60" height="28" fill="#A82E2E"/>
+    <text x="70" y="104" font-size="10">印章朱砂 #A82E2E（仅小面积）</text>
+    <rect y="118" width="60" height="24" fill="#C4C4C4"/>
+    <text x="70" y="135" font-size="10">云纹边框 #C4C4C4</text>
+    <!-- 印章效果示例 -->
+    <g transform="translate(250,60)">
+      <rect x="-20" y="-20" width="40" height="40" fill="#A82E2E" opacity="0.85" rx="2"/>
+      <text x="0" y="-2" text-anchor="middle" font-size="14" font-weight="900" fill="#F7F3E9">水韵</text>
+      <text x="0" y="14" text-anchor="middle" font-size="14" font-weight="900" fill="#F7F3E9">江苏</text>
+    </g>
+    <text x="250" y="95" text-anchor="middle" font-size="9" fill="#8A8A8A">朱砂印章示意</text>
+  </g>
+
+  <!-- ===== 底部：效果对比 ===== -->
+  <text x="50" y="640" font-size="16" font-weight="700" class="title" letter-spacing="2">四 · 墨分五色 · 水系层次展开</text>
+  <text x="50" y="660" font-size="11" fill="#8A8A8A">以长江为例，展示5层叠加结构（从上到下依次关闭每层效果）</text>
+
+  <!-- 层1: 完整5层 -->
+  <g transform="translate(50,680)">
+    <text x="0" y="15" font-size="10" font-weight="600" fill="#3A3A3A">① 完整5层</text>
+    <path d="M90,10 Q150,2 210,8 Q270,15 330,22 Q370,27 410,22 Q450,17 490,12 Q530,8 570,14" fill="none" stroke="#C8D2DA" stroke-width="32" opacity="0.08" stroke-linecap="round"/>
+    <path d="M90,10 Q150,2 210,8 Q270,15 330,22 Q370,27 410,22 Q450,17 490,12 Q530,8 570,14" fill="none" stroke="url(#gY)" stroke-width="18" opacity="0.22" stroke-linecap="round"/>
+    <path d="M90,13 Q150,5 210,11 Q270,18 330,25 Q370,30 410,25 Q450,20 490,15 Q530,11 570,17" fill="none" stroke="#5A6A75" stroke-width="14" opacity="0.14" stroke-linecap="round"/>
+    <path d="M90,10 Q150,2 210,8 Q270,15 330,22 Q370,27 410,22 Q450,17 490,12 Q530,8 570,14" fill="none" stroke="url(#gY)" stroke-width="9" stroke-linecap="round"/>
+    <path d="M110,5 Q170,0 230,5 Q290,12 350,19 Q390,24 420,19 Q460,14 500,9 Q540,5 565,11" fill="none" stroke="url(#gY-hi)" stroke-width="2.5" opacity="0.4" stroke-linecap="round"/>
+  </g>
+
+  <!-- 层2: 去高光 -->
+  <g transform="translate(50,715)">
+    <text x="0" y="15" font-size="10" font-weight="600" fill="#3A3A3A">② 去中央高光</text>
+    <path d="M90,10 Q150,2 210,8 Q270,15 330,22 Q370,27 410,22 Q450,17 490,12 Q530,8 570,14" fill="none" stroke="#C8D2DA" stroke-width="32" opacity="0.08" stroke-linecap="round"/>
+    <path d="M90,10 Q150,2 210,8 Q270,15 330,22 Q370,27 410,22 Q450,17 490,12 Q530,8 570,14" fill="none" stroke="url(#gY)" stroke-width="18" opacity="0.22" stroke-linecap="round"/>
+    <path d="M90,13 Q150,5 210,11 Q270,18 330,25 Q370,30 410,25 Q450,20 490,15 Q530,11 570,17" fill="none" stroke="#5A6A75" stroke-width="14" opacity="0.14" stroke-linecap="round"/>
+    <path d="M90,10 Q150,2 210,8 Q270,15 330,22 Q370,27 410,22 Q450,17 490,12 Q530,8 570,14" fill="none" stroke="url(#gY)" stroke-width="9" stroke-linecap="round"/>
+  </g>
+
+  <!-- 层3: 去河岸 -->
+  <g transform="translate(50,750)">
+    <text x="0" y="15" font-size="10" font-weight="600" fill="#3A3A3A">③ 去河岸阴影</text>
+    <path d="M90,10 Q150,2 210,8 Q270,15 330,22 Q370,27 410,22 Q450,17 490,12 Q530,8 570,14" fill="none" stroke="#C8D2DA" stroke-width="32" opacity="0.08" stroke-linecap="round"/>
+    <path d="M90,10 Q150,2 210,8 Q270,15 330,22 Q370,27 410,22 Q450,17 490,12 Q530,8 570,14" fill="none" stroke="url(#gY)" stroke-width="18" opacity="0.22" stroke-linecap="round"/>
+    <path d="M90,10 Q150,2 210,8 Q270,15 330,22 Q370,27 410,22 Q450,17 490,12 Q530,8 570,14" fill="none" stroke="url(#gY)" stroke-width="9" stroke-linecap="round"/>
+  </g>
+
+  <!-- 层4: 去发光 -->
+  <g transform="translate(50,785)">
+    <text x="0" y="15" font-size="10" font-weight="600" fill="#3A3A3A">④ 去外发光</text>
+    <path d="M90,10 Q150,2 210,8 Q270,15 330,22 Q370,27 410,22 Q450,17 490,12 Q530,8 570,14" fill="none" stroke="#C8D2DA" stroke-width="32" opacity="0.08" stroke-linecap="round"/>
+    <path d="M90,10 Q150,2 210,8 Q270,15 330,22 Q370,27 410,22 Q450,17 490,12 Q530,8 570,14" fill="none" stroke="url(#gY)" stroke-width="9" stroke-linecap="round"/>
+  </g>
+
+  <!-- 层5: 仅泛洪 -->
+  <g transform="translate(50,820)">
+    <text x="0" y="15" font-size="10" font-weight="600" fill="#3A3A3A">⑤ 仅泛洪底色</text>
+    <path d="M90,10 Q150,2 210,8 Q270,15 330,22 Q370,27 410,22 Q450,17 490,12 Q530,8 570,14" fill="none" stroke="#C8D2DA" stroke-width="32" opacity="0.08" stroke-linecap="round"/>
+  </g>
+
+  <!-- 右下角标注 -->
+  <g transform="translate(660,680)">
+    <text x="0" y="0" font-size="12" font-weight="600" fill="#3A3A3A">五 · 设计原则</text>
+    <text x="0" y="22" font-size="10" fill="#5A5A5A">1. 墨分五色：四水系以灰度深浅区分，不用色相</text>
+    <text x="0" y="40" font-size="10" fill="#5A5A5A">2. 锥状渐变：上游细深、下游宽浅，模拟宣纸洇墨</text>
+    <text x="0" y="58" font-size="10" fill="#5A5A5A">3. 飞白纹理：30%柔光混合，线条边缘做不规则晕染</text>
+    <text x="0" y="76" font-size="10" fill="#5A5A5A">4. 朱砂点睛：全图唯一重色，仅用于印章/年代/重点标注</text>
+    <text x="0" y="94" font-size="10" fill="#5A5A5A">5. 留白为水：太湖用极浅灰(#E0E7ED)突出水乡柔和</text>
+    <text x="0" y="112" font-size="10" fill="#5A5A5A">6. 点位低饱：符号内部低饱和纯色，轮廓浅灰统一</text>
+    <text x="0" y="130" font-size="10" fill="#5A5A5A">7. 文字柔墨：不用纯黑(#000)，正文#3A3A3A，标题#2C2C2C</text>
+
+    <!-- 朱砂印章 -->
+    <g transform="translate(230,40)">
+      <rect x="-22" y="-22" width="44" height="44" fill="#A82E2E" opacity="0.85" rx="2"/>
+      <text x="0" y="-4" text-anchor="middle" font-size="13" font-weight="900" fill="#F7F3E9" letter-spacing="1">墨分</text>
+      <text x="0" y="14" text-anchor="middle" font-size="13" font-weight="900" fill="#F7F3E9" letter-spacing="1">五色</text>
+    </g>
+  </g>
+
+  <!-- 暗角覆盖 -->
+  <rect width="1200" height="860" fill="url(#vig)" pointer-events="none"/>
+
+  <!-- 底部装饰线 -->
+  <line x1="50" y1="848" x2="1150" y2="848" stroke="#C4C4C4" stroke-width="0.5"/>
+  <text x="600" y="843" text-anchor="middle" font-size="9" fill="#8A8A8A" letter-spacing="3">星湖杯地图设计大赛 · 淡墨水韵水墨风配色方案 · 仅供 ArcGIS Pro 套用参考</text>
+</svg>

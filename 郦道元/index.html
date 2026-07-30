@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#e8dfcf" />
+    <title>郦道元行旅中国</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="cover" aria-label="郦道元行旅中国动态封面">
+      <section class="stage" id="stage">
+        <div class="painting" aria-hidden="true">
+          <img class="background" src="./Data/封面底图2.png" alt="" draggable="false" />
+          <div class="paper-light"></div>
+          <div class="water-shimmer"></div>
+        </div>
+
+        <div class="scroll-edge scroll-edge-left" aria-hidden="true"></div>
+        <div class="scroll-edge scroll-edge-right" aria-hidden="true"></div>
+
+        <div class="traveller layer" data-depth="0.55">
+          <img src="./Data/封面人物.png" alt="手持舆图、远望山河的郦道元" draggable="false" />
+        </div>
+
+        <div class="boat layer" data-depth="0.36" aria-hidden="true">
+          <div class="boat-wake"></div>
+          <img src="./Data/封面船只.png" alt="" draggable="false" />
+        </div>
+
+        <div class="copy layer" data-depth="0.12">
+          <div class="title-row">
+            <h1>郦道元行旅中国</h1>
+            <!-- <span class="title-seal" aria-hidden="true">郦<br />道<br />元</span> -->
+          </div>
+          <p class="subtitle"><span></span>踏勘山河 · 观水成书 · 《水经注》<span></span></p>
+          <p class="intro">
+            他沿水寻山，又循山辨水，<br />
+            在群山、大河、湖泊与海洋之间，建立中国山海水系的整体图景。
+          </p>
+        </div>
+
+        <button class="start-button layer" type="button" id="startButton" data-depth="0.2" aria-label="开启行旅">
+          <img src="./Data/封面按钮.png" alt="开启行旅" draggable="false" />
+        </button>
+
+        <p class="sr-only" id="motionStatus" aria-live="polite">画卷正在展开</p>
+      </section>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>

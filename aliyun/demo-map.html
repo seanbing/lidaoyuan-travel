@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>水韵江苏：江河奔流里的人文千年</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap');
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --paper:#F7F3E9;
+    --ink:#2C2C2C;
+    --ink-soft:#3A3A3A;
+    --muted:#80776A;
+    --line:#C4C4C4;
+    --gold:#A89380;
+    --seal:#A82E2E;
+    --yangtze:#2F80C0;
+    --canal:#C79A2D;
+    --taihu:#2FAE92;
+    --main-map:url("assets/jiangsu-water-ink-map-dem.png?v=20260713-clean");
+  }
+
+  body{
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    color:var(--ink);
+    font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;
+    background:var(--paper);
+  }
+
+  .page{
+    position:relative;
+    width:100vw;
+    height:100vh;
+    overflow:hidden;
+    background:var(--paper);
+  }
+
+  .cover{
+    position:fixed;
+    inset:0;
+    z-index:100;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 50% 42%,rgba(255,252,244,.55),rgba(247,243,233,.94) 58%,rgba(232,221,198,.86)),
+      linear-gradient(135deg,#F8F1E4,#EFE2C9 48%,#F8F1E4);
+    transition:opacity .55s ease, visibility .55s ease;
+  }
+  .cover.is-hidden{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
+  .cover::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    opacity:.18;
+    background:
+      repeating-linear-gradient(0deg,rgba(101,80,48,.08) 0 1px,transparent 1px 5px),
+      repeating-linear-gradient(90deg,rgba(101,80,48,.05) 0 1px,transparent 1px 7px);
+    mix-blend-mode:multiply;
+  }
+  .cover::after{
+    content:"";
+    position:absolute;
+    inset:18px;
+    border:1px solid rgba(151,122,75,.26);
+    box-shadow:inset 0 0 0 1px rgba(255,252,244,.42);
+    pointer-events:none;
+  }
+  .cover-content{
+    position:relative;
+    z-index:1;
+    width:100%;
+    height:100%;
+    min-height:620px;
+    color:var(--ink);
+  }
+  .cover-title{
+    position:absolute;
+    z-index:5;
+    left:50%;
+    top:44px;
+    transform:translateX(-50%);
+    width:min(620px,42vw);
+    text-align:center;
+  }
+  .cover-kicker{
+    display:inline-flex;
+    align-items:center;
+    gap:11px;
+    font-family:"Noto Serif SC",serif;
+    font-size:15px;
+    font-weight:700;
+    letter-spacing:.24em;
+    color:#684F2C;
+    white-space:nowrap;
+  }
+  .cover-kicker::before,
+  .cover-kicker::after{
+    content:"";
+    width:46px;
+    height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold));
+  }
+  .cover-kicker::after{background:linear-gradient(90deg,var(--gold),transparent)}
+  .cover h1{
+    margin-top:5px;
+    font-family:"Noto Serif SC",serif;
+    font-size:clamp(48px,5.8vw,92px);
+    line-height:1;
+    font-weight:900;
+    letter-spacing:.1em;
+    color:#142522;
+    text-shadow:0 10px 20px rgba(61,41,18,.12);
+  }
+  .cover .cover-sub{
+    margin-top:12px;
+    font-family:"Noto Serif SC",serif;
+    font-size:clamp(16px,1.6vw,24px);
+    font-weight:700;
+    letter-spacing:.18em;
+    color:#302820;
+  }
+  .cover-seal{
+    display:inline-grid;
+    place-items:center;
+    width:28px;
+    height:28px;
+    margin-left:12px;
+    border:1px solid rgba(168,46,46,.72);
+    color:var(--seal);
+    font-size:15px;
+    line-height:1;
+    vertical-align:middle;
+  }
+  .cover-flow{
+    position:absolute;
+    z-index:2;
+    left:50%;
+    top:114px;
+    width:32vw;
+    height:78vh;
+    min-width:390px;
+    transform:translateX(-50%);
+    opacity:.92;
+    filter:drop-shadow(0 18px 20px rgba(42,92,112,.12));
+    pointer-events:none;
+  }
+  .cover-flow path.main{
+    fill:none;
+    stroke:#6EA2B3;
+    stroke-width:34;
+    stroke-linecap:round;
+    opacity:.58;
+  }
+  .cover-flow path.foam{
+    fill:none;
+    stroke:#F8F1E4;
+    stroke-width:10;
+    stroke-linecap:round;
+    opacity:.82;
+  }
+  .cover-scene{
+    position:absolute;
+    z-index:3;
+    width:35.5vw;
+    height:31vh;
+    min-width:360px;
+    min-height:210px;
+    overflow:hidden;
+    border-radius:0;
+    border:1px solid rgba(137,109,69,.28);
+    background:rgba(255,252,244,.76);
+    box-shadow:0 18px 45px rgba(64,43,18,.12);
+  }
+  .cover-scene::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:var(--main-map) center/cover no-repeat;
+    filter:saturate(1.06) contrast(.98);
+    transform:scale(1.18);
+  }
+  .cover-scene::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(180deg,rgba(255,252,244,.05),rgba(247,243,233,.18)),
+      radial-gradient(circle at 50% 50%,rgba(247,243,233,0) 0 55%,rgba(247,243,233,.48) 100%);
+  }
+  .cover-scene.overview{left:4.8vw;top:54px}
+  .cover-scene.canal{right:4.8vw;top:54px}
+  .cover-scene.yangtze{left:4.8vw;bottom:54px}
+  .cover-scene.taihu{right:4.8vw;bottom:54px}
+  .cover-scene.overview::before{background-position:18% 42%}
+  .cover-scene.canal::before{background-position:64% 38%}
+  .cover-scene.yangtze::before{background-position:44% 62%}
+  .cover-scene.taihu::before{background-position:58% 70%}
+  .scene-caption{
+    position:absolute;
+    z-index:2;
+    left:50%;
+    top:18px;
+    transform:translateX(-50%);
+    min-width:230px;
+    text-align:center;
+  }
+  .scene-caption h2{
+    display:inline-block;
+    font-family:"Noto Serif SC",serif;
+    font-size:clamp(32px,3.4vw,58px);
+    line-height:1;
+    font-weight:900;
+    letter-spacing:.16em;
+    color:#111B18;
+    text-shadow:0 2px 0 rgba(255,252,244,.7);
+  }
+  .scene-caption p{
+    margin:10px auto 0;
+    padding:7px 18px;
+    width:max-content;
+    max-width:320px;
+    border:1px solid rgba(151,122,75,.35);
+    background:rgba(255,252,244,.72);
+    border-radius:999px;
+    font-family:"Noto Serif SC",serif;
+    font-size:clamp(14px,1.25vw,20px);
+    font-weight:700;
+    letter-spacing:.12em;
+    color:#49351E;
+  }
+  .scene-stamp{
+    position:absolute;
+    z-index:2;
+    top:22px;
+    right:22px;
+    width:30px;
+    height:42px;
+    display:grid;
+    place-items:center;
+    border:1px solid rgba(168,46,46,.66);
+    color:var(--seal);
+    font-family:"Noto Serif SC",serif;
+    font-size:15px;
+    line-height:1.05;
+    background:rgba(255,252,244,.42);
+  }
+  .cover-enter{
+    position:absolute;
+    z-index:6;
+    left:50%;
+    bottom:42px;
+    transform:translateX(-50%);
+    border:1px solid rgba(168,46,46,.55);
+    background:rgba(255,252,244,.74);
+    color:var(--seal);
+    min-width:156px;
+    padding:12px 24px;
+    cursor:pointer;
+    font-family:"Noto Serif SC",serif;
+    font-size:16px;
+    font-weight:800;
+    letter-spacing:.18em;
+    box-shadow:0 12px 26px rgba(64,43,18,.10);
+    transition:transform .22s ease, background .22s ease;
+  }
+  .cover-enter:hover{
+    transform:translate(-50%,-2px);
+    background:rgba(255,248,235,.92);
+  }
+  .cover-foot{
+    position:absolute;
+    z-index:6;
+    left:50%;
+    bottom:18px;
+    transform:translateX(-50%);
+    font-size:12px;
+    letter-spacing:.18em;
+    color:rgba(58,58,58,.58);
+    white-space:nowrap;
+  }
+
+  .map-canvas{
+    position:absolute;
+    inset:0;
+    background:var(--main-map) center/cover no-repeat;
+    transition:opacity .45s ease, filter .45s ease, transform .45s ease;
+  }
+  .map-canvas::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(180deg,rgba(247,243,233,.34),rgba(247,243,233,0) 24%,rgba(247,243,233,.18) 100%),
+      radial-gradient(circle at 50% 42%,rgba(247,243,233,0) 0 48%,rgba(247,243,233,.18) 82%);
+    pointer-events:none;
+  }
+  .page[data-selected="yangtze"] .map-canvas,
+  .page[data-selected="canal"] .map-canvas,
+  .page[data-selected="taihu"] .map-canvas{
+    opacity:.22;
+    filter:saturate(.74) contrast(.92);
+    transform:scale(1.015);
+  }
+
+  .detail-map{
+    position:absolute;
+    inset:0;
+    z-index:6;
+    width:100%;
+    height:100%;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .45s ease;
+  }
+  .page[data-selected="yangtze"] .detail-map,
+  .page[data-selected="canal"] .detail-map,
+  .page[data-selected="taihu"] .detail-map{opacity:1}
+  .detail-scene{
+    opacity:0;
+    transition:opacity .45s ease;
+  }
+  .page[data-selected="yangtze"] .detail-scene[data-detail="yangtze"],
+  .page[data-selected="canal"] .detail-scene[data-detail="canal"],
+  .page[data-selected="taihu"] .detail-scene[data-detail="taihu"]{opacity:1}
+  .detail-paper{fill:rgba(247,243,233,.42)}
+  .detail-mountain{
+    fill:#D3D8CF;
+    stroke:#73806F;
+    stroke-width:1.5;
+    opacity:.78;
+  }
+  .detail-hill{
+    fill:none;
+    stroke:#7A8477;
+    stroke-width:1.2;
+    opacity:.42;
+  }
+  .detail-river{
+    fill:none;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    filter:url(#inkBleed);
+  }
+  .detail-river.yangtze{stroke:rgba(47,128,192,.82);stroke-width:28}
+  .detail-river.canal{stroke:rgba(199,154,45,.82);stroke-width:24}
+  .detail-river.taihu{stroke:rgba(47,174,146,.72);stroke-width:18}
+  .detail-river-light{
+    fill:none;
+    stroke:#F7F3E9;
+    stroke-width:6;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    opacity:.72;
+  }
+  .detail-lake{
+    fill:rgba(117,174,183,.36);
+    stroke:rgba(47,128,192,.48);
+    stroke-width:2;
+    filter:url(#inkBleed);
+  }
+  .detail-town{
+    fill:rgba(255,252,244,.72);
+    stroke:#80694A;
+    stroke-width:1.3;
+  }
+  .detail-roof{fill:#7F6C50;opacity:.8}
+  .detail-boat{fill:#C79A2D;stroke:#725934;stroke-width:1}
+  .detail-sail{fill:rgba(255,252,244,.8);stroke:#7D725F;stroke-width:1}
+  .detail-field{
+    fill:rgba(188,198,148,.36);
+    stroke:rgba(117,128,91,.38);
+    stroke-width:1;
+  }
+  .detail-label{
+    font-family:"Noto Serif SC",serif;
+    font-size:24px;
+    font-weight:800;
+    letter-spacing:.1em;
+    fill:#2C2C2C;
+    paint-order:stroke;
+    stroke:rgba(247,243,233,.82);
+    stroke-width:4px;
+  }
+  .detail-note{
+    font-family:"Noto Serif SC",serif;
+    font-size:14px;
+    letter-spacing:.08em;
+    fill:#5D5143;
+    paint-order:stroke;
+    stroke:rgba(247,243,233,.72);
+    stroke-width:3px;
+  }
+  .detail-pin{fill:var(--seal);opacity:.78}
+  .detail-cloud{
+    fill:none;
+    stroke:#B8B0A2;
+    stroke-width:1.6;
+    opacity:.45;
+  }
+
+  .hero{
+    position:absolute;
+    z-index:10;
+    top:18px;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(1100px,86vw);
+    text-align:center;
+    pointer-events:none;
+  }
+  .hero h1{
+    font-family:"Noto Serif SC",serif;
+    font-size:clamp(34px,4.2vw,72px);
+    line-height:1.02;
+    font-weight:900;
+    letter-spacing:.06em;
+    color:var(--ink);
+    text-shadow:0 10px 28px rgba(84,58,28,.12);
+    white-space:nowrap;
+  }
+  .hero .sub{
+    margin-top:8px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:15px;
+    font-family:"Noto Serif SC",serif;
+    font-size:clamp(12px,1.2vw,16px);
+    letter-spacing:.16em;
+    color:var(--ink-soft);
+  }
+  .hero .sub::before,.hero .sub::after{
+    content:"";
+    width:54px;
+    height:1px;
+    background:linear-gradient(90deg,transparent,var(--gold));
+  }
+  .hero .sub::after{background:linear-gradient(90deg,var(--gold),transparent)}
+
+  .intro-card,
+  .story-card,
+  .river-tabs,
+  .era-track{
+    background:rgba(255,252,244,.76);
+    border:1px solid rgba(168,147,128,.36);
+    box-shadow:0 14px 36px rgba(66,46,24,.10);
+    backdrop-filter:blur(7px);
+  }
+
+  .intro-card{
+    position:absolute;
+    z-index:9;
+    left:28px;
+    top:132px;
+    width:300px;
+    padding:18px 18px 16px;
+  }
+  .intro-card::before{
+    content:"";
+    display:block;
+    width:86px;
+    height:6px;
+    margin-bottom:15px;
+    background:linear-gradient(90deg,#9B7B29 0 72%,transparent 72%);
+  }
+  .intro-card h2{
+    font-family:"Noto Serif SC",serif;
+    font-size:28px;
+    line-height:1.35;
+    letter-spacing:.08em;
+    color:#8B7426;
+    margin-bottom:12px;
+  }
+  .intro-card p{
+    font-family:"Noto Serif SC",serif;
+    font-size:14px;
+    line-height:1.9;
+    color:#352B1D;
+    text-align:justify;
+  }
+
+  .river-tabs{
+    position:absolute;
+    z-index:11;
+    right:28px;
+    top:132px;
+    width:360px;
+    display:grid;
+    grid-template-columns:1fr;
+    gap:8px;
+    padding:10px;
+  }
+  .river-tab{
+    border:1px solid rgba(168,147,128,.32);
+    background:rgba(247,243,233,.55);
+    min-height:58px;
+    padding:8px 10px;
+    display:grid;
+    grid-template-columns:30px 1fr;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    color:var(--ink);
+    transition:transform .22s ease, background .22s ease, border-color .22s ease;
+  }
+  .river-tab:hover{transform:translateY(-1px);background:rgba(255,252,244,.92)}
+  .river-tab.active{border-color:currentColor;background:rgba(255,252,244,.96)}
+  .river-tab .icon{
+    width:27px;
+    height:27px;
+    display:grid;
+    place-items:center;
+    border:1px solid currentColor;
+    font-family:"Noto Serif SC",serif;
+    font-weight:800;
+  }
+  .river-tab b{
+    display:block;
+    font-family:"Noto Serif SC",serif;
+    font-size:15px;
+    letter-spacing:.06em;
+  }
+  .river-tab span:last-child{font-size:12px;color:var(--muted);line-height:1.35}
+  .river-tab[data-river="yangtze"]{color:var(--yangtze)}
+  .river-tab[data-river="canal"]{color:#B98718}
+  .river-tab[data-river="taihu"]{color:#2A9C82}
+
+  .story-card{
+    position:absolute;
+    z-index:10;
+    right:28px;
+    top:338px;
+    width:360px;
+    min-height:292px;
+    padding:18px;
+    overflow:hidden;
+  }
+  .story-kicker{
+    font-family:"Noto Serif SC",serif;
+    font-size:12px;
+    color:var(--seal);
+    letter-spacing:.2em;
+    margin-bottom:9px;
+  }
+  .story-card h3{
+    font-family:"Noto Serif SC",serif;
+    font-size:27px;
+    line-height:1.25;
+    letter-spacing:.08em;
+    margin-bottom:8px;
+  }
+  .story-card .role{
+    font-family:Georgia,"Times New Roman",serif;
+    font-style:italic;
+    color:var(--muted);
+    font-size:13px;
+    margin-bottom:12px;
+  }
+  .story-text{
+    font-family:"Noto Serif SC",serif;
+    font-size:14px;
+    line-height:1.78;
+    color:#33291C;
+    text-align:justify;
+  }
+  .story-points{
+    margin-top:12px;
+    display:grid;
+    gap:8px;
+  }
+  .story-points div{
+    display:grid;
+    grid-template-columns:62px 1fr;
+    gap:10px;
+    align-items:start;
+    font-size:12px;
+    line-height:1.5;
+    color:var(--ink-soft);
+    border-top:1px solid rgba(196,196,196,.36);
+    padding-top:7px;
+  }
+  .story-points b{
+    color:var(--seal);
+    font-family:"Noto Serif SC",serif;
+    letter-spacing:.06em;
+  }
+
+  .era-track{
+    position:absolute;
+    z-index:11;
+    left:50%;
+    bottom:22px;
+    transform:translateX(-50%);
+    width:min(1120px,86vw);
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+  }
+  .era-btn{
+    border:0;
+    border-right:1px solid rgba(196,196,196,.38);
+    background:transparent;
+    padding:13px 18px 14px;
+    cursor:pointer;
+    text-align:left;
+    color:var(--ink);
+  }
+  .era-btn:last-child{border-right:0}
+  .era-btn b{
+    display:block;
+    font-family:"Noto Serif SC",serif;
+    font-size:16px;
+    letter-spacing:.06em;
+    margin-bottom:4px;
+  }
+  .era-btn span{font-size:12px;color:var(--muted)}
+  .era-btn.active{background:rgba(168,46,46,.06)}
+  .era-btn.active b{color:var(--seal)}
+
+  .map-story-pop{
+    position:absolute;
+    z-index:12;
+    left:var(--story-x,50%);
+    top:var(--story-y,50%);
+    width:min(320px,28vw);
+    transform:translate(-12%,-50%);
+    padding:13px 15px 14px;
+    background:rgba(43,34,22,.88);
+    color:#F7F3E9;
+    border-left:3px solid var(--story-color,var(--seal));
+    box-shadow:0 16px 36px rgba(43,34,22,.22);
+    opacity:0;
+    pointer-events:none;
+    transition:opacity .25s ease, left .35s ease, top .35s ease;
+  }
+  .map-story-pop.show{opacity:1}
+  .map-story-pop b{
+    display:block;
+    font-family:"Noto Serif SC",serif;
+    font-size:16px;
+    letter-spacing:.04em;
+    margin-bottom:4px;
+    color:#fff7e8;
+  }
+  .map-story-pop span{
+    display:block;
+    font-size:12px;
+    color:#D8C8B4;
+    margin-bottom:5px;
+  }
+  .map-story-pop p{
+    font-family:"Noto Serif SC",serif;
+    font-size:13px;
+    line-height:1.62;
+    color:#F7F3E9;
+  }
+
+  .river-overlay{
+    position:absolute;
+    inset:0;
+    z-index:8;
+    width:100%;
+    height:100%;
+  }
+  .river-hit{
+    fill:none;
+    stroke:transparent;
+    stroke-width:54;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    cursor:pointer;
+    pointer-events:stroke;
+  }
+  .river-line,
+  .river-glow{
+    fill:none;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    pointer-events:none;
+    transition:opacity .35s ease, stroke-width .35s ease;
+  }
+  .river-line{opacity:0;stroke-width:10}
+  .river-glow{opacity:0;stroke-width:30;filter:url(#softBlur)}
+  .page[data-hover="yangtze"] .river-line[data-river="yangtze"],
+  .page[data-hover="canal"] .river-line[data-river="canal"],
+  .page[data-hover="taihu"] .river-line[data-river="taihu"],
+  .page[data-selected="yangtze"] .river-line[data-river="yangtze"],
+  .page[data-selected="canal"] .river-line[data-river="canal"],
+  .page[data-selected="taihu"] .river-line[data-river="taihu"]{opacity:.92;stroke-width:13}
+  .page[data-hover="yangtze"] .river-glow[data-river="yangtze"],
+  .page[data-hover="canal"] .river-glow[data-river="canal"],
+  .page[data-hover="taihu"] .river-glow[data-river="taihu"],
+  .page[data-selected="yangtze"] .river-glow[data-river="yangtze"],
+  .page[data-selected="canal"] .river-glow[data-river="canal"],
+  .page[data-selected="taihu"] .river-glow[data-river="taihu"]{opacity:.34}
+  .river-label{
+    font-family:"Noto Serif SC",serif;
+    font-size:30px;
+    font-weight:800;
+    letter-spacing:.12em;
+    paint-order:stroke;
+    stroke:rgba(247,243,233,.82);
+    stroke-width:4px;
+    pointer-events:none;
+    opacity:0;
+    transition:opacity .3s ease;
+  }
+  .page[data-hover="yangtze"] .river-label[data-river="yangtze"],
+  .page[data-hover="canal"] .river-label[data-river="canal"],
+  .page[data-hover="taihu"] .river-label[data-river="taihu"],
+  .page[data-selected="yangtze"] .river-label[data-river="yangtze"],
+  .page[data-selected="canal"] .river-label[data-river="canal"],
+  .page[data-selected="taihu"] .river-label[data-river="taihu"]{opacity:1}
+
+  .hint{
+    position:fixed;
+    z-index:30;
+    max-width:260px;
+    pointer-events:none;
+    opacity:0;
+    transform:translate(12px,-12px);
+    transition:opacity .16s ease;
+    padding:10px 12px;
+    background:rgba(44,36,22,.92);
+    color:#F7F3E9;
+    font-size:13px;
+    line-height:1.55;
+  }
+  .hint.show{opacity:1}
+  .hint b{color:#D8C8B4;font-family:"Noto Serif SC",serif}
+
+  @media (max-width:1100px){
+    body{overflow:auto}
+    .page{height:auto;min-height:100vh;padding:18px;background:var(--main-map) center top/cover no-repeat}
+    .map-canvas{position:relative;height:56vw;min-height:360px;margin:88px 0 16px;border:1px solid rgba(168,147,128,.36)}
+    .hero{top:18px;width:92vw}
+    .hero h1{font-size:32px;white-space:normal}
+    .intro-card,.river-tabs,.story-card,.era-track{position:relative;left:auto;right:auto;top:auto;bottom:auto;transform:none;width:100%;margin:12px 0}
+    .river-tabs{grid-template-columns:1fr 1fr 1fr}
+    .river-overlay{display:none}
+    .map-story-pop{display:none}
+  }
+  @media (max-width:720px){
+    .cover-content{min-height:760px}
+    .cover-title{top:28px;width:86vw}
+    .cover h1{white-space:normal;letter-spacing:.04em;font-size:44px}
+    .cover .cover-sub{font-size:15px;letter-spacing:.12em}
+    .cover-flow{top:142px;width:76vw;min-width:0;height:56vh}
+    .cover-scene{width:43vw;min-width:0;height:24vh;min-height:150px}
+    .cover-scene.overview{left:4vw;top:180px}
+    .cover-scene.canal{right:4vw;top:180px}
+    .cover-scene.yangtze{left:4vw;bottom:88px}
+    .cover-scene.taihu{right:4vw;bottom:88px}
+    .scene-caption{min-width:0;width:100%;top:14px}
+    .scene-caption h2{font-size:26px}
+    .scene-caption p{font-size:12px;max-width:86%;padding:6px 10px;letter-spacing:.06em}
+    .scene-stamp{display:none}
+    .cover-enter{bottom:36px}
+    .cover-foot{display:none}
+  }
+</style>
+</head>
+<body>
+<section class="cover" id="cover" aria-label="网站封面">
+  <div class="cover-content">
+    <div class="cover-title">
+      <div class="cover-kicker">跨越山海</div>
+      <h1>水韵江苏<span class="cover-seal">水</span></h1>
+      <div class="cover-sub">江河奔流里的人文千年</div>
+    </div>
+    <svg class="cover-flow" viewBox="0 0 420 720" aria-hidden="true">
+      <path class="main" d="M230 16 C148 104,318 178,205 264 C106 340,318 410,184 512 C108 570,196 640,132 704"></path>
+      <path class="foam" d="M248 30 C168 108,326 178,220 258 C126 330,316 396,204 496 C148 546,206 624,154 690"></path>
+      <path class="foam" d="M210 24 C138 104,286 170,184 250 C92 322,278 408,158 510 C106 556,170 632,112 700"></path>
+    </svg>
+    <article class="cover-scene overview">
+      <div class="scene-caption">
+        <h2>水网</h2>
+        <p>从山而来 · 因水成脉</p>
+      </div>
+      <span class="scene-stamp">总<br>览</span>
+    </article>
+    <article class="cover-scene canal">
+      <div class="scene-caption">
+        <h2>京杭大运河</h2>
+        <p>千年漕运 · 南北贯通</p>
+      </div>
+      <span class="scene-stamp">运<br>河</span>
+    </article>
+    <article class="cover-scene yangtze">
+      <div class="scene-caption">
+        <h2>长江</h2>
+        <p>大江天堑 · 通江达海</p>
+      </div>
+      <span class="scene-stamp">江<br>流</span>
+    </article>
+    <article class="cover-scene taihu">
+      <div class="scene-caption">
+        <h2>太湖</h2>
+        <p>吴越文脉 · 水乡新生</p>
+      </div>
+      <span class="scene-stamp">湖<br>荡</span>
+    </article>
+    <button type="button" class="cover-enter" id="enterMap">进入地图</button>
+    <div class="cover-foot">一江入海 · 一河贯南北 · 一湖育江南</div>
+  </div>
+</section>
+<main class="page" id="page" data-selected="" data-hover="">
+  <div class="map-canvas" aria-hidden="true"></div>
+
+  <header class="hero">
+    <h1>水韵江苏：江河奔流里的人文千年</h1>
+    <div class="sub">一江入海　一河贯南北　一湖育江南</div>
+  </header>
+
+  <!-- <section class="intro-card">
+    <h2>从山而来，因水成网</h2>
+    <p>长江从西部山地流出，京杭运河把江南与北方连接起来，太湖水系孕育江南财富与文化。三条水系共同构成江苏人文千年的空间骨架。</p>
+  </section> -->
+
+  <nav class="river-tabs" aria-label="选择水系">
+    <button type="button" class="river-tab" data-river="yangtze"><span class="icon">江</span><span><b>长江</b><span>山海主轴</span></span></button>
+    <button type="button" class="river-tab" data-river="canal"><span class="icon">运</span><span><b>京杭运河</b><span>南北连接</span></span></button>
+    <button type="button" class="river-tab" data-river="taihu"><span class="icon">湖</span><span><b>太湖水系</b><span>江南腹地</span></span></button>
+  </nav>
+
+  <section class="story-card" id="storyPanel" aria-live="polite"></section>
+
+  <section class="era-track" aria-label="历史阶段">
+    <button type="button" class="era-btn active" data-era="origin"><b>源起 · 开拓</b><span>先秦至唐：因水成形</span></button>
+    <button type="button" class="era-btn" data-era="prosper"><b>繁盛 · 交汇</b><span>宋元明清：因水而盛</span></button>
+    <button type="button" class="era-btn" data-era="modern"><b>转型 · 向海</b><span>近现代：江河联运</span></button>
+  </section>
+
+  <svg class="river-overlay" viewBox="0 0 1792 1024" role="img" aria-label="可交互水系覆盖层">
+    <defs><filter id="softBlur"><feGaussianBlur stdDeviation="10"/></filter></defs>
+
+    <path class="river-glow" data-river="yangtze" stroke="var(--yangtze)" d="M305 512 C370 486,430 503,500 536 C590 578,664 536,742 510 C824 484,884 506,948 548 C1010 590,1076 566,1134 522 C1202 470,1270 498,1346 548 C1432 606,1500 604,1568 548 C1630 498,1684 486,1730 500"/>
+    <path class="river-line" data-river="yangtze" stroke="var(--yangtze)" d="M305 512 C370 486,430 503,500 536 C590 578,664 536,742 510 C824 484,884 506,948 548 C1010 590,1076 566,1134 522 C1202 470,1270 498,1346 548 C1432 606,1500 604,1568 548 C1630 498,1684 486,1730 500"/>
+
+    <path class="river-glow" data-river="canal" stroke="var(--canal)" d="M970 92 C998 145,1008 204,988 258 C965 318,970 382,1000 448 C1018 488,1002 518,958 548"/>
+    <path class="river-line" data-river="canal" stroke="var(--canal)" d="M970 92 C998 145,1008 204,988 258 C965 318,970 382,1000 448 C1018 488,1002 518,958 548"/>
+
+    <path class="river-glow" data-river="taihu" stroke="var(--taihu)" d="M610 658 C670 612,762 622,806 684 C842 736,802 790,728 806 C650 822,568 772,586 704 C590 684,598 670,610 658"/>
+    <path class="river-line" data-river="taihu" stroke="var(--taihu)" d="M610 658 C670 612,762 622,806 684 C842 736,802 790,728 806 C650 822,568 772,586 704 C590 684,598 670,610 658"/>
+
+    <text class="river-label" data-river="yangtze" x="490" y="575" fill="#2F80C0">长江</text>
+    <text class="river-label" data-river="canal" x="1032" y="258" fill="#B98718" writing-mode="tb">京杭运河</text>
+    <text class="river-label" data-river="taihu" x="650" y="778" fill="#2A9C82">太湖水系</text>
+
+    <path class="river-hit" data-river="yangtze" d="M305 512 C370 486,430 503,500 536 C590 578,664 536,742 510 C824 484,884 506,948 548 C1010 590,1076 566,1134 522 C1202 470,1270 498,1346 548 C1432 606,1500 604,1568 548 C1630 498,1684 486,1730 500"/>
+    <path class="river-hit" data-river="canal" d="M970 92 C998 145,1008 204,988 258 C965 318,970 382,1000 448 C1018 488,1002 518,958 548"/>
+    <path class="river-hit" data-river="taihu" d="M610 658 C670 612,762 622,806 684 C842 736,802 790,728 806 C650 822,568 772,586 704 C590 684,598 670,610 658"/>
+  </svg>
+
+  <div class="map-story-pop" id="mapStoryPop" aria-live="polite"></div>
+</main>
+<div class="hint" id="hint"></div>
+
+<script>
+const RIVERS = {
+  yangtze:{
+    name:"长江",
+    role:"山海主轴 | 从西部山地奔流入海",
+    color:"#2F80C0",
+    tip:"长江是横向主轴：从山地流入江苏，再把城市、港口和海洋连成一线。",
+    points:["南京、镇江、南通等节点因江而兴。","它承担军事防线、城市轴线和江河门户三重角色。"],
+    stories:{
+      origin:{title:"江从山来，江防与都城沿岸展开",text:"长江从西部山地进入下游平原后，在江苏形成横贯东西的天然通道。南京、镇江一线既是江防要地，也是南北对峙时期的重要政治空间。"},
+      prosper:{title:"渡口成市，商旅与诗文在江岸交汇",text:"宋元明清时期，沿江渡口、码头、城镇密集发展。江面运输连接运河，江岸城市承接商贸、盐运、文人往来，形成厚重的长江文化记忆。"},
+      modern:{title:"黄金水道，江河联运的现代骨架",text:"近现代以来，长江江苏段从传统渡运走向港口、桥梁、产业带与开放经济。它把内陆腹地、江苏城市群和下游出口接成现代发展轴。"}
+    }
+  },
+  canal:{
+    name:"京杭运河",
+    role:"南北连接器 | 把江南财富送向更大的中国",
+    color:"#C79A2D",
+    tip:"运河把长江、太湖水系和北方政治中心接通，是三水交织的人工脊梁。",
+    points:["扬州、淮安、苏州等城市因运而盛。","漕运、盐运、商业与遗产保护共同构成运河叙事。"],
+    stories:{
+      origin:{title:"邗沟开凿，人工水道连接江淮",text:"早期运河建设从军事和交通需求出发，把原本分散的自然水系纳入连续通道。江苏段由此成为南北水运体系的重要开端。"},
+      prosper:{title:"漕运命脉，沿河名城因水繁华",text:"隋唐至明清，大运河承担漕粮北运、盐业流通与南北商贸。江南物产经运河进入国家网络，运河城市也在制度、商业和文化中持续繁盛。"},
+      modern:{title:"从运输河道到世界遗产廊道",text:"进入现代，运河的单一运输功能转向文化遗产、城市更新和文旅展示。它仍然是理解江苏南北联系的关键线索。"}
+    }
+  },
+  taihu:{
+    name:"太湖水系",
+    role:"江南腹地 | 孕育水乡、园林与工商市镇",
+    color:"#2FAE92",
+    tip:"太湖水系解释了江南为何富庶：湖荡、河港、市镇和文化景观在这里密集生长。",
+    points:["苏州、无锡、常州等地依湖网形成江南核心。","鱼米、丝织、园林、古镇共同塑造水乡意象。"],
+    stories:{
+      origin:{title:"湖荡孕育，吴越文化的水乡根基",text:"太湖流域湖泊、河港、湿地密布，早期聚落在渔猎、稻作和水路往来中形成鲜明的江南底色。"},
+      prosper:{title:"园林、昆曲与水城，江南文脉成熟",text:"宋元明清时期，太湖周边经济富庶、文风鼎盛。园林、昆曲、书画、丝织和水乡古镇共同塑造了“江南”的经典形象。"},
+      modern:{title:"生态治理与文旅融合，水乡走向当代",text:"当代太湖流域面对生态治理、城市更新和文旅转型。传统水乡不只是怀旧景观，也成为现代江南生活方式的空间基础。"}
+    }
+  }
+};
+
+const ERAS = {
+  origin:"源起 · 开拓",
+  prosper:"繁盛 · 交汇",
+  modern:"转型 · 向海"
+};
+
+let selectedRiver = "";
+let selectedEra = "origin";
+
+const page = document.getElementById("page");
+const cover = document.getElementById("cover");
+const enterMap = document.getElementById("enterMap");
+const storyPanel = document.getElementById("storyPanel");
+const hint = document.getElementById("hint");
+const mapStoryPop = document.getElementById("mapStoryPop");
+
+const STORY_POSITIONS = {
+  yangtze:{
+    origin:{x:"34%",y:"52%"},
+    prosper:{x:"50%",y:"53%"},
+    modern:{x:"67%",y:"55%"}
+  },
+  canal:{
+    origin:{x:"53%",y:"28%"},
+    prosper:{x:"58%",y:"40%"},
+    modern:{x:"54%",y:"49%"}
+  },
+  taihu:{
+    origin:{x:"38%",y:"68%"},
+    prosper:{x:"48%",y:"72%"},
+    modern:{x:"57%",y:"68%"}
+  }
+};
+
+function setHover(river){
+  page.dataset.hover = river || "";
+}
+
+function selectRiver(river){
+  selectedRiver = river;
+  page.dataset.selected = river;
+  document.querySelectorAll(".river-tab").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.river === river);
+  });
+  renderStory();
+  renderMapStory();
+}
+
+function selectEra(era){
+  selectedEra = era;
+  document.querySelectorAll(".era-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.era === era);
+  });
+  renderStory();
+  renderMapStory();
+}
+
+function renderStory(){
+  if(!selectedRiver){
+    storyPanel.innerHTML = `
+      <div class="story-kicker">总览</div>
+      <h3>三水共织，江河奔流</h3>
+      <div class="role">选择水系后查看分期故事</div>
+      <p class="story-text">长江负责“从山而来”，京杭运河负责“南北贯通”，太湖水系负责“江南生长”。点击任一水系后，历史阶段按钮会切换为该水系在不同时期的故事。</p>
+      <div class="story-points">
+        <div><b>叙事逻辑</b><span>不是三条水系各讲各的，而是山地来水、人工连通、江南腹地的连续链条。</span></div>
+        <div><b>交互逻辑</b><span>先看整体，点击单条水系，再用历史阶段按钮查看不同时期。</span></div>
+      </div>`;
+    return;
+  }
+  const river = RIVERS[selectedRiver];
+  const story = river.stories[selectedEra];
+  storyPanel.innerHTML = `
+    <div class="story-kicker">${ERAS[selectedEra]}</div>
+    <h3 style="color:${river.color}">${river.name}</h3>
+    <div class="role">${river.role}</div>
+    <p class="story-text">${story.text}</p>
+    <div class="story-points">
+      <div><b>本期主题</b><span>${story.title}</span></div>
+      <div><b>空间重点</b><span>${river.points[0]}</span></div>
+      <div><b>人文线索</b><span>${river.points[1]}</span></div>
+    </div>`;
+}
+
+function renderMapStory(){
+  if(!selectedRiver){
+    mapStoryPop.classList.remove("show");
+    mapStoryPop.innerHTML = "";
+    return;
+  }
+  const river = RIVERS[selectedRiver];
+  const story = river.stories[selectedEra];
+  const pos = STORY_POSITIONS[selectedRiver][selectedEra];
+  mapStoryPop.style.setProperty("--story-x", pos.x);
+  mapStoryPop.style.setProperty("--story-y", pos.y);
+  mapStoryPop.style.setProperty("--story-color", river.color);
+  mapStoryPop.innerHTML = `
+    <span>${ERAS[selectedEra]} · ${river.name}</span>
+    <b>${story.title}</b>
+    <p>${story.text}</p>`;
+  mapStoryPop.classList.add("show");
+}
+
+document.querySelectorAll(".river-hit").forEach(path => {
+  path.addEventListener("mouseenter", () => {
+    const river = path.dataset.river;
+    setHover(river);
+    hint.innerHTML = `<b>${RIVERS[river].name}</b><br>${RIVERS[river].tip}`;
+    hint.classList.add("show");
+  });
+  path.addEventListener("mousemove", event => {
+    hint.style.left = event.clientX + "px";
+    hint.style.top = event.clientY + "px";
+  });
+  path.addEventListener("mouseleave", () => {
+    setHover("");
+    hint.classList.remove("show");
+  });
+  path.addEventListener("click", () => selectRiver(path.dataset.river));
+});
+
+document.querySelectorAll(".river-tab").forEach(btn => {
+  btn.addEventListener("mouseenter", () => setHover(btn.dataset.river));
+  btn.addEventListener("mouseleave", () => setHover(""));
+  btn.addEventListener("click", () => selectRiver(btn.dataset.river));
+});
+
+document.querySelectorAll(".era-btn").forEach(btn => {
+  btn.addEventListener("click", () => selectEra(btn.dataset.era));
+});
+
+enterMap.addEventListener("click", () => {
+  cover.classList.add("is-hidden");
+});
+
+renderStory();
+renderMapStory();
+</script>
+</body>
+</html>
