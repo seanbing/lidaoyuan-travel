@@ -44,7 +44,7 @@ startButton.addEventListener("click", () => {
 
   window.setTimeout(
     () => {
-      window.location.href = "../aliyun/Map_前景.html";
+      window.location.href = "./gis-map.html";
     },
     reduceMotion.matches ? 0 : 620,
   );

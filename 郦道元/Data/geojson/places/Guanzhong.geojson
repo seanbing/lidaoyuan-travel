@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "Guanzhong",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "NAME": "关中" }, "geometry": { "type": "Point", "coordinates": [ 108.565192978000084, 34.31965629900003, 0.0 ] } }
+]
+}

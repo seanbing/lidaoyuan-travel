@@ -1,0 +1,913 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>郦道元行旅中国｜GIS 水墨历史地图</title>
+    <link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />
+    <style>
+      :root {
+        --paper: #efe4cf;
+        --paper-deep: #d9c8aa;
+        --ink: #25211b;
+        --muted: #695f50;
+        --river: #5e99ad;
+        --route: #9b4b35;
+        --seal: #9d3429;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        overflow: hidden;
+        color: var(--ink);
+        background: #c8b89a;
+        font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .page {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+        background:
+          radial-gradient(circle at 50% 18%, rgba(255, 250, 234, 0.8), transparent 34%),
+          linear-gradient(90deg, rgba(78, 61, 42, 0.18), transparent 12%, transparent 88%, rgba(78, 61, 42, 0.18)),
+          var(--paper);
+      }
+
+      .page::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 20;
+        pointer-events: none;
+        box-shadow:
+          inset 0 0 70px rgba(76, 57, 33, 0.2),
+          inset 0 0 0 1px rgba(101, 78, 48, 0.22);
+      }
+
+      .masthead {
+        position: absolute;
+        z-index: 12;
+        left: 18%;
+        right: 18%;
+        top: 2.4%;
+        text-align: center;
+        pointer-events: none;
+      }
+
+      .masthead h1 {
+        margin: 0;
+        font-family: "STXingkai", "KaiTi", "Kaiti SC", serif;
+        font-size: clamp(42px, 6vw, 96px);
+        line-height: 1;
+        letter-spacing: 0;
+        text-shadow: 0 5px 12px rgba(65, 47, 26, 0.14);
+      }
+
+      .masthead p {
+        margin: 12px 0 0;
+        color: #40372e;
+        font-size: clamp(14px, 1.5vw, 24px);
+      }
+
+      .map-shell {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+      }
+
+      #map {
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        filter: saturate(0.82) contrast(0.96);
+      }
+
+      .leaflet-container {
+        background: transparent;
+        font-family: inherit;
+      }
+
+      .leaflet-control-attribution {
+        display: none;
+      }
+
+      .leaflet-pane.leaflet-marker-pane,
+      .leaflet-pane.leaflet-overlay-pane {
+        mix-blend-mode: multiply;
+      }
+
+      .side-panel {
+        position: absolute;
+        z-index: 14;
+        top: 17%;
+        bottom: 18%;
+        left: 1.8%;
+        width: min(18vw, 280px);
+        min-width: 220px;
+        padding: 18px 18px 20px;
+        border: 1px solid rgba(111, 88, 57, 0.32);
+        background:
+          linear-gradient(rgba(255, 252, 241, 0.74), rgba(238, 226, 204, 0.78)),
+          var(--paper);
+        box-shadow: 0 15px 34px rgba(72, 55, 34, 0.12);
+      }
+
+      .side-panel h2,
+      .legend h3 {
+        margin: 0;
+        font-size: 18px;
+        line-height: 1.25;
+        text-align: center;
+      }
+
+      .mini-map {
+        position: relative;
+        height: 22%;
+        min-height: 150px;
+        margin: 16px 0 18px;
+        border: 1px solid rgba(109, 87, 58, 0.24);
+        background:
+          radial-gradient(circle at 64% 58%, rgba(151, 84, 55, 0.12), transparent 18%),
+          linear-gradient(135deg, rgba(255, 250, 235, 0.7), rgba(216, 199, 166, 0.58));
+        overflow: hidden;
+      }
+
+      .mini-map svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      .legend {
+        padding-top: 12px;
+        border-top: 1px solid rgba(107, 86, 57, 0.22);
+      }
+
+      .legend ul {
+        list-style: none;
+        margin: 14px 0 0;
+        padding: 0;
+        display: grid;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .legend li {
+        display: grid;
+        grid-template-columns: 32px 1fr;
+        align-items: center;
+        gap: 9px;
+      }
+
+      .legend-symbol {
+        display: block;
+        width: 30px;
+        height: 18px;
+        position: relative;
+      }
+
+      .legend-symbol.route {
+        border-top: 2px dashed var(--route);
+      }
+
+      .legend-symbol.river {
+        border-top: 3px solid var(--river);
+        border-radius: 999px;
+      }
+
+      .legend-symbol.city::before {
+        content: "";
+        position: absolute;
+        left: 10px;
+        top: 2px;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 3px solid rgba(156, 59, 42, 0.72);
+        background: #fff8e8;
+      }
+
+      .legend-symbol.mountain::before {
+        content: "山";
+        position: absolute;
+        inset: -4px 0 0;
+        color: #687264;
+        font-weight: 700;
+        text-align: center;
+      }
+
+      .story-card {
+        position: absolute;
+        z-index: 15;
+        right: 1.6%;
+        top: 17.8%;
+        width: min(32vw, 520px);
+        min-width: 360px;
+        min-height: 275px;
+        padding: 22px 28px 24px 88px;
+        border: 1px solid rgba(113, 88, 55, 0.3);
+        background:
+          linear-gradient(90deg, rgba(232, 219, 193, 0.9), rgba(255, 251, 238, 0.88)),
+          var(--paper);
+        box-shadow: 0 18px 40px rgba(70, 53, 34, 0.15);
+      }
+
+      .story-card::before {
+        content: attr(data-tag);
+        position: absolute;
+        left: 18px;
+        top: 18px;
+        bottom: 18px;
+        width: 48px;
+        display: grid;
+        place-items: center;
+        writing-mode: vertical-rl;
+        color: #241f19;
+        font-size: 27px;
+        line-height: 1.15;
+        border-right: 1px solid rgba(113, 88, 55, 0.22);
+      }
+
+      .story-card h2 {
+        margin: 0 0 12px;
+        font-size: clamp(22px, 2vw, 32px);
+        line-height: 1.2;
+      }
+
+      .story-card p {
+        margin: 0;
+        color: #4c4338;
+        font-size: 16px;
+        line-height: 1.85;
+      }
+
+      .story-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 18px;
+      }
+
+      .story-meta span {
+        padding: 6px 12px;
+        border: 1px solid rgba(103, 82, 54, 0.22);
+        border-radius: 999px;
+        color: #5d5143;
+        background: rgba(235, 222, 198, 0.65);
+        font-size: 13px;
+      }
+
+      .bio-card {
+        position: absolute;
+        z-index: 13;
+        left: 21%;
+        bottom: 20.5%;
+        width: min(35vw, 520px);
+        padding: 22px 28px;
+        border: 1px solid rgba(113, 88, 55, 0.28);
+        background: rgba(249, 242, 225, 0.77);
+        box-shadow: 0 12px 28px rgba(70, 53, 34, 0.1);
+      }
+
+      .bio-card h2 {
+        margin: 0 0 9px;
+        font-size: 22px;
+      }
+
+      .bio-card p {
+        margin: 0;
+        color: #53483c;
+        line-height: 1.75;
+        font-size: 14px;
+      }
+
+      .timeline {
+        position: absolute;
+        z-index: 16;
+        left: 1.8%;
+        right: 1.8%;
+        bottom: 2.2%;
+        height: 13%;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 14px;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 1%;
+        right: 1%;
+        bottom: 10px;
+        height: 3px;
+        background: linear-gradient(90deg, rgba(88, 71, 47, 0.34), rgba(88, 71, 47, 0.12));
+      }
+
+      .era-btn {
+        position: relative;
+        display: grid;
+        grid-template-columns: 58px 1fr;
+        gap: 12px;
+        align-items: center;
+        padding: 12px 18px 18px;
+        border: 1px solid rgba(105, 82, 52, 0.26);
+        border-radius: 8px;
+        color: var(--ink);
+        background: rgba(250, 244, 229, 0.82);
+        cursor: pointer;
+        text-align: left;
+        box-shadow: 0 10px 20px rgba(70, 53, 34, 0.08);
+        transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+      }
+
+      .era-btn::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -13px;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #7a674e;
+        transform: translateX(-50%);
+      }
+
+      .era-btn img {
+        width: 54px;
+        height: 54px;
+        object-fit: contain;
+      }
+
+      .era-btn b {
+        display: block;
+        font-size: 19px;
+        line-height: 1.2;
+      }
+
+      .era-btn small {
+        display: block;
+        margin-top: 5px;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.35;
+      }
+
+      .era-btn.active {
+        transform: translateY(-4px);
+        border-color: rgba(83, 142, 168, 0.75);
+        box-shadow:
+          0 0 0 3px rgba(108, 159, 181, 0.18),
+          0 16px 26px rgba(63, 87, 94, 0.15);
+      }
+
+      .era-btn.active::after {
+        background: var(--river);
+        box-shadow: 0 0 0 5px rgba(94, 153, 173, 0.22);
+      }
+
+      .place-label {
+        color: #29231b;
+        font-size: 16px;
+        font-weight: 700;
+        text-shadow:
+          0 1px 0 rgba(255, 250, 232, 0.8),
+          0 0 8px rgba(255, 250, 232, 0.88);
+        white-space: nowrap;
+      }
+
+      .place-dot {
+        width: 17px;
+        height: 17px;
+        border-radius: 50%;
+        border: 3px solid rgba(159, 63, 45, 0.72);
+        background: #fff6e3;
+        box-shadow: 0 0 0 3px rgba(255, 245, 224, 0.58);
+      }
+
+      .mountain-label {
+        color: #5d685e;
+        font-size: 13px;
+        font-weight: 700;
+        text-shadow: 0 1px 0 rgba(255, 250, 232, 0.8);
+      }
+
+      .mountain-label::before {
+        content: "山";
+        display: block;
+        color: rgba(83, 102, 88, 0.72);
+        font-size: 22px;
+        line-height: 0.9;
+        text-align: center;
+      }
+
+      .traveller-icon {
+        filter: drop-shadow(0 9px 7px rgba(59, 44, 29, 0.25));
+        transition: transform 360ms ease;
+      }
+
+      @media (max-width: 1100px) {
+        .side-panel,
+        .bio-card {
+          display: none;
+        }
+
+        .masthead {
+          left: 5%;
+          right: 5%;
+        }
+
+        .story-card {
+          left: 4%;
+          right: 4%;
+          top: auto;
+          bottom: 18%;
+          width: auto;
+          min-width: 0;
+        }
+
+        .timeline {
+          grid-template-columns: 1fr;
+          height: auto;
+          top: 12%;
+          right: 3%;
+          left: auto;
+          bottom: auto;
+          width: min(300px, 40vw);
+        }
+
+        .timeline::before {
+          display: none;
+        }
+
+        .era-btn {
+          grid-template-columns: 42px 1fr;
+          padding: 8px 10px;
+        }
+
+        .era-btn img {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <header class="masthead">
+        <h1>郦道元行旅中国</h1>
+        <p>踏勘山河 · 观水成书 · 《水经注》</p>
+      </header>
+
+      <section class="map-shell" aria-label="GIS 数据驱动的郦道元行旅地图">
+        <div id="map"></div>
+      </section>
+
+      <aside class="side-panel" aria-label="地图说明">
+        <h2>郦道元行旅路径</h2>
+        <div class="mini-map" aria-hidden="true">
+          <svg viewBox="0 0 260 160" role="img">
+            <path d="M53 37 C95 22 116 55 139 67 S179 78 208 112" fill="none" stroke="#9b4b35" stroke-width="3" stroke-dasharray="7 7" />
+            <circle cx="53" cy="37" r="4" fill="#fff7e8" stroke="#9b4b35" stroke-width="3" />
+            <circle cx="104" cy="52" r="4" fill="#fff7e8" stroke="#9b4b35" stroke-width="3" />
+            <circle cx="139" cy="67" r="4" fill="#fff7e8" stroke="#9b4b35" stroke-width="3" />
+            <circle cx="172" cy="84" r="4" fill="#fff7e8" stroke="#9b4b35" stroke-width="3" />
+            <circle cx="208" cy="112" r="4" fill="#fff7e8" stroke="#9b4b35" stroke-width="3" />
+            <text x="216" y="26" font-size="13" fill="#6b604f">北</text>
+            <path d="M222 34 L222 60 M222 34 L216 45 M222 34 L228 45" stroke="#6b604f" stroke-width="2" fill="none" />
+          </svg>
+        </div>
+        <div class="legend">
+          <h3>图例</h3>
+          <ul>
+            <li><span class="legend-symbol route"></span><span>行旅路线</span></li>
+            <li><span class="legend-symbol city"></span><span>重要地点</span></li>
+            <li><span class="legend-symbol river"></span><span>主要河流</span></li>
+            <li><span class="legend-symbol mountain"></span><span>山脉节点</span></li>
+          </ul>
+        </div>
+      </aside>
+
+      <article class="story-card" id="storyCard" data-tag="少年研学">
+        <h2 id="storyTitle">少年研学，立志明地理</h2>
+        <p id="storyText">郦道元出生于范阳涿州，少随父宦游青州，开始观察渤海、淄水、巨洋水与山东山地，逐渐形成以实地考察校正典籍的志向。</p>
+        <div class="story-meta" id="storyMeta">
+          <span>范阳涿州</span><span>青州</span><span>渤海</span>
+        </div>
+      </article>
+
+      <article class="bio-card">
+        <h2>郦道元与《水经注》</h2>
+        <p>
+          郦道元以水系为经，以山地、城邑、古迹、风俗为纬，将山、水、城、史编织成中国古代地理书写的重要范式。
+          本页用 GIS 数据重建行旅空间，再叠加水墨化视觉与时间轴叙事。
+        </p>
+      </article>
+
+      <nav class="timeline" id="timeline" aria-label="郦道元行旅时间轴"></nav>
+    </main>
+
+    <script src="./vendor/leaflet/leaflet.js"></script>
+    <script>
+      const dataRoot = "./Data/geojson";
+
+      const stages = [
+        {
+          id: "study",
+          year: "472年",
+          card: "少年研学",
+          title: "少年研学，立志明地理",
+          placeIds: ["FanyangZhuozhou", "Qingzhou"],
+          route: [
+            [39.486, 115.974],
+            [36.685, 118.479],
+          ],
+          story: "郦道元出生于范阳涿州，少随父宦游青州，开始观察渤海、淄水、巨洋水与山东山地，逐渐形成以实地考察校正典籍的志向。",
+          tags: ["范阳涿州", "青州", "渤海"],
+          icon: "./Data/1.png",
+        },
+        {
+          id: "north",
+          year: "494年",
+          card: "北魏仕途",
+          title: "北巡阴山，识河套山河",
+          placeIds: ["Luoyang", "Zhongyuan", "Guanzhong"],
+          route: [
+            [36.685, 118.479],
+            [34.62, 112.448],
+            [35.0, 111.0],
+            [37.8, 110.6],
+          ],
+          story: "入仕洛阳后，郦道元随北魏政治空间移动，向北观察黄河河套、阴山与草原戈壁，把山势、水势和边地交通放入同一张地理图景。",
+          tags: ["洛阳", "黄河", "阴山"],
+          icon: "./Data/2.png",
+        },
+        {
+          id: "mountains",
+          year: "505年",
+          card: "北方山川",
+          title: "溯河辨山，校正水经",
+          placeIds: ["Jizhou_Hengshui", "Luyang_Pingdingshanlushan", "Luoyang"],
+          route: [
+            [34.62, 112.448],
+            [37.74, 115.67],
+            [35.94, 113.49],
+            [33.74, 111.9],
+          ],
+          story: "在冀州、鲁阳等地的巡行中，他把漳水、滹沱河、淮河上游与太行山、秦岭等山脉联系起来，形成“山为水源、水循山势”的考察方法。",
+          tags: ["冀州", "太行山", "淮河上游"],
+          icon: "./Data/山贴图.png",
+        },
+        {
+          id: "jianghan",
+          year: "515年",
+          card: "江汉三峡",
+          title: "行至三峡，观水成书",
+          placeIds: ["Jingzhou", "Guangling_Yangzhou"],
+          route: [
+            [33.74, 111.9],
+            [30.35, 112.19],
+            [30.85, 110.98],
+            [32.39, 119.41],
+          ],
+          story: "沿江而行，他关注峡谷、江流、支派、城邑和地方传说，把长江、三峡、太湖、邗沟等内容纳入《水经注》的系统考据。",
+          tags: ["长江", "三峡", "太湖", "邗沟"],
+          icon: "./Data/封面船只.png",
+        },
+        {
+          id: "book",
+          year: "527年",
+          card: "撰成《水经注》",
+          title: "汇集所见，著成不朽",
+          placeIds: ["Yingpanyiting_Xianlinntong", "Guanzhong"],
+          route: [
+            [32.39, 119.41],
+            [34.62, 112.448],
+            [34.37, 109.22],
+          ],
+          story: "延昌至孝昌年间，郦道元继续补证中原、关中水系，最终完成《水经注》四十卷。孝昌三年，行至关中途中遇害，山海求索之路落幕。",
+          tags: ["关中", "阴盘驿亭", "《水经注》"],
+          icon: "./Data/3.png",
+        },
+      ];
+
+      const rivers = [
+        "Huanghe",
+        "Changjiang",
+        "Taihu",
+        "Hutuohe_line",
+        "Zhanghe_Zhnagshui",
+        "Mihe_Juyangshui",
+        "Zihe_Zishui",
+        "Sihe_Sishui",
+        "Liyunhe_Hangou",
+        "Baiyangdian_Huabeihedian",
+      ];
+
+      const mountains = [
+        "Taihangshan",
+        "Wutaishan_Taihangshan",
+        "Wangwushan_Taihangshan",
+        "Funiushan_Qinling",
+        "Zhongnanshan_Qinling",
+        "Jishishan",
+        "Zhongshan_Yinshan",
+        "Huashan",
+      ];
+
+      const placeNames = {
+        FanyangZhuozhou: "涿州",
+        Qingzhou: "青州",
+        Luoyang: "洛阳",
+        Jizhou_Hengshui: "冀州",
+        Luyang_Pingdingshanlushan: "鲁阳",
+        Jingzhou: "荆州",
+        Guangling_Yangzhou: "广陵",
+        Yingpanyiting_Xianlinntong: "阴盘驿亭",
+        Guanzhong: "关中",
+        Zhongyuan: "中原",
+      };
+
+      const mountainNames = {
+        Taihangshan: "太行山",
+        Wutaishan_Taihangshan: "五台山",
+        Wangwushan_Taihangshan: "王屋山",
+        Funiushan_Qinling: "伏牛山",
+        Zhongnanshan_Qinling: "终南山",
+        Jishishan: "积石山",
+        Zhongshan_Yinshan: "阴山",
+        Huashan: "华山",
+      };
+
+      const map = L.map("map", {
+        zoomControl: false,
+        attributionControl: false,
+        minZoom: 4,
+        maxZoom: 8,
+        scrollWheelZoom: false,
+      }).setView([34.8, 112.8], 5);
+
+      L.control.zoom({ position: "bottomright" }).addTo(map);
+
+      const panes = {
+        land: map.createPane("land"),
+        rivers: map.createPane("rivers"),
+        route: map.createPane("route"),
+        points: map.createPane("points"),
+      };
+      panes.land.style.zIndex = 210;
+      panes.rivers.style.zIndex = 240;
+      panes.route.style.zIndex = 270;
+      panes.points.style.zIndex = 310;
+
+      const inkLandStyle = {
+        color: "rgba(91, 87, 75, 0.42)",
+        weight: 1,
+        fillColor: "#efe5d2",
+        fillOpacity: 0.5,
+      };
+
+      const riverStyle = {
+        color: "#5e99ad",
+        weight: 2.2,
+        opacity: 0.72,
+        lineCap: "round",
+        lineJoin: "round",
+      };
+
+      const lakeStyle = {
+        color: "#5e99ad",
+        weight: 1,
+        fillColor: "#8db6c3",
+        fillOpacity: 0.28,
+      };
+
+      const routeLayer = L.layerGroup([], { pane: "route" }).addTo(map);
+      const completedRouteLayer = L.layerGroup([], { pane: "route" }).addTo(map);
+      const activePlaceLayer = L.layerGroup([], { pane: "points" }).addTo(map);
+      let traveller;
+
+      async function loadGeoJson(path) {
+        const response = await fetch(path);
+        if (!response.ok) throw new Error(`${response.status} ${path}`);
+        return response.json();
+      }
+
+      function makePlaceMarker(latlng, label, active = false) {
+        const marker = L.marker(latlng, {
+          pane: "points",
+          icon: L.divIcon({
+            className: "",
+            html: `<span class="place-dot"></span>`,
+            iconSize: [18, 18],
+            iconAnchor: [9, 9],
+          }),
+        });
+        if (!active) return marker;
+
+        const text = L.marker(latlng, {
+          pane: "points",
+          icon: L.divIcon({
+            className: "place-label",
+            html: label,
+            iconSize: [70, 24],
+            iconAnchor: active ? [-14, 30] : [-12, 18],
+          }),
+        });
+        return L.layerGroup([marker, text]);
+      }
+
+      function makeTraveller(latlng) {
+        return L.marker(latlng, {
+          pane: "points",
+          icon: L.icon({
+            iconUrl: "./Data/Q版小人站立.png",
+            iconSize: [72, 72],
+            iconAnchor: [36, 64],
+            className: "traveller-icon",
+          }),
+          interactive: false,
+        }).addTo(map);
+      }
+
+      function getFeatureLatLng(feature) {
+        const coords = feature.geometry.coordinates;
+        if (feature.geometry.type === "Point") return [coords[1], coords[0]];
+        return null;
+      }
+
+      async function drawBaseLayers() {
+        const china = await loadGeoJson(`${dataRoot}/china/ChinaBoundpoly.geojson`);
+        L.geoJSON(china, {
+          pane: "land",
+          style: inkLandStyle,
+          interactive: false,
+        }).addTo(map);
+
+        await Promise.all(
+          rivers.map(async (name) => {
+            const data = await loadGeoJson(`${dataRoot}/rivers/${name}.geojson`);
+            L.geoJSON(data, {
+              pane: "rivers",
+              style: name === "Taihu" || name.includes("poly") ? lakeStyle : riverStyle,
+              interactive: false,
+            }).addTo(map);
+          }),
+        );
+
+        await Promise.all(
+          mountains.map(async (name) => {
+            const data = await loadGeoJson(`${dataRoot}/mountains/${name}.geojson`);
+            const feature = data.features[0];
+            const latlng = feature ? getFeatureLatLng(feature) : null;
+            if (!latlng) return;
+            L.marker(latlng, {
+              pane: "points",
+              icon: L.divIcon({
+                className: "mountain-label",
+                html: mountainNames[name] || name,
+                iconSize: [70, 42],
+                iconAnchor: [35, 20],
+              }),
+              interactive: false,
+            }).addTo(map);
+          }),
+        );
+      }
+
+      async function drawAllPlaces() {
+        await Promise.all(
+          Object.keys(placeNames).map(async (name) => {
+            const data = await loadGeoJson(`${dataRoot}/places/${name}.geojson`);
+            const latlng = getFeatureLatLng(data.features[0]);
+            if (!latlng) return;
+            makePlaceMarker(latlng, placeNames[name]).addTo(map);
+          }),
+        );
+      }
+
+      function drawCompletedRoutes(index) {
+        completedRouteLayer.clearLayers();
+        for (let i = 0; i < index; i += 1) {
+          L.polyline(stages[i].route, {
+            pane: "route",
+            color: "rgba(155, 75, 53, 0.38)",
+            weight: 3,
+            dashArray: "7 9",
+            lineCap: "round",
+            lineJoin: "round",
+          }).addTo(completedRouteLayer);
+        }
+      }
+
+      async function activateStage(index) {
+        const stage = stages[index];
+        routeLayer.clearLayers();
+        activePlaceLayer.clearLayers();
+
+        drawCompletedRoutes(index);
+
+        const activeRoute = L.polyline(stage.route, {
+          pane: "route",
+          color: "#9b4b35",
+          weight: 3.8,
+          dashArray: "9 9",
+          lineCap: "round",
+          lineJoin: "round",
+        }).addTo(routeLayer);
+
+        stage.placeIds.forEach(async (name) => {
+          const data = await loadGeoJson(`${dataRoot}/places/${name}.geojson`);
+          const latlng = getFeatureLatLng(data.features[0]);
+          if (!latlng) return;
+          makePlaceMarker(latlng, placeNames[name] || name, true).addTo(activePlaceLayer);
+        });
+
+        if (!traveller) {
+          traveller = makeTraveller(stage.route[stage.route.length - 1]);
+        } else {
+          animateTraveller(stage.route);
+        }
+
+        map.fitBounds(activeRoute.getBounds().pad(0.78), { animate: true, duration: 0.8 });
+
+        document.getElementById("storyCard").dataset.tag = stage.card;
+        document.getElementById("storyTitle").textContent = stage.title;
+        document.getElementById("storyText").textContent = stage.story;
+        document.getElementById("storyMeta").innerHTML = stage.tags.map((tag) => `<span>${tag}</span>`).join("");
+        document.querySelectorAll(".era-btn").forEach((btn, btnIndex) => {
+          btn.classList.toggle("active", btnIndex === index);
+        });
+      }
+
+      function animateTraveller(route) {
+        const steps = [];
+        for (let i = 0; i < route.length - 1; i += 1) {
+          const start = route[i];
+          const end = route[i + 1];
+          for (let j = 0; j < 28; j += 1) {
+            const t = j / 28;
+            steps.push([start[0] + (end[0] - start[0]) * t, start[1] + (end[1] - start[1]) * t]);
+          }
+        }
+        steps.push(route[route.length - 1]);
+
+        let frame = 0;
+        const tick = () => {
+          traveller.setLatLng(steps[frame]);
+          frame += 1;
+          if (frame < steps.length) requestAnimationFrame(tick);
+        };
+        tick();
+      }
+
+      function renderTimeline() {
+        const timeline = document.getElementById("timeline");
+        timeline.innerHTML = stages
+          .map(
+            (stage, index) => `
+              <button class="era-btn ${index === 0 ? "active" : ""}" type="button" data-index="${index}">
+                <img src="${stage.icon}" alt="" />
+                <span>
+                  <b>${stage.card}</b>
+                  <small>公元 ${stage.year}</small>
+                </span>
+              </button>
+            `,
+          )
+          .join("");
+        timeline.querySelectorAll(".era-btn").forEach((button) => {
+          button.addEventListener("click", () => activateStage(Number(button.dataset.index)));
+        });
+      }
+
+      async function init() {
+        renderTimeline();
+        await drawBaseLayers();
+        await drawAllPlaces();
+        traveller = makeTraveller(stages[0].route[stages[0].route.length - 1]);
+        activateStage(0);
+      }
+
+      init().catch((error) => {
+        console.error(error);
+        document.getElementById("storyText").textContent = "地图数据加载失败，请检查 GeoJSON 文件路径或本地服务器。";
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,12 @@
+{
+"type": "FeatureCollection",
+"name": "Huashan",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "osm_id": "989111766", "code": 4111, "fclass": "peak", "name": "华山东峰" }, "geometry": { "type": "Point", "coordinates": [ 110.082047000000102, 34.481052 ] } },
+{ "type": "Feature", "properties": { "osm_id": "991111430", "code": 4111, "fclass": "peak", "name": "华山北峰" }, "geometry": { "type": "Point", "coordinates": [ 110.081308700000136, 34.493432300000109 ] } },
+{ "type": "Feature", "properties": { "osm_id": "2260053296", "code": 4111, "fclass": "peak", "name": "华山南峰" }, "geometry": { "type": "Point", "coordinates": [ 110.078072900000109, 34.477761700000087 ] } },
+{ "type": "Feature", "properties": { "osm_id": "2260053392", "code": 4111, "fclass": "peak", "name": "华山西峰" }, "geometry": { "type": "Point", "coordinates": [ 110.076776400000142, 34.481634800000108 ] } },
+{ "type": "Feature", "properties": { "osm_id": "2282557101", "code": 4111, "fclass": "peak", "name": "华山中峰" }, "geometry": { "type": "Point", "coordinates": [ 110.080756200000053, 34.480573800000059 ] } }
+]
+}

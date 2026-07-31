@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "Jizhou_Hengshui",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "osm_id": "244080601", "code": 1001, "fclass": "city", "population": 4435400, "name": "冀州（今河北衡水）" }, "geometry": { "type": "Point", "coordinates": [ 115.667722900000058, 37.73643050000004 ] } }
+]
+}
