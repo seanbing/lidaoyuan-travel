@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="./vendor/leaflet/leaflet.css" />
     <style>
       :root {
-        --paper: #efe4cf;
-        --paper-deep: #d9c8aa;
+        --paper: #efe8d5;
+        --paper-deep: #d4c19c;
         --ink: #25211b;
         --muted: #695f50;
-        --river: #5e99ad;
+        --river: #4f91a6;
         --route: #9b4b35;
         --seal: #9d3429;
+        --panel-line: rgba(96, 75, 48, 0.26);
       }
 
       * {
@@ -30,7 +31,7 @@
       body {
         overflow: hidden;
         color: var(--ink);
-        background: #c8b89a;
+        background: #bca987;
         font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
       }
 
@@ -44,9 +45,25 @@
         height: 100vh;
         overflow: hidden;
         background:
-          radial-gradient(circle at 50% 18%, rgba(255, 250, 234, 0.8), transparent 34%),
-          linear-gradient(90deg, rgba(78, 61, 42, 0.18), transparent 12%, transparent 88%, rgba(78, 61, 42, 0.18)),
+          radial-gradient(circle at 56% 24%, rgba(255, 252, 239, 0.9), transparent 34%),
+          radial-gradient(circle at 72% 58%, rgba(92, 145, 157, 0.17), transparent 28%),
+          linear-gradient(90deg, rgba(74, 56, 34, 0.24), transparent 12%, transparent 88%, rgba(74, 56, 34, 0.18)),
+          repeating-linear-gradient(90deg, rgba(92, 71, 42, 0.045) 0 1px, transparent 1px 9px),
+          repeating-linear-gradient(0deg, rgba(130, 103, 66, 0.03) 0 1px, transparent 1px 11px),
           var(--paper);
+      }
+
+      .page::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        pointer-events: none;
+        background:
+          linear-gradient(90deg, rgba(58, 43, 27, 0.12), transparent 9%, transparent 92%, rgba(58, 43, 27, 0.1)),
+          radial-gradient(circle at 30% 38%, rgba(72, 91, 77, 0.08), transparent 24%),
+          radial-gradient(circle at 86% 24%, rgba(71, 93, 87, 0.13), transparent 21%);
+        mix-blend-mode: multiply;
       }
 
       .page::after {
@@ -87,15 +104,49 @@
 
       .map-shell {
         position: absolute;
-        inset: 0;
+        left: 17.7%;
+        right: 0;
+        top: 0;
+        bottom: 16.8%;
         z-index: 1;
+        overflow: hidden;
+        border-left: 1px solid rgba(92, 72, 46, 0.24);
+      }
+
+      .map-shell::before,
+      .map-shell::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        z-index: 4;
+        opacity: 0.34;
+        background-image: url("./Data/山贴图.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        filter: sepia(0.48) saturate(0.35) brightness(1.18) contrast(0.82);
+        mix-blend-mode: multiply;
+      }
+
+      .map-shell::before {
+        left: -7%;
+        top: 10%;
+        width: 42%;
+        height: 55%;
+        transform: scaleX(-1);
+      }
+
+      .map-shell::after {
+        right: -4%;
+        top: 1%;
+        width: 39%;
+        height: 48%;
       }
 
       #map {
         width: 100%;
         height: 100%;
         background: transparent;
-        filter: saturate(0.82) contrast(0.96);
+        filter: saturate(0.72) contrast(0.9) sepia(0.18);
       }
 
       .leaflet-container {
@@ -112,20 +163,87 @@
         mix-blend-mode: multiply;
       }
 
+      .art-layer {
+        position: absolute;
+        z-index: 6;
+        pointer-events: none;
+        background-repeat: no-repeat;
+        background-size: contain;
+        opacity: 0.38;
+        mix-blend-mode: multiply;
+        filter: sepia(0.28) saturate(0.5) brightness(1.12);
+      }
+
+      .art-layer.left-mountain {
+        left: 18.8%;
+        bottom: 18.4%;
+        width: 28%;
+        height: 28%;
+        background-image: url("./Data/山贴图.png");
+        transform: scaleX(-1);
+      }
+
+      .art-layer.right-mountain {
+        right: 1.2%;
+        bottom: 17.8%;
+        width: 30%;
+        height: 36%;
+        background-image: url("./Data/山贴图.png");
+      }
+
+      .art-layer.boat {
+        right: 31%;
+        bottom: 18.7%;
+        width: 8.5%;
+        height: 10%;
+        opacity: 0.34;
+        background-image: url("./Data/封面船只.png");
+        filter: sepia(0.35) saturate(0.7) brightness(1.05);
+      }
+
       .side-panel {
         position: absolute;
         z-index: 14;
-        top: 17%;
-        bottom: 18%;
-        left: 1.8%;
-        width: min(18vw, 280px);
-        min-width: 220px;
-        padding: 18px 18px 20px;
-        border: 1px solid rgba(111, 88, 57, 0.32);
+        top: 0;
+        bottom: 16.8%;
+        left: 0;
+        width: 17.7%;
+        min-width: 230px;
+        padding: 25vh 18px 20px;
+        border-right: 1px solid var(--panel-line);
+        border-left: 1px solid rgba(255, 252, 238, 0.42);
         background:
-          linear-gradient(rgba(255, 252, 241, 0.74), rgba(238, 226, 204, 0.78)),
+          linear-gradient(90deg, rgba(214, 198, 163, 0.58), rgba(246, 237, 215, 0.78)),
+          radial-gradient(circle at 45% 4%, rgba(98, 115, 92, 0.18), transparent 18%),
+          radial-gradient(circle at 48% 94%, rgba(83, 106, 87, 0.2), transparent 20%),
           var(--paper);
-        box-shadow: 0 15px 34px rgba(72, 55, 34, 0.12);
+        box-shadow: inset -15px 0 28px rgba(88, 69, 44, 0.07);
+      }
+
+      .side-panel::before,
+      .side-panel::after {
+        content: "";
+        position: absolute;
+        left: 12px;
+        right: 12px;
+        background-image: url("./Data/山贴图.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        opacity: 0.22;
+        filter: sepia(0.6) saturate(0.3) brightness(1.2);
+        mix-blend-mode: multiply;
+        pointer-events: none;
+      }
+
+      .side-panel::before {
+        top: 1.5%;
+        height: 17%;
+      }
+
+      .side-panel::after {
+        bottom: 3%;
+        height: 17%;
+        transform: scaleX(-1);
       }
 
       .side-panel h2,
@@ -138,14 +256,16 @@
 
       .mini-map {
         position: relative;
-        height: 22%;
-        min-height: 150px;
+        height: 25%;
+        min-height: 168px;
         margin: 16px 0 18px;
-        border: 1px solid rgba(109, 87, 58, 0.24);
+        border: 1px solid var(--panel-line);
+        border-radius: 4px;
         background:
           radial-gradient(circle at 64% 58%, rgba(151, 84, 55, 0.12), transparent 18%),
           linear-gradient(135deg, rgba(255, 250, 235, 0.7), rgba(216, 199, 166, 0.58));
         overflow: hidden;
+        box-shadow: inset 0 0 18px rgba(77, 58, 34, 0.08);
       }
 
       .mini-map svg {
@@ -215,17 +335,32 @@
       .story-card {
         position: absolute;
         z-index: 15;
-        right: 1.6%;
-        top: 17.8%;
-        width: min(32vw, 520px);
-        min-width: 360px;
-        min-height: 275px;
-        padding: 22px 28px 24px 88px;
-        border: 1px solid rgba(113, 88, 55, 0.3);
+        right: 1.4%;
+        top: 17.4%;
+        width: min(34vw, 540px);
+        min-width: 390px;
+        min-height: 260px;
+        padding: 26px 31px 26px 96px;
+        border: 1px solid var(--panel-line);
+        border-radius: 6px;
         background:
-          linear-gradient(90deg, rgba(232, 219, 193, 0.9), rgba(255, 251, 238, 0.88)),
+          url("./Data/封面船只.png") right 20px bottom 8px / 42% auto no-repeat,
+          linear-gradient(90deg, rgba(232, 219, 193, 0.96), rgba(255, 251, 238, 0.8)),
           var(--paper);
-        box-shadow: 0 18px 40px rgba(70, 53, 34, 0.15);
+        box-shadow:
+          inset 0 0 0 5px rgba(255, 252, 238, 0.34),
+          inset 0 0 18px rgba(93, 70, 41, 0.1),
+          0 18px 38px rgba(65, 50, 33, 0.12);
+      }
+
+      .story-card::after {
+        content: "×";
+        position: absolute;
+        right: 13px;
+        top: 8px;
+        color: rgba(79, 67, 50, 0.72);
+        font-size: 32px;
+        line-height: 1;
       }
 
       .story-card::before {
@@ -234,14 +369,15 @@
         left: 18px;
         top: 18px;
         bottom: 18px;
-        width: 48px;
+        width: 52px;
         display: grid;
         place-items: center;
         writing-mode: vertical-rl;
         color: #241f19;
-        font-size: 27px;
+        font-size: 24px;
         line-height: 1.15;
         border-right: 1px solid rgba(113, 88, 55, 0.22);
+        background: linear-gradient(rgba(255, 250, 235, 0.48), rgba(223, 207, 178, 0.28));
       }
 
       .story-card h2 {
@@ -254,7 +390,8 @@
         margin: 0;
         color: #4c4338;
         font-size: 16px;
-        line-height: 1.85;
+        line-height: 1.9;
+        max-width: 62%;
       }
 
       .story-meta {
@@ -276,13 +413,18 @@
       .bio-card {
         position: absolute;
         z-index: 13;
-        left: 21%;
-        bottom: 20.5%;
-        width: min(35vw, 520px);
-        padding: 22px 28px;
-        border: 1px solid rgba(113, 88, 55, 0.28);
-        background: rgba(249, 242, 225, 0.77);
-        box-shadow: 0 12px 28px rgba(70, 53, 34, 0.1);
+        left: 20.2%;
+        bottom: 19.8%;
+        width: min(34vw, 520px);
+        padding: 18px 26px;
+        border: 1px solid var(--panel-line);
+        border-radius: 6px;
+        background:
+          linear-gradient(rgba(255, 251, 236, 0.74), rgba(238, 225, 199, 0.68)),
+          var(--paper);
+        box-shadow:
+          inset 0 0 0 4px rgba(255, 252, 238, 0.34),
+          0 12px 26px rgba(70, 53, 34, 0.09);
       }
 
       .bio-card h2 {
@@ -303,10 +445,10 @@
         left: 1.8%;
         right: 1.8%;
         bottom: 2.2%;
-        height: 13%;
+        height: 13.2%;
         display: grid;
         grid-template-columns: repeat(5, 1fr);
-        gap: 14px;
+        gap: 16px;
       }
 
       .timeline::before {
@@ -314,9 +456,9 @@
         position: absolute;
         left: 1%;
         right: 1%;
-        bottom: 10px;
+        bottom: 6px;
         height: 3px;
-        background: linear-gradient(90deg, rgba(88, 71, 47, 0.34), rgba(88, 71, 47, 0.12));
+        background: linear-gradient(90deg, rgba(88, 71, 47, 0.46), rgba(88, 71, 47, 0.16), rgba(88, 71, 47, 0.46));
       }
 
       .era-btn {
@@ -325,14 +467,18 @@
         grid-template-columns: 58px 1fr;
         gap: 12px;
         align-items: center;
-        padding: 12px 18px 18px;
-        border: 1px solid rgba(105, 82, 52, 0.26);
-        border-radius: 8px;
+        padding: 10px 18px 16px;
+        border: 1px solid var(--panel-line);
+        border-radius: 6px;
         color: var(--ink);
-        background: rgba(250, 244, 229, 0.82);
+        background:
+          linear-gradient(rgba(255, 251, 237, 0.92), rgba(233, 219, 191, 0.84)),
+          var(--paper);
         cursor: pointer;
         text-align: left;
-        box-shadow: 0 10px 20px rgba(70, 53, 34, 0.08);
+        box-shadow:
+          inset 0 0 0 3px rgba(255, 252, 238, 0.32),
+          0 9px 18px rgba(70, 53, 34, 0.08);
         transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
       }
 
@@ -346,12 +492,16 @@
         border-radius: 50%;
         background: #7a674e;
         transform: translateX(-50%);
+        border: 2px solid rgba(239, 228, 203, 0.9);
       }
 
       .era-btn img {
         width: 54px;
         height: 54px;
-        object-fit: contain;
+        padding: 4px;
+        object-fit: cover;
+        border: 1px solid rgba(104, 82, 53, 0.12);
+        background: rgba(236, 226, 204, 0.5);
       }
 
       .era-btn b {
@@ -372,7 +522,8 @@
         transform: translateY(-4px);
         border-color: rgba(83, 142, 168, 0.75);
         box-shadow:
-          0 0 0 3px rgba(108, 159, 181, 0.18),
+          inset 0 0 0 3px rgba(255, 252, 238, 0.45),
+          0 0 0 3px rgba(108, 159, 181, 0.26),
           0 16px 26px rgba(63, 87, 94, 0.15);
       }
 
@@ -469,14 +620,15 @@
   </head>
   <body>
     <main class="page">
-      <header class="masthead">
-        <h1>郦道元行旅中国</h1>
-        <p>踏勘山河 · 观水成书 · 《水经注》</p>
-      </header>
+     
 
       <section class="map-shell" aria-label="GIS 数据驱动的郦道元行旅地图">
         <div id="map"></div>
       </section>
+
+      <span class="art-layer left-mountain" aria-hidden="true"></span>
+      <span class="art-layer right-mountain" aria-hidden="true"></span>
+      <span class="art-layer boat" aria-hidden="true"></span>
 
       <aside class="side-panel" aria-label="地图说明">
         <h2>郦道元行旅路径</h2>
@@ -538,6 +690,7 @@
             [39.486, 115.974],
             [36.685, 118.479],
           ],
+          focusIndex: 1,
           story: "郦道元出生于范阳涿州，少随父宦游青州，开始观察渤海、淄水、巨洋水与山东山地，逐渐形成以实地考察校正典籍的志向。",
           tags: ["范阳涿州", "青州", "渤海"],
           icon: "./Data/1.png",
@@ -554,6 +707,7 @@
             [35.0, 111.0],
             [37.8, 110.6],
           ],
+          focusIndex: 3,
           story: "入仕洛阳后，郦道元随北魏政治空间移动，向北观察黄河河套、阴山与草原戈壁，把山势、水势和边地交通放入同一张地理图景。",
           tags: ["洛阳", "黄河", "阴山"],
           icon: "./Data/2.png",
@@ -570,6 +724,7 @@
             [35.94, 113.49],
             [33.74, 111.9],
           ],
+          focusIndex: 2,
           story: "在冀州、鲁阳等地的巡行中，他把漳水、滹沱河、淮河上游与太行山、秦岭等山脉联系起来，形成“山为水源、水循山势”的考察方法。",
           tags: ["冀州", "太行山", "淮河上游"],
           icon: "./Data/山贴图.png",
@@ -586,6 +741,7 @@
             [30.85, 110.98],
             [32.39, 119.41],
           ],
+          focusIndex: 2,
           story: "沿江而行，他关注峡谷、江流、支派、城邑和地方传说，把长江、三峡、太湖、邗沟等内容纳入《水经注》的系统考据。",
           tags: ["长江", "三峡", "太湖", "邗沟"],
           icon: "./Data/封面船只.png",
@@ -601,6 +757,7 @@
             [34.62, 112.448],
             [34.37, 109.22],
           ],
+          focusIndex: 1,
           story: "延昌至孝昌年间，郦道元继续补证中原、关中水系，最终完成《水经注》四十卷。孝昌三年，行至关中途中遇害，山海求索之路落幕。",
           tags: ["关中", "阴盘驿亭", "《水经注》"],
           icon: "./Data/3.png",
@@ -677,25 +834,25 @@
       panes.points.style.zIndex = 310;
 
       const inkLandStyle = {
-        color: "rgba(91, 87, 75, 0.42)",
-        weight: 1,
-        fillColor: "#efe5d2",
-        fillOpacity: 0.5,
+        color: "rgba(89, 83, 70, 0.2)",
+        weight: 0.65,
+        fillColor: "#eadfc8",
+        fillOpacity: 0.28,
       };
 
       const riverStyle = {
-        color: "#5e99ad",
-        weight: 2.2,
-        opacity: 0.72,
+        color: "#4d8fa4",
+        weight: 2.6,
+        opacity: 0.58,
         lineCap: "round",
         lineJoin: "round",
       };
 
       const lakeStyle = {
-        color: "#5e99ad",
+        color: "#4d8fa4",
         weight: 1,
-        fillColor: "#8db6c3",
-        fillOpacity: 0.28,
+        fillColor: "#82aebc",
+        fillOpacity: 0.22,
       };
 
       const routeLayer = L.layerGroup([], { pane: "route" }).addTo(map);
@@ -752,10 +909,10 @@
       function makeTraveller(latlng) {
         return L.marker(latlng, {
           pane: "points",
-          icon: L.icon({
-            iconUrl: "./Data/Q版小人站立.png",
-            iconSize: [72, 72],
-            iconAnchor: [36, 64],
+            icon: L.icon({
+              iconUrl: "./Data/Q版小人站立.png",
+            iconSize: [70, 88],
+            iconAnchor: [30, 58],
             className: "traveller-icon",
           }),
           interactive: false,
@@ -823,9 +980,9 @@
         for (let i = 0; i < index; i += 1) {
           L.polyline(stages[i].route, {
             pane: "route",
-            color: "rgba(155, 75, 53, 0.38)",
-            weight: 3,
-            dashArray: "7 9",
+            color: "rgba(137, 61, 43, 0.42)",
+            weight: 2.7,
+            dashArray: "6 8",
             lineCap: "round",
             lineJoin: "round",
           }).addTo(completedRouteLayer);
@@ -841,9 +998,9 @@
 
         const activeRoute = L.polyline(stage.route, {
           pane: "route",
-          color: "#9b4b35",
-          weight: 3.8,
-          dashArray: "9 9",
+          color: "#934532",
+          weight: 3.2,
+          dashArray: "7 8",
           lineCap: "round",
           lineJoin: "round",
         }).addTo(routeLayer);
@@ -856,9 +1013,9 @@
         });
 
         if (!traveller) {
-          traveller = makeTraveller(stage.route[stage.route.length - 1]);
+          traveller = makeTraveller(stage.route[stage.focusIndex ?? stage.route.length - 1]);
         } else {
-          animateTraveller(stage.route);
+          animateTraveller(stage.route.slice(0, (stage.focusIndex ?? stage.route.length - 1) + 1));
         }
 
         map.fitBounds(activeRoute.getBounds().pad(0.78), { animate: true, duration: 0.8 });
@@ -917,7 +1074,7 @@
         renderTimeline();
         await drawBaseLayers();
         await drawAllPlaces();
-        traveller = makeTraveller(stages[0].route[stages[0].route.length - 1]);
+        traveller = makeTraveller(stages[0].route[stages[0].focusIndex ?? stages[0].route.length - 1]);
         activateStage(0);
       }
 
