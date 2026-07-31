@@ -523,6 +523,7 @@
     </main>
 
     <script src="./vendor/leaflet/leaflet.js"></script>
+    <script src="./Data/geojson-bundle.js"></script>
     <script>
       const dataRoot = "./Data/geojson";
 
@@ -702,10 +703,26 @@
       const activePlaceLayer = L.layerGroup([], { pane: "points" }).addTo(map);
       let traveller;
 
+      function readBundledGeoJson(path) {
+        const key = path.replace(`${dataRoot}/`, "");
+        const bundledData = window.LDY_GEOJSON_BUNDLE && window.LDY_GEOJSON_BUNDLE[key];
+        if (!bundledData) throw new Error(`Missing bundled GeoJSON: ${key}`);
+        return typeof structuredClone === "function" ? structuredClone(bundledData) : JSON.parse(JSON.stringify(bundledData));
+      }
+
       async function loadGeoJson(path) {
-        const response = await fetch(path);
-        if (!response.ok) throw new Error(`${response.status} ${path}`);
-        return response.json();
+        if (window.location.protocol === "file:") {
+          return readBundledGeoJson(path);
+        }
+
+        try {
+          const response = await fetch(path);
+          if (!response.ok) throw new Error(`${response.status} ${path}`);
+          return response.json();
+        } catch (error) {
+          console.warn(`Fetch GeoJSON failed, use bundled data instead: ${path}`, error);
+          return readBundledGeoJson(path);
+        }
       }
 
       function makePlaceMarker(latlng, label, active = false) {
