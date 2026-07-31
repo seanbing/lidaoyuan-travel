@@ -815,12 +815,17 @@
       const map = L.map("map", {
         zoomControl: false,
         attributionControl: false,
-        minZoom: 4,
-        maxZoom: 8,
+        minZoom: 4.65,
+        maxZoom: 4.65,
         scrollWheelZoom: false,
-      }).setView([34.8, 112.8], 5);
-
-      L.control.zoom({ position: "bottomright" }).addTo(map);
+        dragging: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        keyboard: false,
+        touchZoom: false,
+        zoomSnap: 0.05,
+        zoomDelta: 0.05,
+      }).setView([35.4, 106.2], 4.35);
 
       const panes = {
         land: map.createPane("land"),
@@ -927,11 +932,20 @@
 
       async function drawBaseLayers() {
         const china = await loadGeoJson(`${dataRoot}/china/ChinaBoundpoly.geojson`);
-        L.geoJSON(china, {
+        const chinaLayer = L.geoJSON(china, {
           pane: "land",
           style: inkLandStyle,
           interactive: false,
         }).addTo(map);
+
+        map.fitBounds(chinaLayer.getBounds().pad(0.06), {
+          animate: false,
+          paddingTopLeft: [16, 18],
+          paddingBottomRight: [24, 132],
+        });
+        const lockedZoom = map.getZoom();
+        map.setMinZoom(lockedZoom);
+        map.setMaxZoom(lockedZoom);
 
         await Promise.all(
           rivers.map(async (name) => {
@@ -1017,8 +1031,6 @@
         } else {
           animateTraveller(stage.route.slice(0, (stage.focusIndex ?? stage.route.length - 1) + 1));
         }
-
-        map.fitBounds(activeRoute.getBounds().pad(0.78), { animate: true, duration: 0.8 });
 
         document.getElementById("storyCard").dataset.tag = stage.card;
         document.getElementById("storyTitle").textContent = stage.title;
