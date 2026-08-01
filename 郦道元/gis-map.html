@@ -486,40 +486,40 @@
         min-height: 0;
         flex: 0 0 auto;
         margin: 0;
-        padding: 15px 18px 16px;
-        border: 1px solid var(--panel-line);
-        border-radius: 8px;
+        padding: 14px 18px 15px;
+        border: 1px solid rgba(103, 78, 48, 0.34);
+        border-radius: 2px;
         background:
-          linear-gradient(rgba(255, 251, 238, 0.86), rgba(235, 222, 197, 0.76)),
+          linear-gradient(rgba(255, 252, 239, 0.9), rgba(234, 218, 187, 0.78)),
           var(--paper);
         box-shadow:
-          inset 0 0 0 5px rgba(255, 252, 238, 0.34),
-          inset 0 0 18px rgba(93, 70, 41, 0.1),
-          0 12px 28px rgba(65, 50, 33, 0.12);
+          inset 0 0 0 4px rgba(255, 252, 238, 0.42),
+          inset 0 0 24px rgba(82, 58, 31, 0.13),
+          0 10px 24px rgba(65, 50, 33, 0.11);
       }
 
       .story-card::after {
         content: "";
         position: absolute;
-        inset: 8px;
-        border: 1px solid rgba(105, 82, 52, 0.12);
-        border-radius: 6px;
+        inset: 7px;
+        border: 1px solid rgba(105, 82, 52, 0.16);
+        border-radius: 0;
         pointer-events: none;
       }
 
       .story-ribbon {
         position: relative;
-        display: grid;
-        place-items: center;
-        width: 154px;
-        height: 31px;
-        margin: 0 auto 12px;
-        color: #fff7e8;
-        background: linear-gradient(90deg, #8e604a, #a8765c);
-        border-radius: 9px;
-        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 138px;
+        height: 23px;
+        margin: 0 auto 6px;
+        color: #94513f;
+        background: transparent;
+        font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+        font-size: 12px;
         letter-spacing: 0;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
       }
 
       .story-ribbon::before,
@@ -527,9 +527,9 @@
         content: "";
         position: absolute;
         top: 50%;
-        width: 45px;
+        width: 48px;
         height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(139, 90, 65, 0.72));
+        background: linear-gradient(90deg, transparent, rgba(139, 90, 65, 0.54));
       }
 
       .story-ribbon::before {
@@ -543,43 +543,92 @@
       }
 
       .story-card h2 {
-        margin: 0 0 9px;
-        font-size: clamp(17px, 1.3vw, 22px);
-        line-height: 1.35;
+        margin: 0;
+        color: #342a20;
+        font-family: "Ma Shan Zheng", KaiTi, STKaiti, serif;
+        font-size: clamp(20px, 1.55vw, 25px);
+        font-weight: 700;
+        line-height: 1.28;
         letter-spacing: 0;
+        text-align: center;
+      }
+
+      .story-dateline {
+        display: flex;
+        align-items: baseline;
+        justify-content: center;
+        gap: 4px;
+        margin: 5px 0 8px;
+        color: #493b2e;
+        font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+        font-size: 13px;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+
+      .story-year {
+        color: #7a6754;
+        font-size: 10px;
+        font-weight: 400;
+      }
+
+      .story-dateline i {
+        width: 1px;
+        height: 13px;
+        background: rgba(114, 83, 50, 0.36);
       }
 
       .story-card p {
         margin: 0;
         color: #4c4338;
-        font-size: 14px;
-        line-height: 1.72;
+        font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+        font-size: 13px;
+        line-height: 1.78;
         max-width: none;
+        text-align: justify;
       }
 
       .story-meta {
         display: flex;
         flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 9px;
+        align-items: center;
+        gap: 0;
+        margin-top: 7px;
+        padding-top: 6px;
+        border-top: 1px solid rgba(105, 82, 52, 0.15);
       }
 
       .story-meta span {
-        padding: 4px 9px;
-        border: 1px solid rgba(103, 82, 54, 0.22);
-        border-radius: 999px;
-        color: #5d5143;
-        background: rgba(235, 222, 198, 0.65);
-        font-size: 13px;
+        padding: 0 7px;
+        border-right: 1px solid rgba(105, 82, 52, 0.25);
+        color: #76624d;
+        background: transparent;
+        font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+        font-size: 11px;
+      }
+
+      .story-meta span:first-child {
+        padding-left: 0;
+      }
+
+      .story-meta span:last-child {
+        border-right: 0;
       }
 
       .story-figure {
         position: relative;
         height: clamp(92px, 13vh, 132px);
-        margin-top: 10px;
+        margin-top: 8px;
         overflow: hidden;
-        border-radius: 5px;
-        background: rgba(228, 216, 190, 0.52);
+        background: rgba(228, 216, 190, 0.38);
+      }
+
+      .story-figure::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at center, transparent 50%, rgba(239, 228, 204, 0.4) 78%, rgba(239, 228, 204, 0.88) 100%);
+        pointer-events: none;
       }
 
       .story-figure img {
@@ -588,9 +637,11 @@
         object-fit: cover;
         object-position: center;
         display: block;
-        opacity: 0.82;
-        filter: sepia(0.16) saturate(0.72) brightness(1.08);
+        opacity: 0.88;
+        filter: grayscale(0.3) sepia(0.2) saturate(0.72) brightness(1.08) contrast(0.92);
         mix-blend-mode: multiply;
+        -webkit-mask-image: radial-gradient(ellipse 96% 92% at center, #000 58%, rgba(0, 0, 0, 0.7) 78%, transparent 100%);
+        mask-image: radial-gradient(ellipse 96% 92% at center, #000 58%, rgba(0, 0, 0, 0.7) 78%, transparent 100%);
       }
 
       .classic-card {
@@ -903,8 +954,14 @@
       <aside class="side-panel" aria-label="地图说明">
         <img class="corner-decoration" src="./Data/左上角贴图.png" alt="" aria-hidden="true" />
         <article class="story-card" id="storyCard" data-tag="少年研学">
-          <div class="story-ribbon">当前故事</div>
-          <h2 id="storyTitle">延兴二年（472年）　范阳涿州</h2>
+          <div class="story-ribbon">行旅纪事</div>
+          <h2 id="storyTitle">卷一 · 家山初识</h2>
+          <div class="story-dateline">
+            <span id="storyEra">延兴二年</span>
+            <span class="story-year" id="storyYear">（472年）</span>
+            <i aria-hidden="true"></i>
+            <span id="storyPlace">范阳涿州</span>
+          </div>
           <p id="storyText">郦道元出生于北魏官宦世家。故乡河渠纵横、北接山地，为他日后观察山川形势埋下最初的种子。</p>
           <div class="story-figure">
             <img id="storyImage" src="./Data/故事卡图片.png" alt="郦道元在山海间考察" />
@@ -973,28 +1030,28 @@
 
       const stages = [
         {
-          id: "birth", year: "472年", era: "延兴二年",
+          id: "birth", year: "472年", era: "延兴二年", chapter: "卷一 · 家山初识", storyPlace: "范阳涿州",
           storyHeading: "延兴二年（472年）　范阳涿州",
           placeIds: ["FanyangZhuozhou"], route: [[39.486, 115.974]],
           story: "郦道元出生于北魏官宦世家。故乡河渠纵横、北接山地，为他日后观察山川形势埋下最初的种子。",
           tags: ["范阳涿州", "启程"], icon: "./Data/1.png", scene: "./Data/封面底图2.png",
         },
         {
-          id: "qingzhou", year: "489年之前", era: "太和年间",
+          id: "qingzhou", year: "489年之前", era: "太和年间", chapter: "卷一 · 少年游学", storyPlace: "青州",
           storyHeading: "太和年间（489年前）　青州",
           placeIds: ["Qingzhou"], route: [[39.486, 115.974], [36.685, 118.479]],
           story: "随父宦游青州，踏勘淄水、巨洋水，观察渤海沿岸与山东山地，在山海相接处立下访水求真的志向。",
           tags: ["青州", "渤海", "淄水", "山东山地"], icon: "./Data/1.png", scene: "./Data/封面底图2.png",
         },
         {
-          id: "luoyang", year: "489年", era: "太和十三年",
+          id: "luoyang", year: "489年", era: "太和十三年", chapter: "卷二 · 洛阳入仕", storyPlace: "洛阳",
           storyHeading: "太和十三年（489年）　洛阳",
           placeIds: ["Luoyang"], route: [[36.685, 118.479], [34.62, 112.448]],
           story: "父亲郦范病逝，郦道元承袭爵位并赴洛阳入仕。少年山海游学结束，他开始把沿途观察带入官场巡行。",
           tags: ["洛阳", "入仕"], icon: "./Data/2.png", scene: "./Data/底图参考6.png",
         },
         {
-          id: "yinshan", year: "494年", era: "太和十八年",
+          id: "yinshan", year: "494年", era: "太和十八年", chapter: "卷二 · 北巡阴山", storyPlace: "阴山",
           storyHeading: "太和十八年（494年）　阴山",
           placeIds: ["Luoyang"], route: [[34.62, 112.448], [37.8, 110.6], [40.75, 108.5]],
           story: "随孝文帝北巡阴山，观察河套黄河、草原、戈壁与高山之间的地貌差异，把大河走势与山脉屏障放在一起记录。",
@@ -1002,28 +1059,28 @@
           classic: { title: "阴山与河套", text: "《水经注》写黄河，不只记水道，也同时追索沿岸山势、塞障与城邑。抵达阴山节点后，山与河的关系才真正进入叙事中心。", source: "《水经注·河水》" },
         },
         {
-          id: "huanghuai", year: "495-499年", era: "太和末年",
+          id: "huanghuai", year: "495-499年", era: "太和末年", chapter: "卷三 · 巡察黄淮", storyPlace: "黄淮地区",
           storyHeading: "太和末年（495-499年）　黄淮地区",
           placeIds: ["Zhongyuan", "Luoyang"], route: [[40.75, 108.5], [34.62, 112.448], [33.8, 116.5]],
           story: "任治书侍御史期间巡察黄淮，勘察鸿沟、汴水等古代人工水道，考证旧河道变迁，并收集江淮水系史料。",
           tags: ["黄淮", "鸿沟", "汴水"], icon: "./Data/2.png", scene: "./Data/底图参考6.png",
         },
         {
-          id: "jizhou", year: "500-503年", era: "景明元年-景明三年",
+          id: "jizhou", year: "500-503年", era: "景明元年-景明三年", chapter: "卷三 · 冀州问水", storyPlace: "冀州",
           storyHeading: "景明元年至三年（500-503年）　冀州",
           placeIds: ["Jizhou_Hengshui"], route: [[33.8, 116.5], [37.74, 115.67]],
           story: "任冀州镇东府长史，巡行漳水、滹沱河与华北湖淀，逐步梳理山地来水、平原河道和湖泊之间的连通体系。",
           tags: ["冀州", "漳水", "滹沱河", "湖淀"], icon: "./Data/2.png", scene: "./Data/底图参考6.png",
         },
         {
-          id: "mourning", year: "503-504年", era: "景明三年-正始元年",
+          id: "mourning", year: "503-504年", era: "景明三年-正始元年", chapter: "卷四 · 丁忧立志", storyPlace: "范阳故里",
           storyHeading: "景明三年至正始元年（503-504年）　返乡丁忧",
           placeIds: ["FanyangZhuozhou"], route: [[37.74, 115.67], [39.486, 115.974]],
           story: "母亲去世后回乡守孝。他研读残缺古本《水经》，逐渐确立以文献为线索、以实地考察补证的注书方法。",
           tags: ["返乡", "研读《水经》", "立注书之志"], icon: "./Data/1.png", scene: "./Data/封面底图2.png",
         },
         {
-          id: "upper-yellow", year: "约505年", era: "正始年间",
+          id: "upper-yellow", year: "约505年", era: "正始年间", chapter: "卷四 · 溯河寻源", storyPlace: "黄河上游",
           storyHeading: "正始年间（约505年）　黄河上游",
           placeIds: ["Guanzhong"], route: [[39.486, 115.974], [34.37, 109.22], [35.6, 102.6]],
           story: "沿黄河西行溯源，越秦岭、近积石山，考察高山如何分水、河谷如何导流，并据此辨析黄河与长江流域的山水分界。",
@@ -1031,7 +1088,7 @@
           classic: { title: "积石山下，溯河寻源", text: "在《河水》篇的叙述中，山口、峡谷与河道互为线索。此处的彩蛋强调：郦道元所谓“访水”，往往也是沿河辨山。", source: "《水经注·河水》" },
         },
         {
-          id: "luyang", year: "508-512年", era: "永平年间",
+          id: "luyang", year: "508-512年", era: "永平年间", chapter: "卷五 · 鲁阳访源", storyPlace: "鲁阳",
           storyHeading: "永平年间（508-512年）　鲁阳",
           placeIds: ["Luyang_Pingdingshanlushan"], route: [[35.6, 102.6], [34.37, 109.22], [33.74, 111.9]],
           story: "任鲁阳太守时深入伏牛山地，寻访淮河上游与汝水、颍水支流，核对古碑并向山民询问水源与旧道。",
@@ -1039,7 +1096,7 @@
           classic: { title: "汝水出山", text: "行至鲁阳与汝水相关地域时，页面才展开这则典籍札记：山谷、泉源、支流和沿岸遗迹共同组成一条河的完整身世。", source: "《水经注·汝水》" },
         },
         {
-          id: "jianghan", year: "513-520年", era: "东荆州·洛阳",
+          id: "jianghan", year: "513-520年", era: "东荆州·洛阳", chapter: "卷五 · 江汉考水", storyPlace: "江汉·三峡·太湖",
           storyHeading: "513-520年　江汉、三峡与太湖",
           placeIds: ["Jingzhou", "Guangling_Yangzhou"], route: [[33.74, 111.9], [30.85, 110.98], [30.35, 112.19], [31.2, 120.2]],
           story: "整合江汉及东南水系资料，考证长江峡谷、荆州水道、太湖与邗沟。沿水路辨山势、访城邑，逐步完成《水经注》主体。",
@@ -1047,14 +1104,14 @@
           classic: { title: "行至三峡，观水成书", text: "江流进入三峡，两岸高山夹峙，滩险、深潭与急流随季节变化。郦道元把亲历、访闻与旧籍互证，留下兼具地理精度与文学气韵的山水书写。", source: "《水经注·江水》" },
         },
         {
-          id: "revision", year: "521-526年", era: "延昌至孝昌初年",
+          id: "revision", year: "521-526年", era: "延昌至孝昌初年", chapter: "卷六 · 汇考成书", storyPlace: "中原·关中",
           storyHeading: "延昌至孝昌初年（521-526年）　巡查补证",
           placeIds: ["Luoyang", "Zhongyuan", "Guanzhong"], route: [[31.2, 120.2], [34.62, 112.448], [34.37, 109.22]],
           story: "任御史中尉期间继续巡查中原与关中，补证山川源流，修订前稿，完成《水经注》四十卷的定稿。",
           tags: ["中原", "关中", "校正山水记载", "四十卷"], icon: "./Data/3.png", scene: "./Data/底图参考6.png",
         },
         {
-          id: "final", year: "527年", era: "孝昌三年",
+          id: "final", year: "527年", era: "孝昌三年", chapter: "卷六 · 关右绝笔", storyPlace: "阴盘驿亭",
           storyHeading: "孝昌三年（527年）　阴盘驿亭",
           placeIds: ["Yingpanyiting_Xianlinntong"], route: [[34.62, 112.448], [34.37, 109.22]],
           story: "受命为关右大使，前往关中途中被围困遇害，终年五十五岁。他以一生踏勘汇成的山河世界，则在《水经注》中延续。",
@@ -1527,7 +1584,10 @@
         });
 
         document.getElementById("storyCard").dataset.tag = stage.era;
-        document.getElementById("storyTitle").textContent = stage.storyHeading;
+        document.getElementById("storyTitle").textContent = stage.chapter;
+        document.getElementById("storyEra").textContent = stage.era;
+        document.getElementById("storyYear").textContent = `（${stage.year}）`;
+        document.getElementById("storyPlace").textContent = stage.storyPlace;
         document.getElementById("storyText").textContent = stage.story;
         document.getElementById("storyImage").src = "./Data/故事卡图片.png";
         document.getElementById("storyMeta").innerHTML = stage.tags.map((tag) => `<span>${tag}</span>`).join("");
