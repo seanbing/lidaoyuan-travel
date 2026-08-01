@@ -107,7 +107,7 @@
         left: 17.7%;
         right: 0;
         top: 0;
-        bottom: 16.8%;
+        bottom: 0;
         z-index: 1;
         overflow: hidden;
         border-left: 1px solid rgba(92, 72, 46, 0.24);
@@ -330,6 +330,65 @@
         color: #687264;
         font-weight: 700;
         text-align: center;
+      }
+
+      .layer-toggle {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-top: 18px;
+        padding: 10px 12px;
+        border: 1px solid rgba(104, 82, 53, 0.18);
+        border-radius: 999px;
+        color: #4f4639;
+        background: rgba(248, 240, 220, 0.68);
+        font-size: 14px;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      .layer-toggle input {
+        position: absolute;
+        inline-size: 1px;
+        block-size: 1px;
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      .toggle-track {
+        position: relative;
+        width: 44px;
+        height: 24px;
+        flex: 0 0 auto;
+        border: 1px solid rgba(104, 82, 53, 0.28);
+        border-radius: 999px;
+        background: rgba(174, 157, 126, 0.35);
+        transition: background 180ms ease, border-color 180ms ease;
+      }
+
+      .toggle-track::after {
+        content: "";
+        position: absolute;
+        left: 3px;
+        top: 3px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #f7eed9;
+        box-shadow: 0 1px 4px rgba(76, 57, 33, 0.22);
+        transition: transform 180ms ease;
+      }
+
+      .layer-toggle input:checked + .toggle-track {
+        border-color: rgba(65, 132, 151, 0.52);
+        background: rgba(82, 143, 161, 0.58);
+      }
+
+      .layer-toggle input:checked + .toggle-track::after {
+        transform: translateX(20px);
       }
 
       .story-card {
@@ -567,6 +626,21 @@
         text-align: center;
       }
 
+      .mountain-art {
+        pointer-events: none;
+        opacity: 0.58;
+        mix-blend-mode: multiply;
+        filter: sepia(0.35) saturate(0.46) brightness(1.12) contrast(0.88);
+        transition: opacity 180ms ease;
+      }
+
+      .mountain-art img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+
       .traveller-icon {
         filter: drop-shadow(0 9px 7px rgba(59, 44, 29, 0.25));
         transition: transform 360ms ease;
@@ -652,6 +726,11 @@
             <li><span class="legend-symbol river"></span><span>主要河流</span></li>
             <li><span class="legend-symbol mountain"></span><span>山脉节点</span></li>
           </ul>
+          <label class="layer-toggle" for="mountainToggle">
+            <span>显示山体贴图</span>
+            <input id="mountainToggle" type="checkbox" checked />
+            <span class="toggle-track" aria-hidden="true"></span>
+          </label>
         </div>
       </aside>
 
@@ -812,6 +891,49 @@
         Huashan: "华山",
       };
 
+      const mountainArt = {
+        Taihangshan: {
+          src: "./Data/山体素材/e444903b-ec95-4478-98c3-ae25f44c6e2b.png",
+          size: [210, 140],
+          anchor: [104, 95],
+        },
+        Wutaishan_Taihangshan: {
+          src: "./Data/山体素材/247d808a-a2ab-4977-9730-4237ea8230f2.png",
+          size: [170, 112],
+          anchor: [82, 78],
+        },
+        Wangwushan_Taihangshan: {
+          src: "./Data/山体素材/7fe87aa0-1282-4c32-9f67-1004a6616761.png",
+          size: [170, 112],
+          anchor: [84, 76],
+        },
+        Funiushan_Qinling: {
+          src: "./Data/山体素材/eb208901-7c49-4fa7-aaa6-05724ac95fd8.png",
+          size: [210, 108],
+          anchor: [105, 74],
+        },
+        Zhongnanshan_Qinling: {
+          src: "./Data/山体素材/298c9a3c-19bc-4a2d-8705-d939827fd525.png",
+          size: [180, 120],
+          anchor: [90, 82],
+        },
+        Jishishan: {
+          src: "./Data/山体素材/21c1b0bd-a3f1-4090-b990-71d339c709fb.png",
+          size: [190, 128],
+          anchor: [94, 88],
+        },
+        Zhongshan_Yinshan: {
+          src: "./Data/山体素材/大青山.png",
+          size: [190, 128],
+          anchor: [95, 88],
+        },
+        Huashan: {
+          src: "./Data/山体素材/f68f8141-e57a-48f3-b5e8-eb88d066ac98.png",
+          size: [160, 130],
+          anchor: [80, 92],
+        },
+      };
+
       const map = L.map("map", {
         zoomControl: false,
         attributionControl: false,
@@ -830,11 +952,13 @@
       const panes = {
         land: map.createPane("land"),
         rivers: map.createPane("rivers"),
+        mountainArt: map.createPane("mountainArt"),
         route: map.createPane("route"),
         points: map.createPane("points"),
       };
       panes.land.style.zIndex = 210;
       panes.rivers.style.zIndex = 240;
+      panes.mountainArt.style.zIndex = 252;
       panes.route.style.zIndex = 270;
       panes.points.style.zIndex = 310;
 
@@ -862,6 +986,7 @@
 
       const routeLayer = L.layerGroup([], { pane: "route" }).addTo(map);
       const completedRouteLayer = L.layerGroup([], { pane: "route" }).addTo(map);
+      const mountainArtLayer = L.layerGroup([], { pane: "mountainArt" }).addTo(map);
       const activePlaceLayer = L.layerGroup([], { pane: "points" }).addTo(map);
       let traveller;
 
@@ -914,7 +1039,7 @@
       function makeTraveller(latlng) {
         return L.marker(latlng, {
           pane: "points",
-            icon: L.icon({
+          icon: L.icon({
               iconUrl: "./Data/Q版小人站立.png",
             iconSize: [70, 88],
             iconAnchor: [30, 58],
@@ -922,6 +1047,22 @@
           }),
           interactive: false,
         }).addTo(map);
+      }
+
+      function makeMountainArtMarker(latlng, name) {
+        const art = mountainArt[name];
+        if (!art) return null;
+
+        return L.marker(latlng, {
+          pane: "mountainArt",
+          icon: L.divIcon({
+            className: "mountain-art",
+            html: `<img src="${art.src}" alt="" />`,
+            iconSize: art.size,
+            iconAnchor: art.anchor,
+          }),
+          interactive: false,
+        });
       }
 
       function getFeatureLatLng(feature) {
@@ -938,10 +1079,10 @@
           interactive: false,
         }).addTo(map);
 
-        map.fitBounds(chinaLayer.getBounds().pad(0.06), {
+        map.fitBounds(chinaLayer.getBounds().pad(0), {
           animate: false,
-          paddingTopLeft: [16, 18],
-          paddingBottomRight: [24, 132],
+          paddingTopLeft: [16, 200],//[左侧留白, 顶部留白]
+          paddingBottomRight: [50, 10],//[右侧留白, 底部留白]
         });
         const lockedZoom = map.getZoom();
         map.setMinZoom(lockedZoom);
@@ -964,6 +1105,8 @@
             const feature = data.features[0];
             const latlng = feature ? getFeatureLatLng(feature) : null;
             if (!latlng) return;
+            const artMarker = makeMountainArtMarker(latlng, name);
+            if (artMarker) artMarker.addTo(mountainArtLayer);
             L.marker(latlng, {
               pane: "points",
               icon: L.divIcon({
@@ -976,6 +1119,19 @@
             }).addTo(map);
           }),
         );
+      }
+
+      function bindLayerToggles() {
+        const mountainToggle = document.getElementById("mountainToggle");
+        if (!mountainToggle) return;
+
+        mountainToggle.addEventListener("change", () => {
+          if (mountainToggle.checked) {
+            mountainArtLayer.addTo(map);
+          } else {
+            mountainArtLayer.remove();
+          }
+        });
       }
 
       async function drawAllPlaces() {
@@ -1084,6 +1240,7 @@
 
       async function init() {
         renderTimeline();
+        bindLayerToggles();
         await drawBaseLayers();
         await drawAllPlaces();
         traveller = makeTraveller(stages[0].route[stages[0].focusIndex ?? stages[0].route.length - 1]);
