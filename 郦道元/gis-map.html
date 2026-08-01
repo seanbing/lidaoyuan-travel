@@ -102,10 +102,10 @@
 
       .map-shell {
         position: absolute;
-        left: 23.5%;
+        left: 18%;
         right: 0;
         top: 0;
-        bottom: 18.2%;
+        bottom: 16.5%;
         z-index: 1;
         overflow: hidden;
         border-left: 1px solid rgba(92, 72, 46, 0.24);
@@ -118,7 +118,7 @@
         inset: 0;
         pointer-events: none;
         z-index: 8;
-        opacity: 0;
+        opacity: 0.9;
         background-image: url("./Data/宣纸样式.png");
         background-repeat: repeat;
         background-size: 720px auto;
@@ -184,7 +184,7 @@
         top: 0;
         bottom: 0;
         left: 0;
-        width: 23.5%;
+        width: 18%;
         min-width: 320px;
         padding: 2.2vh 18px 18px;
         border-right: 1px solid var(--panel-line);
@@ -376,6 +376,19 @@
         font-size: 18px;
         text-align: center;
       }
+
+      .legend-decoration {
+        display: block;
+        width: calc(100% + 36px);
+        max-height: 140px;
+        margin: 12px -18px 0;
+        object-fit: cover;
+        opacity: 0.82;
+        mix-blend-mode: multiply;
+        pointer-events: none;
+      }
+
+
 
       .layer-toggle {
         position: relative;
@@ -665,7 +678,7 @@
       .timeline {
         position: absolute;
         z-index: 16;
-        left: calc(23.5% + 18px);
+        left: calc(18% + 18px);
         right: 18px;
         bottom: 1.8%;
         height: 14.5%;
@@ -756,12 +769,28 @@
 
       .place-label {
         color: #29231b;
+        font-family: KaiTi, STKaiti, "Microsoft YaHei", serif;
         font-size: 16px;
         font-weight: 700;
         text-shadow:
           0 1px 0 rgba(255, 250, 232, 0.8),
           0 0 8px rgba(255, 250, 232, 0.88);
         white-space: nowrap;
+      }
+
+      /* 河流与湖泊名称始终显示，并用蓝色楷体与地点、山名区分。 */
+      .river-label {
+        color: #176f9c;
+        font-family: KaiTi, STKaiti, "Microsoft YaHei", serif;
+        font-size: 17px;
+        font-weight: 700;
+        line-height: 1;
+        text-align: center;
+        white-space: nowrap;
+        text-shadow:
+          0 1px 0 rgba(255, 250, 232, 0.9),
+          0 0 7px rgba(255, 250, 232, 0.95);
+        pointer-events: none;
       }
 
       .place-dot {
@@ -780,6 +809,7 @@
 
       .mountain-label {
         color: #5d685e;
+        font-family: KaiTi, STKaiti, "Microsoft YaHei", serif;
         font-size: 13px;
         font-weight: 700;
         text-shadow: 0 1px 0 rgba(255, 250, 232, 0.8);
@@ -850,7 +880,7 @@
         }
 
         .map-shell {
-          left: 0;
+          left: 18%;
           bottom: 150px;
           z-index: 2;
         }
@@ -914,6 +944,7 @@
               <li><span class="legend-symbol mountain"></span><span>山体节点</span></li>
             </ul>
           </div>
+          <img class="legend-decoration" src="./Data/左下角贴图.png" alt="" draggable="false" />
         </section>
         <div class="legend layer-control">
           <div class="layer-modes" role="group" aria-label="山水贴图显示方式">
@@ -1044,6 +1075,20 @@
         "Baiyangdian_Huabeihedian",
       ];
 
+      /* GeoJSON 文件名与页面上显示的传统水系名称对应。 */
+      const riverNames = {
+        Huanghe: "黄河",
+        Changjiang: "长江",
+        Taihu: "太湖",
+        Hutuohe_line: "滹沱河",
+        Zhanghe_Zhnagshui: "漳水",
+        Mihe_Juyangshui: "巨洋水",
+        Zihe_Zishui: "淄水",
+        Sihe_Sishui: "泗水",
+        Liyunhe_Hangou: "邗沟",
+        Baiyangdian_Huabeihedian: "华北湖淀",
+      };
+
       /* 水体素材按河流数据顺序对应。每张透明 PNG 会自动贴合对应 GeoJSON 的地理范围。 */
       const waterArt = {
         Huanghe: "./Data/水体素材/黄河.png",
@@ -1098,6 +1143,15 @@
         Yingpanyiting_Xianlinntong: "阴盘驿亭",
         Guanzhong: "关中",
         Zhongyuan: "中原",
+      };
+
+      /* 中原与关中一带地点密集，分别设置文字锚点，避免常驻名称互相覆盖。 */
+      const placeLabelAnchors = {
+        关中: [84, 32],
+        阴盘驿亭: [84, -4],
+        洛阳: [-10, 32],
+        中原: [-10, 4],
+        鲁阳: [-10, -20],
       };
 
       const mountainNames = {
@@ -1208,6 +1262,18 @@
         fillOpacity: 0.22,
       };
 
+      /* 行旅路线固定为朱红色虚线；已走路线和当前路线使用同一视觉样式。 */
+      const travelRouteStyle = {
+        pane: "route",
+        color: "#a34b37",
+        weight: 2.4,
+        opacity: 0.84,
+        dashArray: "7 7",
+        lineCap: "round",
+        lineJoin: "round",
+        interactive: false,
+      };
+
       const routeLayer = L.layerGroup([], { pane: "route" }).addTo(map);
       const completedRouteLayer = L.layerGroup([], { pane: "route" }).addTo(map);
       const waterArtLayer = L.layerGroup([], { pane: "waterArt" }).addTo(map);
@@ -1243,12 +1309,16 @@
           pane: "points",
           icon: L.divIcon({
             className: "",
-            html: `<span class="place-dot"></span>`,
+            html: `<span class="place-dot${active ? " active" : ""}"></span>`,
             iconSize: [18, 18],
             iconAnchor: [9, 9],
           }),
         });
-        if (!active) return marker;
+
+        /* 活动图层只叠加高亮圆点，名称由底图常驻标签统一显示，避免文字重影。 */
+        if (active) return marker;
+
+        const labelAnchor = placeLabelAnchors[label] || [-12, 18];
 
         const text = L.marker(latlng, {
           pane: "points",
@@ -1256,8 +1326,9 @@
             className: "place-label",
             html: label,
             iconSize: [70, 24],
-            iconAnchor: active ? [-14, 30] : [-12, 18],
+            iconAnchor: labelAnchor,
           }),
+          interactive: false,
         });
         return L.layerGroup([marker, text]);
       }
@@ -1267,7 +1338,7 @@
           pane: "points",
           icon: L.icon({
               iconUrl: "./Data/Q版小人奔跑.png",
-            iconSize: [70, 88],
+            iconSize: [88, 110],
             iconAnchor: [30, 58],
             className: "traveller-icon",
           }),
@@ -1343,6 +1414,18 @@
               style: name === "Taihu" || name.includes("poly") ? lakeStyle : riverStyle,
               interactive: false,
             }).addTo(map);
+            if (riverLayer.getBounds().isValid()) {
+              L.marker(riverLayer.getBounds().getCenter(), {
+                pane: "points",
+                icon: L.divIcon({
+                  className: "river-label",
+                  html: riverNames[name] || name,
+                  iconSize: [92, 24],
+                  iconAnchor: [46, 12],
+                }),
+                interactive: false,
+              }).addTo(map);
+            }
             // const artSource = waterArt[name];
             // if (artSource && riverLayer.getBounds().isValid()) {
             //   const artBounds = getAlignedWaterBounds(riverLayer.getBounds().pad(0.01), artSource);
@@ -1414,6 +1497,12 @@
 
       function drawCompletedRoutes(index) {
         completedRouteLayer.clearLayers();
+        for (let stageIndex = 0; stageIndex < index; stageIndex += 1) {
+          const completedRoute = stages[stageIndex].route;
+          if (completedRoute.length > 1) {
+            L.polyline(completedRoute, travelRouteStyle).addTo(completedRouteLayer);
+          }
+        }
       }
 
       async function activateStage(index, playFootsteps = false) {
@@ -1423,6 +1512,12 @@
         hideClassicCard();
 
         drawCompletedRoutes(index);
+
+        /* 当前阶段的路线单独绘制，点击时间轴时会立即切换到对应行程。 */
+        const currentRoute = stage.route.slice(0, (stage.focusIndex ?? stage.route.length - 1) + 1);
+        if (currentRoute.length > 1) {
+          L.polyline(currentRoute, travelRouteStyle).addTo(routeLayer);
+        }
 
         stage.placeIds.forEach(async (name) => {
           const data = await loadGeoJson(`${dataRoot}/places/${name}.geojson`);
