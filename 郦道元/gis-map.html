@@ -104,7 +104,7 @@
 
       .map-shell {
         position: absolute;
-        left: 17.7%;
+        left: 23.5%;
         right: 0;
         top: 0;
         bottom: 0;
@@ -114,7 +114,7 @@
       }
 
       .map-shell::before,
-      .map-shell::after {
+      /* .map-shell::after {
         content: "";
         position: absolute;
         pointer-events: none;
@@ -125,7 +125,7 @@
         background-size: contain;
         filter: sepia(0.48) saturate(0.35) brightness(1.18) contrast(0.82);
         mix-blend-mode: multiply;
-      }
+      } */
 
       .map-shell::before {
         left: -7%;
@@ -174,22 +174,22 @@
         filter: sepia(0.28) saturate(0.5) brightness(1.12);
       }
 
-      .art-layer.left-mountain {
+      /* .art-layer.left-mountain {
         left: 18.8%;
         bottom: 18.4%;
         width: 28%;
         height: 28%;
         background-image: url("./Data/山贴图.png");
         transform: scaleX(-1);
-      }
-
+      } */
+/* 
       .art-layer.right-mountain {
         right: 1.2%;
         bottom: 17.8%;
         width: 30%;
         height: 36%;
         background-image: url("./Data/山贴图.png");
-      }
+      } */
 
       .art-layer.boat {
         right: 31%;
@@ -207,9 +207,9 @@
         top: 0;
         bottom: 16.8%;
         left: 0;
-        width: 17.7%;
-        min-width: 230px;
-        padding: 25vh 18px 20px;
+        width: 23.5%;
+        min-width: 320px;
+        padding: 8.8vh 22px 20px;
         border-right: 1px solid var(--panel-line);
         border-left: 1px solid rgba(255, 252, 238, 0.42);
         background:
@@ -221,7 +221,7 @@
       }
 
       .side-panel::before,
-      .side-panel::after {
+      /* .side-panel::after {
         content: "";
         position: absolute;
         left: 12px;
@@ -233,7 +233,7 @@
         filter: sepia(0.6) saturate(0.3) brightness(1.2);
         mix-blend-mode: multiply;
         pointer-events: none;
-      }
+      } */
 
       .side-panel::before {
         top: 1.5%;
@@ -255,10 +255,11 @@
       }
 
       .mini-map {
+        display: none;
         position: relative;
-        height: 25%;
-        min-height: 168px;
-        margin: 16px 0 18px;
+        height: 18%;
+        min-height: 118px;
+        margin: 14px 0 14px;
         border: 1px solid var(--panel-line);
         border-radius: 4px;
         background:
@@ -392,72 +393,87 @@
       }
 
       .story-card {
-        position: absolute;
-        z-index: 15;
-        right: 1.4%;
-        top: 17.4%;
-        width: min(34vw, 540px);
-        min-width: 390px;
-        min-height: 260px;
-        padding: 26px 31px 26px 96px;
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        min-height: 0;
+        margin: 0 0 14px;
+        padding: 18px 22px 20px;
         border: 1px solid var(--panel-line);
-        border-radius: 6px;
+        border-radius: 8px;
         background:
-          url("./Data/封面船只.png") right 20px bottom 8px / 42% auto no-repeat,
-          linear-gradient(90deg, rgba(232, 219, 193, 0.96), rgba(255, 251, 238, 0.8)),
+          linear-gradient(rgba(255, 251, 238, 0.86), rgba(235, 222, 197, 0.76)),
           var(--paper);
         box-shadow:
           inset 0 0 0 5px rgba(255, 252, 238, 0.34),
           inset 0 0 18px rgba(93, 70, 41, 0.1),
-          0 18px 38px rgba(65, 50, 33, 0.12);
+          0 12px 28px rgba(65, 50, 33, 0.12);
       }
 
       .story-card::after {
-        content: "×";
+        content: "";
         position: absolute;
-        right: 13px;
-        top: 8px;
-        color: rgba(79, 67, 50, 0.72);
-        font-size: 32px;
-        line-height: 1;
+        inset: 8px;
+        border: 1px solid rgba(105, 82, 52, 0.12);
+        border-radius: 6px;
+        pointer-events: none;
       }
 
-      .story-card::before {
-        content: attr(data-tag);
-        position: absolute;
-        left: 18px;
-        top: 18px;
-        bottom: 18px;
-        width: 52px;
+      .story-ribbon {
+        position: relative;
         display: grid;
         place-items: center;
-        writing-mode: vertical-rl;
-        color: #241f19;
-        font-size: 24px;
-        line-height: 1.15;
-        border-right: 1px solid rgba(113, 88, 55, 0.22);
-        background: linear-gradient(rgba(255, 250, 235, 0.48), rgba(223, 207, 178, 0.28));
+        width: 154px;
+        height: 31px;
+        margin: 0 auto 16px;
+        color: #fff7e8;
+        background: linear-gradient(90deg, #8e604a, #a8765c);
+        border-radius: 9px;
+        font-size: 16px;
+        letter-spacing: 0;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+      }
+
+      .story-ribbon::before,
+      .story-ribbon::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 45px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(139, 90, 65, 0.72));
+      }
+
+      .story-ribbon::before {
+        right: 100%;
+        transform: translateY(-50%) scaleX(-1);
+      }
+
+      .story-ribbon::after {
+        left: 100%;
+        transform: translateY(-50%);
       }
 
       .story-card h2 {
         margin: 0 0 12px;
-        font-size: clamp(22px, 2vw, 32px);
-        line-height: 1.2;
+        font-size: clamp(19px, 1.55vw, 26px);
+        line-height: 1.35;
+        letter-spacing: 0;
       }
 
       .story-card p {
         margin: 0;
         color: #4c4338;
-        font-size: 16px;
-        line-height: 1.9;
-        max-width: 62%;
+        font-size: 15px;
+        line-height: 1.85;
+        max-width: none;
       }
 
       .story-meta {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        margin-top: 18px;
+        margin-top: 12px;
       }
 
       .story-meta span {
@@ -469,10 +485,30 @@
         font-size: 13px;
       }
 
+      .story-figure {
+        position: relative;
+        height: 130px;
+        margin-top: 14px;
+        overflow: hidden;
+        border-radius: 5px;
+        background: rgba(228, 216, 190, 0.52);
+      }
+
+      .story-figure img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        display: block;
+        opacity: 0.82;
+        filter: sepia(0.16) saturate(0.72) brightness(1.08);
+        mix-blend-mode: multiply;
+      }
+
       .bio-card {
         position: absolute;
         z-index: 13;
-        left: 20.2%;
+        left: 25.3%;
         bottom: 19.8%;
         width: min(34vw, 520px);
         padding: 18px 26px;
@@ -718,6 +754,17 @@
             <path d="M222 34 L222 60 M222 34 L216 45 M222 34 L228 45" stroke="#6b604f" stroke-width="2" fill="none" />
           </svg>
         </div>
+        <article class="story-card" id="storyCard" data-tag="少年研学">
+          <div class="story-ribbon">当前故事</div>
+          <h2 id="storyTitle">太和年间（489年前）　青州</h2>
+          <p id="storyText">郦道元出生于范阳涿州，少随父宦游青州，开始观察渤海、淄水、巨洋水与山东山地，逐渐形成以实地考察校正典籍的志向。</p>
+          <div class="story-figure">
+            <img id="storyImage" src="./Data/封面底图2.png" alt="" />
+          </div>
+          <div class="story-meta" id="storyMeta">
+            <span>范阳涿州</span><span>青州</span><span>渤海</span>
+          </div>
+        </article>
         <div class="legend">
           <h3>图例</h3>
           <ul>
@@ -733,14 +780,6 @@
           </label>
         </div>
       </aside>
-
-      <article class="story-card" id="storyCard" data-tag="少年研学">
-        <h2 id="storyTitle">少年研学，立志明地理</h2>
-        <p id="storyText">郦道元出生于范阳涿州，少随父宦游青州，开始观察渤海、淄水、巨洋水与山东山地，逐渐形成以实地考察校正典籍的志向。</p>
-        <div class="story-meta" id="storyMeta">
-          <span>范阳涿州</span><span>青州</span><span>渤海</span>
-        </div>
-      </article>
 
       <article class="bio-card">
         <h2>郦道元与《水经注》</h2>
@@ -764,6 +803,7 @@
           year: "472年",
           card: "少年研学",
           title: "少年研学，立志明地理",
+          storyHeading: "太和年间（489年前）　青州",
           placeIds: ["FanyangZhuozhou", "Qingzhou"],
           route: [
             [39.486, 115.974],
@@ -773,12 +813,14 @@
           story: "郦道元出生于范阳涿州，少随父宦游青州，开始观察渤海、淄水、巨洋水与山东山地，逐渐形成以实地考察校正典籍的志向。",
           tags: ["范阳涿州", "青州", "渤海"],
           icon: "./Data/1.png",
+          scene: "./Data/封面底图2.png",
         },
         {
           id: "north",
           year: "494年",
           card: "北魏仕途",
           title: "北巡阴山，识河套山河",
+          storyHeading: "太和十八年（494年）　阴山",
           placeIds: ["Luoyang", "Zhongyuan", "Guanzhong"],
           route: [
             [36.685, 118.479],
@@ -790,12 +832,14 @@
           story: "入仕洛阳后，郦道元随北魏政治空间移动，向北观察黄河河套、阴山与草原戈壁，把山势、水势和边地交通放入同一张地理图景。",
           tags: ["洛阳", "黄河", "阴山"],
           icon: "./Data/2.png",
+          scene: "./Data/底图参考6.png",
         },
         {
           id: "mountains",
           year: "505年",
           card: "北方山川",
           title: "溯河辨山，校正水经",
+          storyHeading: "正始年间（约505年）　黄河上游",
           placeIds: ["Jizhou_Hengshui", "Luyang_Pingdingshanlushan", "Luoyang"],
           route: [
             [34.62, 112.448],
@@ -807,12 +851,14 @@
           story: "在冀州、鲁阳等地的巡行中，他把漳水、滹沱河、淮河上游与太行山、秦岭等山脉联系起来，形成“山为水源、水循山势”的考察方法。",
           tags: ["冀州", "太行山", "淮河上游"],
           icon: "./Data/山贴图.png",
+          scene: "./Data/山贴图.png",
         },
         {
           id: "jianghan",
           year: "515年",
           card: "江汉三峡",
           title: "行至三峡，观水成书",
+          storyHeading: "513-520年　江汉三峡",
           placeIds: ["Jingzhou", "Guangling_Yangzhou"],
           route: [
             [33.74, 111.9],
@@ -824,12 +870,14 @@
           story: "沿江而行，他关注峡谷、江流、支派、城邑和地方传说，把长江、三峡、太湖、邗沟等内容纳入《水经注》的系统考据。",
           tags: ["长江", "三峡", "太湖", "邗沟"],
           icon: "./Data/封面船只.png",
+          scene: "./Data/封面底图2.png",
         },
         {
           id: "book",
           year: "527年",
           card: "撰成《水经注》",
           title: "汇集所见，著成不朽",
+          storyHeading: "延昌至孝昌初年　定稿成书",
           placeIds: ["Yingpanyiting_Xianlinntong", "Guanzhong"],
           route: [
             [32.39, 119.41],
@@ -840,6 +888,7 @@
           story: "延昌至孝昌年间，郦道元继续补证中原、关中水系，最终完成《水经注》四十卷。孝昌三年，行至关中途中遇害，山海求索之路落幕。",
           tags: ["关中", "阴盘驿亭", "《水经注》"],
           icon: "./Data/3.png",
+          scene: "./Data/底图参考6.png",
         },
       ];
 
@@ -1079,10 +1128,10 @@
           interactive: false,
         }).addTo(map);
 
-        map.fitBounds(chinaLayer.getBounds().pad(0), {
+        map.fitBounds(chinaLayer.getBounds().pad(0.01), {
           animate: false,
           paddingTopLeft: [16, 200],//[左侧留白, 顶部留白]
-          paddingBottomRight: [50, 10],//[右侧留白, 底部留白]
+          paddingBottomRight: [30, 10],//[右侧留白, 底部留白]
         });
         const lockedZoom = map.getZoom();
         map.setMinZoom(lockedZoom);
@@ -1189,8 +1238,9 @@
         }
 
         document.getElementById("storyCard").dataset.tag = stage.card;
-        document.getElementById("storyTitle").textContent = stage.title;
+        document.getElementById("storyTitle").textContent = stage.storyHeading || stage.title;
         document.getElementById("storyText").textContent = stage.story;
+        document.getElementById("storyImage").src = stage.scene || stage.icon;
         document.getElementById("storyMeta").innerHTML = stage.tags.map((tag) => `<span>${tag}</span>`).join("");
         document.querySelectorAll(".era-btn").forEach((btn, btnIndex) => {
           btn.classList.toggle("active", btnIndex === index);
