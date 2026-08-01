@@ -118,7 +118,7 @@
         inset: 0;
         pointer-events: none;
         z-index: 8;
-        opacity: 0.28;
+        opacity: 0;
         background-image: url("./Data/宣纸样式.png");
         background-repeat: repeat;
         background-size: 720px auto;
@@ -143,10 +143,10 @@
       .sea-surface {
         position: absolute;
         z-index: 0;
-        right: -3%;
-        bottom: -9%;
+        right: 0%;
+        bottom: 0%;
         width: 56%;
-        height: 46%;
+        height: 200%;
         object-fit: cover;
         opacity: 0.5;
         filter: saturate(0.7) sepia(0.12) brightness(1.08);
@@ -176,33 +176,6 @@
         filter: sepia(0.28) saturate(0.5) brightness(1.12);
       }
 
-      /* .art-layer.left-mountain {
-        left: 18.8%;
-        bottom: 18.4%;
-        width: 28%;
-        height: 28%;
-        background-image: url("./Data/山贴图.png");
-        transform: scaleX(-1);
-      } */
-/* 
-      .art-layer.right-mountain {
-        right: 1.2%;
-        bottom: 17.8%;
-        width: 30%;
-        height: 36%;
-        background-image: url("./Data/山贴图.png");
-      } */
-
-      /* .art-layer.boat {
-        right: 31%;
-        bottom: 18.7%;
-        width: 8.5%;
-        height: 10%;
-        opacity: 0.34;
-        background-image: url("./Data/封面船只.png");
-        filter: sepia(0.35) saturate(0.7) brightness(1.05);
-      } */
-
       .side-panel {
         position: absolute;
         z-index: 14;
@@ -224,30 +197,20 @@
         box-shadow: inset -15px 0 28px rgba(88, 69, 44, 0.07);
       }
 
-      .side-panel::before,
-      /* .side-panel::after {
-        content: "";
+      .corner-decoration {
         position: absolute;
-        left: 12px;
-        right: 12px;
-        background-image: url("./Data/山贴图.png");
-        background-repeat: no-repeat;
-        background-size: contain;
-        opacity: 0.22;
-        filter: sepia(0.6) saturate(0.3) brightness(1.2);
+        z-index: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 126px;
+        object-fit: cover;
+        object-position: center 44%;
+        opacity: 0.3;
         mix-blend-mode: multiply;
         pointer-events: none;
-      } */
-
-      .side-panel::before {
-        top: 1.5%;
-        height: 17%;
-      }
-
-      .side-panel::after {
-        bottom: 3%;
-        height: 17%;
-        transform: scaleX(-1);
+        -webkit-mask-image: linear-gradient(180deg, #000 0 48%, transparent 100%);
+        mask-image: linear-gradient(180deg, #000 0 48%, transparent 100%);
       }
 
       .side-panel h2,
@@ -277,60 +240,115 @@
         height: 100%;
       }
 
-      .side-route-figure {
+      .route-overview {
         position: relative;
+        z-index: 2;
         flex: 1 1 auto;
-        min-height: 250px;
+        min-height: 240px;
         margin-top: 12px;
+        padding: 12px 14px 10px;
         overflow: hidden;
         border: 1px solid var(--panel-line);
-        background: rgba(244, 235, 214, 0.72);
+        background:
+          linear-gradient(rgba(251, 246, 230, 0.78), rgba(231, 217, 191, 0.68)),
+          var(--paper);
+        box-shadow: inset 0 0 16px rgba(78, 58, 34, 0.08);
       }
 
-      .side-route-figure img {
+      .route-overview h3 {
+        margin: 0 0 7px;
+        color: #40372d;
+        font-size: 16px;
+        text-align: center;
+        font-weight: 700;
+      }
+
+      .route-mini-map {
         width: 100%;
-        height: 100%;
+        height: clamp(112px, 17vh, 154px);
         display: block;
-        object-fit: contain;
-        object-position: top center;
-        mix-blend-mode: multiply;
+        border-bottom: 1px solid rgba(103, 82, 54, 0.16);
+      }
+
+      .mini-land {
+        fill: rgba(226, 214, 188, 0.32);
+        stroke: rgba(92, 85, 68, 0.34);
+        stroke-width: 1.2;
+      }
+
+      .mini-route-line {
+        fill: none;
+        stroke: #9b4b35;
+        stroke-width: 2.2;
+        stroke-dasharray: 5 6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+
+      .mini-route-node {
+        fill: #f8edd7;
+        stroke: #9b4b35;
+        stroke-width: 2;
+        transition: r 180ms ease, fill 180ms ease, stroke 180ms ease;
+      }
+
+      .mini-route-node.visited {
+        fill: #b46a52;
+      }
+
+      .mini-route-node.active {
+        r: 6;
+        fill: #4f91a6;
+        stroke: #f7edda;
+        stroke-width: 3;
       }
 
       .legend {
+        position: relative;
+        z-index: 2;
         flex: 0 0 auto;
-      }
-
-      .legend h3,
-      .legend ul {
-        display: none;
       }
 
       .legend ul {
         list-style: none;
-        margin: 14px 0 0;
+        margin: 9px 0 0;
         padding: 0;
         display: grid;
-        gap: 12px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 7px 12px;
         color: var(--muted);
-        font-size: 14px;
+        font-size: 12px;
       }
 
       .legend li {
         display: grid;
-        grid-template-columns: 32px 1fr;
+        grid-template-columns: 25px 1fr;
         align-items: center;
         gap: 9px;
       }
 
       .legend-symbol {
         display: block;
-        width: 30px;
-        height: 18px;
+        width: 24px;
+        height: 15px;
         position: relative;
       }
 
       .legend-symbol.route {
         border-top: 2px dashed var(--route);
+      }
+
+      .legend-symbol.current::before {
+        content: "";
+        position: absolute;
+        left: 7px;
+        top: 1px;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid #f7edda;
+        background: var(--river);
+        box-shadow: 0 0 0 1px rgba(69, 111, 122, 0.45);
       }
 
       .legend-symbol.river {
@@ -341,21 +359,21 @@
       .legend-symbol.city::before {
         content: "";
         position: absolute;
-        left: 10px;
-        top: 2px;
-        width: 12px;
-        height: 12px;
+        left: 7px;
+        top: 1px;
+        width: 11px;
+        height: 11px;
         border-radius: 50%;
         border: 3px solid rgba(156, 59, 42, 0.72);
         background: #fff8e8;
       }
 
       .legend-symbol.mountain::before {
-        content: "山";
+        content: "▲";
         position: absolute;
-        inset: -4px 0 0;
+        inset: -5px 0 0;
         color: #687264;
-        font-weight: 700;
+        font-size: 18px;
         text-align: center;
       }
 
@@ -853,21 +871,51 @@
       <span class="art-layer boat" aria-hidden="true"></span>
 
       <aside class="side-panel" aria-label="地图说明">
+        <img class="corner-decoration" src="./Data/左上角贴图.png" alt="" aria-hidden="true" />
         <article class="story-card" id="storyCard" data-tag="少年研学">
           <div class="story-ribbon">当前故事</div>
           <h2 id="storyTitle">延兴二年（472年）　范阳涿州</h2>
           <p id="storyText">郦道元出生于北魏官宦世家。故乡河渠纵横、北接山地，为他日后观察山川形势埋下最初的种子。</p>
           <div class="story-figure">
-            <img id="storyImage" src="./Data/封面底图2.png" alt="" />
+            <img id="storyImage" src="./Data/故事卡图片.png" alt="郦道元在山海间考察" />
           </div>
           <div class="story-meta" id="storyMeta">
             <span>范阳涿州</span><span>启程</span>
           </div>
         </article>
-        <div class="side-route-figure" aria-label="郦道元行旅路径与地图图例">
-          <img src="./Data/行旅路径小图和图例.png" alt="郦道元行旅路径缩略图与图例" />
-        </div>
-        <div class="legend">
+        <section class="route-overview" aria-labelledby="routeOverviewTitle">
+          <h3 id="routeOverviewTitle">郦道元行旅路径</h3>
+          <svg class="route-mini-map" viewBox="0 0 280 150" role="img" aria-label="郦道元十二阶段行旅路线缩略图">
+            <path class="mini-land" d="M42 30 L73 13 L112 20 L136 11 L174 22 L205 20 L238 40 L247 68 L236 91 L254 113 L232 137 L198 132 L174 143 L145 130 L115 139 L87 123 L56 119 L45 96 L27 76 Z" />
+            <path class="mini-route-line" d="M220 35 L232 70 L176 88 L148 30 L198 102 L208 55 L220 35 L80 75 L165 102 L172 127 L232 122 L150 92 L132 86" />
+            <g aria-hidden="true">
+              <circle class="mini-route-node active" data-mini-index="0" cx="220" cy="35" r="4" />
+              <circle class="mini-route-node" data-mini-index="1" cx="232" cy="70" r="4" />
+              <circle class="mini-route-node" data-mini-index="2" cx="176" cy="88" r="4" />
+              <circle class="mini-route-node" data-mini-index="3" cx="148" cy="30" r="4" />
+              <circle class="mini-route-node" data-mini-index="4" cx="198" cy="102" r="4" />
+              <circle class="mini-route-node" data-mini-index="5" cx="208" cy="55" r="4" />
+              <circle class="mini-route-node" data-mini-index="6" cx="220" cy="35" r="4" />
+              <circle class="mini-route-node" data-mini-index="7" cx="80" cy="75" r="4" />
+              <circle class="mini-route-node" data-mini-index="8" cx="165" cy="102" r="4" />
+              <circle class="mini-route-node" data-mini-index="9" cx="172" cy="127" r="4" />
+              <circle class="mini-route-node" data-mini-index="10" cx="232" cy="122" r="4" />
+              <circle class="mini-route-node" data-mini-index="11" cx="132" cy="86" r="4" />
+            </g>
+            <text x="250" y="25" fill="#6b604f" font-size="12">北</text>
+            <path d="M256 30 L256 48 M256 30 L251 38 M256 30 L261 38" fill="none" stroke="#6b604f" stroke-width="1.5" />
+          </svg>
+          <div class="legend" aria-label="地图图例">
+            <ul>
+              <li><span class="legend-symbol route"></span><span>行旅方向</span></li>
+              <li><span class="legend-symbol current"></span><span>当前位置</span></li>
+              <li><span class="legend-symbol city"></span><span>重要地点</span></li>
+              <li><span class="legend-symbol river"></span><span>主要河流</span></li>
+              <li><span class="legend-symbol mountain"></span><span>山体节点</span></li>
+            </ul>
+          </div>
+        </section>
+        <div class="legend layer-control">
           <div class="layer-modes" role="group" aria-label="山水贴图显示方式">
             <button class="layer-mode-btn active" type="button" data-layer-mode="both" aria-pressed="true">山水同现</button>
             <button class="layer-mode-btn" type="button" data-layer-mode="mountains" aria-pressed="false">仅山体</button>
@@ -1295,16 +1343,16 @@
               style: name === "Taihu" || name.includes("poly") ? lakeStyle : riverStyle,
               interactive: false,
             }).addTo(map);
-            const artSource = waterArt[name];
-            if (artSource && riverLayer.getBounds().isValid()) {
-              const artBounds = getAlignedWaterBounds(riverLayer.getBounds().pad(0.01), artSource);
-              L.imageOverlay(artSource, artBounds, {
-                pane: "waterArt",
-                className: "water-art",
-                opacity: 1,
-                interactive: false,
-              }).addTo(waterArtLayer);
-            }
+            // const artSource = waterArt[name];
+            // if (artSource && riverLayer.getBounds().isValid()) {
+            //   const artBounds = getAlignedWaterBounds(riverLayer.getBounds().pad(0.01), artSource);
+            //   L.imageOverlay(artSource, artBounds, {
+            //     pane: "waterArt",
+            //     className: "water-art",
+            //     opacity: 1,
+            //     interactive: false,
+            //   }).addTo(waterArtLayer);
+            // }
           }),
         );
 
@@ -1386,10 +1434,14 @@
         document.getElementById("storyCard").dataset.tag = stage.era;
         document.getElementById("storyTitle").textContent = stage.storyHeading;
         document.getElementById("storyText").textContent = stage.story;
-        document.getElementById("storyImage").src = stage.scene || stage.icon;
+        document.getElementById("storyImage").src = "./Data/故事卡图片.png";
         document.getElementById("storyMeta").innerHTML = stage.tags.map((tag) => `<span>${tag}</span>`).join("");
         document.querySelectorAll(".era-btn").forEach((btn, btnIndex) => {
           btn.classList.toggle("active", btnIndex === index);
+        });
+        document.querySelectorAll(".mini-route-node").forEach((node, nodeIndex) => {
+          node.classList.toggle("active", nodeIndex === index);
+          node.classList.toggle("visited", nodeIndex < index);
         });
 
         if (!traveller) {
