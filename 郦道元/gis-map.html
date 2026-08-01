@@ -48,8 +48,6 @@
           radial-gradient(circle at 56% 24%, rgba(255, 252, 239, 0.9), transparent 34%),
           radial-gradient(circle at 72% 58%, rgba(92, 145, 157, 0.17), transparent 28%),
           linear-gradient(90deg, rgba(74, 56, 34, 0.24), transparent 12%, transparent 88%, rgba(74, 56, 34, 0.18)),
-          repeating-linear-gradient(90deg, rgba(92, 71, 42, 0.045) 0 1px, transparent 1px 9px),
-          repeating-linear-gradient(0deg, rgba(130, 103, 66, 0.03) 0 1px, transparent 1px 11px),
           var(--paper);
       }
 
@@ -113,36 +111,23 @@
         border-left: 1px solid rgba(92, 72, 46, 0.24);
       }
 
-      .map-shell::before,
-      /* .map-shell::after {
+      /* 宣纸纹理覆盖整个地图区域，透明叠加，不拦截地图上的标注和按钮。 */
+      .map-shell::after {
         content: "";
         position: absolute;
+        inset: 0;
         pointer-events: none;
-        z-index: 4;
-        opacity: 0.34;
-        background-image: url("./Data/山贴图.png");
-        background-repeat: no-repeat;
-        background-size: contain;
-        filter: sepia(0.48) saturate(0.35) brightness(1.18) contrast(0.82);
+        z-index: 8;
+        opacity: 0.28;
+        background-image: url("./Data/宣纸样式.png");
+        background-repeat: repeat;
+        background-size: 720px auto;
         mix-blend-mode: multiply;
-      } */
-
-      .map-shell::before {
-        left: -7%;
-        top: 10%;
-        width: 42%;
-        height: 55%;
-        transform: scaleX(-1);
-      }
-
-      .map-shell::after {
-        right: -4%;
-        top: 1%;
-        width: 39%;
-        height: 48%;
       }
 
       #map {
+        position: relative;
+        z-index: 2;
         width: 100%;
         height: 100%;
         background: transparent;
@@ -152,6 +137,23 @@
       .leaflet-container {
         background: transparent;
         font-family: inherit;
+      }
+
+      /* 海面位于地图右下方，并通过左侧渐隐与陆地区域自然衔接。 */
+      .sea-surface {
+        position: absolute;
+        z-index: 0;
+        right: -3%;
+        bottom: -9%;
+        width: 56%;
+        height: 46%;
+        object-fit: cover;
+        opacity: 0.5;
+        filter: saturate(0.7) sepia(0.12) brightness(1.08);
+        mix-blend-mode: multiply;
+        pointer-events: none;
+        -webkit-mask-image: radial-gradient(ellipse 92% 92% at 100% 100%, #000 0 48%, rgba(0, 0, 0, 0.72) 62%, transparent 100%);
+        mask-image: radial-gradient(ellipse 92% 92% at 100% 100%, #000 0 48%, rgba(0, 0, 0, 0.72) 62%, transparent 100%);
       }
 
       .leaflet-control-attribution {
@@ -191,7 +193,7 @@
         background-image: url("./Data/山贴图.png");
       } */
 
-      .art-layer.boat {
+      /* .art-layer.boat {
         right: 31%;
         bottom: 18.7%;
         width: 8.5%;
@@ -199,7 +201,7 @@
         opacity: 0.34;
         background-image: url("./Data/封面船只.png");
         filter: sepia(0.35) saturate(0.7) brightness(1.05);
-      }
+      } */
 
       .side-panel {
         position: absolute;
@@ -414,6 +416,36 @@
 
       .layer-toggle input:checked + .toggle-track::after {
         transform: translateX(20px);
+      }
+
+      /* 山水贴图显示方式采用三段式按钮，默认同时显示山体与水体。 */
+      .layer-modes {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+        margin-top: 10px;
+        padding: 4px;
+        border: 1px solid rgba(104, 82, 53, 0.2);
+        background: rgba(244, 235, 214, 0.72);
+      }
+
+      .layer-mode-btn {
+        min-width: 0;
+        padding: 8px 3px;
+        border: 1px solid transparent;
+        color: #5b5042;
+        background: transparent;
+        font-size: 12px;
+        line-height: 1.2;
+        cursor: pointer;
+        transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
+      }
+
+      .layer-mode-btn.active {
+        color: #274e58;
+        border-color: rgba(71, 124, 140, 0.38);
+        background: rgba(204, 224, 222, 0.72);
+        box-shadow: inset 0 0 0 1px rgba(255, 252, 238, 0.62);
       }
 
       .story-card {
@@ -715,8 +747,13 @@
       }
 
       .place-dot {
+        display: block;
+        box-sizing: border-box;
         width: 17px;
         height: 17px;
+        min-width: 17px;
+        min-height: 17px;
+        aspect-ratio: 1 / 1;
         border-radius: 50%;
         border: 3px solid rgba(159, 63, 45, 0.72);
         background: #fff6e3;
@@ -731,12 +768,7 @@
       }
 
       .mountain-label::before {
-        content: "山";
-        display: block;
-        color: rgba(83, 102, 88, 0.72);
-        font-size: 22px;
-        line-height: 0.9;
-        text-align: center;
+        content: none;
       }
 
       .mountain-art {
@@ -752,6 +784,12 @@
         height: 100%;
         object-fit: contain;
         display: block;
+      }
+
+      .water-art {
+        opacity: 1 !important;
+        filter: sepia(0.16) saturate(0.76) brightness(1.08) contrast(0.9);
+        pointer-events: none;
       }
 
       .traveller-icon {
@@ -796,6 +834,7 @@
         .map-shell {
           left: 0;
           bottom: 150px;
+          z-index: 2;
         }
       }
     </style>
@@ -805,6 +844,7 @@
      
 
       <section class="map-shell" aria-label="GIS 数据驱动的郦道元行旅地图">
+        <img class="sea-surface" src="./Data/大海.png" alt="" aria-hidden="true" />
         <div id="map"></div>
       </section>
 
@@ -828,11 +868,11 @@
           <img src="./Data/行旅路径小图和图例.png" alt="郦道元行旅路径缩略图与图例" />
         </div>
         <div class="legend">
-          <label class="layer-toggle" for="mountainToggle">
-            <span>显示山体贴图</span>
-            <input id="mountainToggle" type="checkbox" checked />
-            <span class="toggle-track" aria-hidden="true"></span>
-          </label>
+          <div class="layer-modes" role="group" aria-label="山水贴图显示方式">
+            <button class="layer-mode-btn active" type="button" data-layer-mode="both" aria-pressed="true">山水同现</button>
+            <button class="layer-mode-btn" type="button" data-layer-mode="mountains" aria-pressed="false">仅山体</button>
+            <button class="layer-mode-btn" type="button" data-layer-mode="waters" aria-pressed="false">仅水体</button>
+          </div>
         </div>
       </aside>
 
@@ -844,6 +884,7 @@
       </article>
 
       <nav class="timeline" id="timeline" aria-label="郦道元行旅时间轴"></nav>
+      <audio id="footstepAudio" src="./Data/脚步声/脚步声/_古风脚步声_石板路1_爱给网_aigei_com.mp3" preload="auto" loop></audio>
     </main>
 
     <script src="./vendor/leaflet/leaflet.js"></script>
@@ -955,6 +996,38 @@
         "Baiyangdian_Huabeihedian",
       ];
 
+      /* 水体素材按河流数据顺序对应。每张透明 PNG 会自动贴合对应 GeoJSON 的地理范围。 */
+      const waterArt = {
+        Huanghe: "./Data/水体素材/黄河.png",
+        Changjiang: "./Data/水体素材/长江.png",
+        Taihu: "./Data/水体素材/太湖.png",
+        Hutuohe_line: "./Data/水体素材/ChatGPT Image 2026年8月1日 15_33_18 (4).png",
+        Zhanghe_Zhnagshui: "./Data/水体素材/漳河.png",
+        Mihe_Juyangshui: "./Data/水体素材/弥河.png",
+        Zihe_Zishui: "./Data/水体素材/ChatGPT Image 2026年8月1日 15_33_20 (7).png",
+        Sihe_Sishui: "./Data/水体素材/黄河故道.png",
+        Liyunhe_Hangou: "./Data/水体素材/ChatGPT Image 2026年8月1日 15_33_21 (9).png",
+        Baiyangdian_Huabeihedian: "./Data/水体素材/ChatGPT Image 2026年8月1日 15_33_22 (10).png",
+      };
+
+      /*
+       * 每张水体 PNG 四周都有不同宽度的透明留白。
+       * 这里记录“有效水墨内容”在整张图片中的归一化边界：[左、上、右、下]。
+       * 贴图时会据此反推整张图片的地理边界，使蓝色笔触而不是 PNG 画布与 GeoJSON 对齐。
+       */
+      const waterArtCrop = {
+        "黄河.png": [0.0299, 0.1006, 0.9642, 0.8799],
+        "长江.png": [0.0189, 0.0918, 0.9805, 0.8223],
+        "太湖.png": [0.1035, 0.043, 0.8346, 0.9443],
+        "ChatGPT Image 2026年8月1日 15_33_18 (4).png": [0.0029, 0.0924, 0.9531, 0.9349],
+        "漳河.png": [0.0202, 0.1201, 0.9395, 0.6416],
+        "弥河.png": [0.0911, 0.0732, 0.9076, 0.9355],
+        "ChatGPT Image 2026年8月1日 15_33_20 (7).png": [0.069, 0.0498, 0.9395, 0.9531],
+        "黄河故道.png": [0.1133, 0.0654, 0.875, 0.9541],
+        "ChatGPT Image 2026年8月1日 15_33_21 (9).png": [0.0521, 0.0732, 0.9616, 0.9473],
+        "ChatGPT Image 2026年8月1日 15_33_22 (10).png": [0.0143, 0.0732, 0.9746, 0.9199],
+      };
+
       const mountains = [
         "Taihangshan",
         "Wutaishan_Taihangshan",
@@ -1036,8 +1109,8 @@
       const map = L.map("map", {
         zoomControl: false,
         attributionControl: false,
-        minZoom: 4.65,
-        maxZoom: 4.65,
+        minZoom: 3,
+        maxZoom: 8,
         scrollWheelZoom: false,
         dragging: false,
         doubleClickZoom: false,
@@ -1051,12 +1124,16 @@
       const panes = {
         land: map.createPane("land"),
         rivers: map.createPane("rivers"),
+        waterArt: map.createPane("waterArt"),
         mountainArt: map.createPane("mountainArt"),
         route: map.createPane("route"),
         points: map.createPane("points"),
       };
       panes.land.style.zIndex = 210;
       panes.rivers.style.zIndex = 240;
+      panes.waterArt.style.zIndex = 248;
+      panes.waterArt.style.opacity = 0.48;
+      panes.waterArt.style.mixBlendMode = "multiply";
       panes.mountainArt.style.zIndex = 252;
       panes.route.style.zIndex = 270;
       panes.points.style.zIndex = 310;
@@ -1065,7 +1142,7 @@
         color: "rgba(89, 83, 70, 0.2)",
         weight: 0.65,
         fillColor: "#eadfc8",
-        fillOpacity: 0.28,
+        fillOpacity: 0.84,
       };
 
       const riverStyle = {
@@ -1085,6 +1162,7 @@
 
       const routeLayer = L.layerGroup([], { pane: "route" }).addTo(map);
       const completedRouteLayer = L.layerGroup([], { pane: "route" }).addTo(map);
+      const waterArtLayer = L.layerGroup([], { pane: "waterArt" }).addTo(map);
       const mountainArtLayer = L.layerGroup([], { pane: "mountainArt" }).addTo(map);
       const activePlaceLayer = L.layerGroup([], { pane: "points" }).addTo(map);
       let traveller;
@@ -1140,7 +1218,7 @@
         return L.marker(latlng, {
           pane: "points",
           icon: L.icon({
-              iconUrl: "./Data/Q版小人站立.png",
+              iconUrl: "./Data/Q版小人奔跑.png",
             iconSize: [70, 88],
             iconAnchor: [30, 58],
             className: "traveller-icon",
@@ -1171,6 +1249,25 @@
         return null;
       }
 
+      function getAlignedWaterBounds(geoBounds, artSource) {
+        const fileName = decodeURIComponent(artSource.split("/").pop());
+        const crop = waterArtCrop[fileName] || [0, 0, 1, 1];
+        const [left, top, right, bottom] = crop;
+        const contentWidth = Math.max(right - left, 0.01);
+        const contentHeight = Math.max(bottom - top, 0.01);
+
+        const geoWidth = geoBounds.getEast() - geoBounds.getWest();
+        const geoHeight = geoBounds.getNorth() - geoBounds.getSouth();
+        const fullWidth = geoWidth / contentWidth;
+        const fullHeight = geoHeight / contentHeight;
+
+        const west = geoBounds.getWest() - left * fullWidth;
+        const east = west + fullWidth;
+        const north = geoBounds.getNorth() + top * fullHeight;
+        const south = north - fullHeight;
+        return L.latLngBounds([south, west], [north, east]);
+      }
+
       async function drawBaseLayers() {
         const china = await loadGeoJson(`${dataRoot}/china/ChinaBoundpoly.geojson`);
         const chinaLayer = L.geoJSON(china, {
@@ -1179,10 +1276,12 @@
           interactive: false,
         }).addTo(map);
 
-        map.fitBounds(chinaLayer.getBounds().pad(0), {
+        /* 只保留郦道元主要活动及山水节点所在区域，裁去无地标的西部空白。 */
+        const travelBounds = L.latLngBounds([27.5, 100.0], [42.5, 124.5]);
+        map.fitBounds(travelBounds, {
           animate: false,
-          paddingTopLeft: [0, 200],//[左侧留白, 顶部留白]
-          paddingBottomRight: [0, 10],//[右侧留白, 底部留白]
+          paddingTopLeft: [28, 24],
+          paddingBottomRight: [54, 24],
         });
         const lockedZoom = map.getZoom();
         map.setMinZoom(lockedZoom);
@@ -1191,11 +1290,21 @@
         await Promise.all(
           rivers.map(async (name) => {
             const data = await loadGeoJson(`${dataRoot}/rivers/${name}.geojson`);
-            L.geoJSON(data, {
+            const riverLayer = L.geoJSON(data, {
               pane: "rivers",
               style: name === "Taihu" || name.includes("poly") ? lakeStyle : riverStyle,
               interactive: false,
             }).addTo(map);
+            const artSource = waterArt[name];
+            if (artSource && riverLayer.getBounds().isValid()) {
+              const artBounds = getAlignedWaterBounds(riverLayer.getBounds().pad(0.01), artSource);
+              L.imageOverlay(artSource, artBounds, {
+                pane: "waterArt",
+                className: "water-art",
+                opacity: 1,
+                interactive: false,
+              }).addTo(waterArtLayer);
+            }
           }),
         );
 
@@ -1222,15 +1331,25 @@
       }
 
       function bindLayerToggles() {
-        const mountainToggle = document.getElementById("mountainToggle");
-        if (!mountainToggle) return;
+        const buttons = document.querySelectorAll("[data-layer-mode]");
+        buttons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const mode = button.dataset.layerMode;
+            const showMountains = mode === "both" || mode === "mountains";
+            const showWaters = mode === "both" || mode === "waters";
 
-        mountainToggle.addEventListener("change", () => {
-          if (mountainToggle.checked) {
-            mountainArtLayer.addTo(map);
-          } else {
-            mountainArtLayer.remove();
-          }
+            if (showMountains) mountainArtLayer.addTo(map);
+            else mountainArtLayer.remove();
+
+            if (showWaters) waterArtLayer.addTo(map);
+            else waterArtLayer.remove();
+
+            buttons.forEach((item) => {
+              const active = item === button;
+              item.classList.toggle("active", active);
+              item.setAttribute("aria-pressed", String(active));
+            });
+          });
         });
       }
 
@@ -1247,34 +1366,15 @@
 
       function drawCompletedRoutes(index) {
         completedRouteLayer.clearLayers();
-        for (let i = 0; i < index; i += 1) {
-          L.polyline(stages[i].route, {
-            pane: "route",
-            color: "rgba(137, 61, 43, 0.42)",
-            weight: 2.7,
-            dashArray: "6 8",
-            lineCap: "round",
-            lineJoin: "round",
-          }).addTo(completedRouteLayer);
-        }
       }
 
-      async function activateStage(index) {
+      async function activateStage(index, playFootsteps = false) {
         const stage = stages[index];
         routeLayer.clearLayers();
         activePlaceLayer.clearLayers();
         hideClassicCard();
 
         drawCompletedRoutes(index);
-
-        L.polyline(stage.route, {
-          pane: "route",
-          color: "#934532",
-          weight: 3.2,
-          dashArray: "7 8",
-          lineCap: "round",
-          lineJoin: "round",
-        }).addTo(routeLayer);
 
         stage.placeIds.forEach(async (name) => {
           const data = await loadGeoJson(`${dataRoot}/places/${name}.geojson`);
@@ -1295,7 +1395,9 @@
         if (!traveller) {
           traveller = makeTraveller(stage.route[stage.focusIndex ?? stage.route.length - 1]);
         } else {
+          if (playFootsteps) startFootsteps();
           await animateTraveller(stage.route.slice(0, (stage.focusIndex ?? stage.route.length - 1) + 1));
+          if (playFootsteps) stopFootsteps();
         }
 
         const currentButton = document.querySelector(".era-btn.active");
@@ -1332,6 +1434,21 @@
         });
       }
 
+      function startFootsteps() {
+        const audio = document.getElementById("footstepAudio");
+        audio.volume = 0.36;
+        audio.currentTime = 0;
+        audio.play().catch(() => {
+          /* 浏览器若阻止声音播放，人物动画仍然正常继续。 */
+        });
+      }
+
+      function stopFootsteps() {
+        const audio = document.getElementById("footstepAudio");
+        audio.pause();
+        audio.currentTime = 0;
+      }
+
       function hideClassicCard() {
         const card = document.getElementById("classicCard");
         card.classList.remove("is-visible");
@@ -1362,7 +1479,7 @@
           )
           .join("");
         timeline.querySelectorAll(".era-btn").forEach((button) => {
-          button.addEventListener("click", () => activateStage(Number(button.dataset.index)));
+          button.addEventListener("click", () => activateStage(Number(button.dataset.index), true));
         });
       }
 
