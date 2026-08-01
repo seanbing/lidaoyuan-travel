@@ -107,7 +107,7 @@
         left: 23.5%;
         right: 0;
         top: 0;
-        bottom: 0;
+        bottom: 18.2%;
         z-index: 1;
         overflow: hidden;
         border-left: 1px solid rgba(92, 72, 46, 0.24);
@@ -204,12 +204,14 @@
       .side-panel {
         position: absolute;
         z-index: 14;
+        display: flex;
+        flex-direction: column;
         top: 0;
-        bottom: 16.8%;
+        bottom: 0;
         left: 0;
         width: 23.5%;
         min-width: 320px;
-        padding: 8.8vh 22px 20px;
+        padding: 2.2vh 18px 18px;
         border-right: 1px solid var(--panel-line);
         border-left: 1px solid rgba(255, 252, 238, 0.42);
         background:
@@ -255,11 +257,10 @@
       }
 
       .mini-map {
-        display: none;
         position: relative;
-        height: 18%;
-        min-height: 118px;
-        margin: 14px 0 14px;
+        flex: 1 1 auto;
+        min-height: 250px;
+        margin: 12px 0 0;
         border: 1px solid var(--panel-line);
         border-radius: 4px;
         background:
@@ -274,9 +275,32 @@
         height: 100%;
       }
 
+      .side-route-figure {
+        position: relative;
+        flex: 1 1 auto;
+        min-height: 250px;
+        margin-top: 12px;
+        overflow: hidden;
+        border: 1px solid var(--panel-line);
+        background: rgba(244, 235, 214, 0.72);
+      }
+
+      .side-route-figure img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: contain;
+        object-position: top center;
+        mix-blend-mode: multiply;
+      }
+
       .legend {
-        padding-top: 12px;
-        border-top: 1px solid rgba(107, 86, 57, 0.22);
+        flex: 0 0 auto;
+      }
+
+      .legend h3,
+      .legend ul {
+        display: none;
       }
 
       .legend ul {
@@ -340,7 +364,7 @@
         align-items: center;
         justify-content: space-between;
         gap: 10px;
-        margin-top: 18px;
+        margin-top: 10px;
         padding: 10px 12px;
         border: 1px solid rgba(104, 82, 53, 0.18);
         border-radius: 999px;
@@ -397,8 +421,9 @@
         z-index: 2;
         width: 100%;
         min-height: 0;
-        margin: 0 0 14px;
-        padding: 18px 22px 20px;
+        flex: 0 0 auto;
+        margin: 0;
+        padding: 15px 18px 16px;
         border: 1px solid var(--panel-line);
         border-radius: 8px;
         background:
@@ -425,7 +450,7 @@
         place-items: center;
         width: 154px;
         height: 31px;
-        margin: 0 auto 16px;
+        margin: 0 auto 12px;
         color: #fff7e8;
         background: linear-gradient(90deg, #8e604a, #a8765c);
         border-radius: 9px;
@@ -455,8 +480,8 @@
       }
 
       .story-card h2 {
-        margin: 0 0 12px;
-        font-size: clamp(19px, 1.55vw, 26px);
+        margin: 0 0 9px;
+        font-size: clamp(17px, 1.3vw, 22px);
         line-height: 1.35;
         letter-spacing: 0;
       }
@@ -464,8 +489,8 @@
       .story-card p {
         margin: 0;
         color: #4c4338;
-        font-size: 15px;
-        line-height: 1.85;
+        font-size: 14px;
+        line-height: 1.72;
         max-width: none;
       }
 
@@ -473,11 +498,11 @@
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        margin-top: 12px;
+        margin-top: 9px;
       }
 
       .story-meta span {
-        padding: 6px 12px;
+        padding: 4px 9px;
         border: 1px solid rgba(103, 82, 54, 0.22);
         border-radius: 999px;
         color: #5d5143;
@@ -487,8 +512,8 @@
 
       .story-figure {
         position: relative;
-        height: 130px;
-        margin-top: 14px;
+        height: clamp(92px, 13vh, 132px);
+        margin-top: 10px;
         overflow: hidden;
         border-radius: 5px;
         background: rgba(228, 216, 190, 0.52);
@@ -505,13 +530,13 @@
         mix-blend-mode: multiply;
       }
 
-      .bio-card {
+      .classic-card {
         position: absolute;
-        z-index: 13;
-        left: 25.3%;
-        bottom: 19.8%;
-        width: min(34vw, 520px);
-        padding: 18px 26px;
+        z-index: 18;
+        right: 1.6%;
+        top: 23.5%;
+        width: min(31vw, 500px);
+        padding: 20px 26px 22px;
         border: 1px solid var(--panel-line);
         border-radius: 6px;
         background:
@@ -519,31 +544,84 @@
           var(--paper);
         box-shadow:
           inset 0 0 0 4px rgba(255, 252, 238, 0.34),
-          0 12px 26px rgba(70, 53, 34, 0.09);
+          0 16px 34px rgba(70, 53, 34, 0.16);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(18px) scale(0.97);
+        transform-origin: 78% 45%;
+        pointer-events: none;
+        transition:
+          opacity 360ms ease,
+          transform 460ms cubic-bezier(0.2, 0.74, 0.26, 1),
+          visibility 0s linear 460ms;
       }
 
-      .bio-card h2 {
+      .classic-card::after {
+        content: "";
+        position: absolute;
+        inset: 7px;
+        border: 1px solid rgba(112, 86, 53, 0.18);
+        pointer-events: none;
+      }
+
+      .classic-card.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+        pointer-events: auto;
+        transition-delay: 0s;
+      }
+
+      .classic-card h2 {
         margin: 0 0 9px;
-        font-size: 22px;
+        padding-right: 30px;
+        font-size: 21px;
       }
 
-      .bio-card p {
+      .classic-card p {
         margin: 0;
         color: #53483c;
         line-height: 1.75;
         font-size: 14px;
       }
 
+      .classic-source {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 4px 10px;
+        color: #704739;
+        border: 1px solid rgba(139, 76, 54, 0.28);
+        background: rgba(238, 220, 189, 0.54);
+        font-size: 13px;
+      }
+
+      .classic-close {
+        position: absolute;
+        z-index: 2;
+        top: 11px;
+        right: 12px;
+        width: 30px;
+        height: 30px;
+        padding: 0;
+        border: 0;
+        border-radius: 50%;
+        color: #5b5042;
+        background: rgba(194, 177, 145, 0.35);
+        font-size: 24px;
+        line-height: 28px;
+        cursor: pointer;
+      }
+
       .timeline {
         position: absolute;
         z-index: 16;
-        left: 1.8%;
-        right: 1.8%;
-        bottom: 2.2%;
-        height: 13.2%;
+        left: calc(23.5% + 18px);
+        right: 18px;
+        bottom: 1.8%;
+        height: 14.5%;
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
-        gap: 16px;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        gap: 7px;
       }
 
       .timeline::before {
@@ -551,7 +629,7 @@
         position: absolute;
         left: 1%;
         right: 1%;
-        bottom: 6px;
+        bottom: 5px;
         height: 3px;
         background: linear-gradient(90deg, rgba(88, 71, 47, 0.46), rgba(88, 71, 47, 0.16), rgba(88, 71, 47, 0.46));
       }
@@ -559,10 +637,8 @@
       .era-btn {
         position: relative;
         display: grid;
-        grid-template-columns: 58px 1fr;
-        gap: 12px;
-        align-items: center;
-        padding: 10px 18px 16px;
+        place-items: center;
+        padding: 8px 4px 16px;
         border: 1px solid var(--panel-line);
         border-radius: 6px;
         color: var(--ink);
@@ -570,7 +646,7 @@
           linear-gradient(rgba(255, 251, 237, 0.92), rgba(233, 219, 191, 0.84)),
           var(--paper);
         cursor: pointer;
-        text-align: left;
+        text-align: center;
         box-shadow:
           inset 0 0 0 3px rgba(255, 252, 238, 0.32),
           0 9px 18px rgba(70, 53, 34, 0.08);
@@ -590,26 +666,18 @@
         border: 2px solid rgba(239, 228, 203, 0.9);
       }
 
-      .era-btn img {
-        width: 54px;
-        height: 54px;
-        padding: 4px;
-        object-fit: cover;
-        border: 1px solid rgba(104, 82, 53, 0.12);
-        background: rgba(236, 226, 204, 0.5);
-      }
-
       .era-btn b {
         display: block;
-        font-size: 19px;
-        line-height: 1.2;
+        font-size: clamp(11px, 0.85vw, 15px);
+        line-height: 1.35;
+        font-weight: 600;
       }
 
       .era-btn small {
         display: block;
-        margin-top: 5px;
+        margin-top: 4px;
         color: var(--muted);
-        font-size: 13px;
+        font-size: clamp(10px, 0.72vw, 12px);
         line-height: 1.35;
       }
 
@@ -625,6 +693,15 @@
       .era-btn.active::after {
         background: var(--river);
         box-shadow: 0 0 0 5px rgba(94, 153, 173, 0.22);
+      }
+
+      .era-btn.has-classic::before {
+        content: "注";
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        color: rgba(139, 57, 41, 0.58);
+        font-size: 10px;
       }
 
       .place-label {
@@ -684,7 +761,7 @@
 
       @media (max-width: 1100px) {
         .side-panel,
-        .bio-card {
+        .classic-card {
           display: none;
         }
 
@@ -703,27 +780,22 @@
         }
 
         .timeline {
-          grid-template-columns: 1fr;
-          height: auto;
-          top: 12%;
-          right: 3%;
-          left: auto;
-          bottom: auto;
-          width: min(300px, 40vw);
+          left: 12px;
+          right: 12px;
+          bottom: 12px;
+          height: 128px;
+          grid-template-columns: repeat(12, 92px);
+          overflow-x: auto;
+          overflow-y: hidden;
         }
 
         .timeline::before {
           display: none;
         }
 
-        .era-btn {
-          grid-template-columns: 42px 1fr;
-          padding: 8px 10px;
-        }
-
-        .era-btn img {
-          width: 40px;
-          height: 40px;
+        .map-shell {
+          left: 0;
+          bottom: 150px;
         }
       }
     </style>
@@ -741,38 +813,21 @@
       <span class="art-layer boat" aria-hidden="true"></span>
 
       <aside class="side-panel" aria-label="地图说明">
-        <h2>郦道元行旅路径</h2>
-        <div class="mini-map" aria-hidden="true">
-          <svg viewBox="0 0 260 160" role="img">
-            <path d="M53 37 C95 22 116 55 139 67 S179 78 208 112" fill="none" stroke="#9b4b35" stroke-width="3" stroke-dasharray="7 7" />
-            <circle cx="53" cy="37" r="4" fill="#fff7e8" stroke="#9b4b35" stroke-width="3" />
-            <circle cx="104" cy="52" r="4" fill="#fff7e8" stroke="#9b4b35" stroke-width="3" />
-            <circle cx="139" cy="67" r="4" fill="#fff7e8" stroke="#9b4b35" stroke-width="3" />
-            <circle cx="172" cy="84" r="4" fill="#fff7e8" stroke="#9b4b35" stroke-width="3" />
-            <circle cx="208" cy="112" r="4" fill="#fff7e8" stroke="#9b4b35" stroke-width="3" />
-            <text x="216" y="26" font-size="13" fill="#6b604f">北</text>
-            <path d="M222 34 L222 60 M222 34 L216 45 M222 34 L228 45" stroke="#6b604f" stroke-width="2" fill="none" />
-          </svg>
-        </div>
         <article class="story-card" id="storyCard" data-tag="少年研学">
           <div class="story-ribbon">当前故事</div>
-          <h2 id="storyTitle">太和年间（489年前）　青州</h2>
-          <p id="storyText">郦道元出生于范阳涿州，少随父宦游青州，开始观察渤海、淄水、巨洋水与山东山地，逐渐形成以实地考察校正典籍的志向。</p>
+          <h2 id="storyTitle">延兴二年（472年）　范阳涿州</h2>
+          <p id="storyText">郦道元出生于北魏官宦世家。故乡河渠纵横、北接山地，为他日后观察山川形势埋下最初的种子。</p>
           <div class="story-figure">
             <img id="storyImage" src="./Data/封面底图2.png" alt="" />
           </div>
           <div class="story-meta" id="storyMeta">
-            <span>范阳涿州</span><span>青州</span><span>渤海</span>
+            <span>范阳涿州</span><span>启程</span>
           </div>
         </article>
+        <div class="side-route-figure" aria-label="郦道元行旅路径与地图图例">
+          <img src="./Data/行旅路径小图和图例.png" alt="郦道元行旅路径缩略图与图例" />
+        </div>
         <div class="legend">
-          <h3>图例</h3>
-          <ul>
-            <li><span class="legend-symbol route"></span><span>行旅路线</span></li>
-            <li><span class="legend-symbol city"></span><span>重要地点</span></li>
-            <li><span class="legend-symbol river"></span><span>主要河流</span></li>
-            <li><span class="legend-symbol mountain"></span><span>山脉节点</span></li>
-          </ul>
           <label class="layer-toggle" for="mountainToggle">
             <span>显示山体贴图</span>
             <input id="mountainToggle" type="checkbox" checked />
@@ -781,12 +836,11 @@
         </div>
       </aside>
 
-      <article class="bio-card">
-        <h2>郦道元与《水经注》</h2>
-        <p>
-          郦道元以水系为经，以山地、城邑、古迹、风俗为纬，将山、水、城、史编织成中国古代地理书写的重要范式。
-          本页用 GIS 数据重建行旅空间，再叠加水墨化视觉与时间轴叙事。
-        </p>
+      <article class="classic-card" id="classicCard" aria-hidden="true" aria-live="polite">
+        <button class="classic-close" id="classicClose" type="button" aria-label="关闭《水经注》彩蛋">×</button>
+        <h2 id="classicTitle">《水经注》山水札记</h2>
+        <p id="classicText"></p>
+        <span class="classic-source" id="classicSource"></span>
       </article>
 
       <nav class="timeline" id="timeline" aria-label="郦道元行旅时间轴"></nav>
@@ -799,96 +853,92 @@
 
       const stages = [
         {
-          id: "study",
-          year: "472年",
-          card: "少年研学",
-          title: "少年研学，立志明地理",
+          id: "birth", year: "472年", era: "延兴二年",
+          storyHeading: "延兴二年（472年）　范阳涿州",
+          placeIds: ["FanyangZhuozhou"], route: [[39.486, 115.974]],
+          story: "郦道元出生于北魏官宦世家。故乡河渠纵横、北接山地，为他日后观察山川形势埋下最初的种子。",
+          tags: ["范阳涿州", "启程"], icon: "./Data/1.png", scene: "./Data/封面底图2.png",
+        },
+        {
+          id: "qingzhou", year: "489年之前", era: "太和年间",
           storyHeading: "太和年间（489年前）　青州",
-          placeIds: ["FanyangZhuozhou", "Qingzhou"],
-          route: [
-            [39.486, 115.974],
-            [36.685, 118.479],
-          ],
-          focusIndex: 1,
-          story: "郦道元出生于范阳涿州，少随父宦游青州，开始观察渤海、淄水、巨洋水与山东山地，逐渐形成以实地考察校正典籍的志向。",
-          tags: ["范阳涿州", "青州", "渤海"],
-          icon: "./Data/1.png",
-          scene: "./Data/封面底图2.png",
+          placeIds: ["Qingzhou"], route: [[39.486, 115.974], [36.685, 118.479]],
+          story: "随父宦游青州，踏勘淄水、巨洋水，观察渤海沿岸与山东山地，在山海相接处立下访水求真的志向。",
+          tags: ["青州", "渤海", "淄水", "山东山地"], icon: "./Data/1.png", scene: "./Data/封面底图2.png",
         },
         {
-          id: "north",
-          year: "494年",
-          card: "北魏仕途",
-          title: "北巡阴山，识河套山河",
+          id: "luoyang", year: "489年", era: "太和十三年",
+          storyHeading: "太和十三年（489年）　洛阳",
+          placeIds: ["Luoyang"], route: [[36.685, 118.479], [34.62, 112.448]],
+          story: "父亲郦范病逝，郦道元承袭爵位并赴洛阳入仕。少年山海游学结束，他开始把沿途观察带入官场巡行。",
+          tags: ["洛阳", "入仕"], icon: "./Data/2.png", scene: "./Data/底图参考6.png",
+        },
+        {
+          id: "yinshan", year: "494年", era: "太和十八年",
           storyHeading: "太和十八年（494年）　阴山",
-          placeIds: ["Luoyang", "Zhongyuan", "Guanzhong"],
-          route: [
-            [36.685, 118.479],
-            [34.62, 112.448],
-            [35.0, 111.0],
-            [37.8, 110.6],
-          ],
-          focusIndex: 3,
-          story: "入仕洛阳后，郦道元随北魏政治空间移动，向北观察黄河河套、阴山与草原戈壁，把山势、水势和边地交通放入同一张地理图景。",
-          tags: ["洛阳", "黄河", "阴山"],
-          icon: "./Data/2.png",
-          scene: "./Data/底图参考6.png",
+          placeIds: ["Luoyang"], route: [[34.62, 112.448], [37.8, 110.6], [40.75, 108.5]],
+          story: "随孝文帝北巡阴山，观察河套黄河、草原、戈壁与高山之间的地貌差异，把大河走势与山脉屏障放在一起记录。",
+          tags: ["阴山", "黄河河套", "北巡"], icon: "./Data/2.png", scene: "./Data/底图参考6.png",
+          classic: { title: "阴山与河套", text: "《水经注》写黄河，不只记水道，也同时追索沿岸山势、塞障与城邑。抵达阴山节点后，山与河的关系才真正进入叙事中心。", source: "《水经注·河水》" },
         },
         {
-          id: "mountains",
-          year: "505年",
-          card: "北方山川",
-          title: "溯河辨山，校正水经",
+          id: "huanghuai", year: "495-499年", era: "太和末年",
+          storyHeading: "太和末年（495-499年）　黄淮地区",
+          placeIds: ["Zhongyuan", "Luoyang"], route: [[40.75, 108.5], [34.62, 112.448], [33.8, 116.5]],
+          story: "任治书侍御史期间巡察黄淮，勘察鸿沟、汴水等古代人工水道，考证旧河道变迁，并收集江淮水系史料。",
+          tags: ["黄淮", "鸿沟", "汴水"], icon: "./Data/2.png", scene: "./Data/底图参考6.png",
+        },
+        {
+          id: "jizhou", year: "500-503年", era: "景明元年-景明三年",
+          storyHeading: "景明元年至三年（500-503年）　冀州",
+          placeIds: ["Jizhou_Hengshui"], route: [[33.8, 116.5], [37.74, 115.67]],
+          story: "任冀州镇东府长史，巡行漳水、滹沱河与华北湖淀，逐步梳理山地来水、平原河道和湖泊之间的连通体系。",
+          tags: ["冀州", "漳水", "滹沱河", "湖淀"], icon: "./Data/2.png", scene: "./Data/底图参考6.png",
+        },
+        {
+          id: "mourning", year: "503-504年", era: "景明三年-正始元年",
+          storyHeading: "景明三年至正始元年（503-504年）　返乡丁忧",
+          placeIds: ["FanyangZhuozhou"], route: [[37.74, 115.67], [39.486, 115.974]],
+          story: "母亲去世后回乡守孝。他研读残缺古本《水经》，逐渐确立以文献为线索、以实地考察补证的注书方法。",
+          tags: ["返乡", "研读《水经》", "立注书之志"], icon: "./Data/1.png", scene: "./Data/封面底图2.png",
+        },
+        {
+          id: "upper-yellow", year: "约505年", era: "正始年间",
           storyHeading: "正始年间（约505年）　黄河上游",
-          placeIds: ["Jizhou_Hengshui", "Luyang_Pingdingshanlushan", "Luoyang"],
-          route: [
-            [34.62, 112.448],
-            [37.74, 115.67],
-            [35.94, 113.49],
-            [33.74, 111.9],
-          ],
-          focusIndex: 2,
-          story: "在冀州、鲁阳等地的巡行中，他把漳水、滹沱河、淮河上游与太行山、秦岭等山脉联系起来，形成“山为水源、水循山势”的考察方法。",
-          tags: ["冀州", "太行山", "淮河上游"],
-          icon: "./Data/山贴图.png",
-          scene: "./Data/山贴图.png",
+          placeIds: ["Guanzhong"], route: [[39.486, 115.974], [34.37, 109.22], [35.6, 102.6]],
+          story: "沿黄河西行溯源，越秦岭、近积石山，考察高山如何分水、河谷如何导流，并据此辨析黄河与长江流域的山水分界。",
+          tags: ["黄河上游", "秦岭", "积石山", "分水岭"], icon: "./Data/山贴图.png", scene: "./Data/山贴图.png",
+          classic: { title: "积石山下，溯河寻源", text: "在《河水》篇的叙述中，山口、峡谷与河道互为线索。此处的彩蛋强调：郦道元所谓“访水”，往往也是沿河辨山。", source: "《水经注·河水》" },
         },
         {
-          id: "jianghan",
-          year: "515年",
-          card: "江汉三峡",
-          title: "行至三峡，观水成书",
-          storyHeading: "513-520年　江汉三峡",
-          placeIds: ["Jingzhou", "Guangling_Yangzhou"],
-          route: [
-            [33.74, 111.9],
-            [30.35, 112.19],
-            [30.85, 110.98],
-            [32.39, 119.41],
-          ],
-          focusIndex: 2,
-          story: "沿江而行，他关注峡谷、江流、支派、城邑和地方传说，把长江、三峡、太湖、邗沟等内容纳入《水经注》的系统考据。",
-          tags: ["长江", "三峡", "太湖", "邗沟"],
-          icon: "./Data/封面船只.png",
-          scene: "./Data/封面底图2.png",
+          id: "luyang", year: "508-512年", era: "永平年间",
+          storyHeading: "永平年间（508-512年）　鲁阳",
+          placeIds: ["Luyang_Pingdingshanlushan"], route: [[35.6, 102.6], [34.37, 109.22], [33.74, 111.9]],
+          story: "任鲁阳太守时深入伏牛山地，寻访淮河上游与汝水、颍水支流，核对古碑并向山民询问水源与旧道。",
+          tags: ["鲁阳", "伏牛山", "汝水", "淮河上游"], icon: "./Data/山贴图.png", scene: "./Data/山贴图.png",
+          classic: { title: "汝水出山", text: "行至鲁阳与汝水相关地域时，页面才展开这则典籍札记：山谷、泉源、支流和沿岸遗迹共同组成一条河的完整身世。", source: "《水经注·汝水》" },
         },
         {
-          id: "book",
-          year: "527年",
-          card: "撰成《水经注》",
-          title: "汇集所见，著成不朽",
-          storyHeading: "延昌至孝昌初年　定稿成书",
-          placeIds: ["Yingpanyiting_Xianlinntong", "Guanzhong"],
-          route: [
-            [32.39, 119.41],
-            [34.62, 112.448],
-            [34.37, 109.22],
-          ],
-          focusIndex: 1,
-          story: "延昌至孝昌年间，郦道元继续补证中原、关中水系，最终完成《水经注》四十卷。孝昌三年，行至关中途中遇害，山海求索之路落幕。",
-          tags: ["关中", "阴盘驿亭", "《水经注》"],
-          icon: "./Data/3.png",
-          scene: "./Data/底图参考6.png",
+          id: "jianghan", year: "513-520年", era: "东荆州·洛阳",
+          storyHeading: "513-520年　江汉、三峡与太湖",
+          placeIds: ["Jingzhou", "Guangling_Yangzhou"], route: [[33.74, 111.9], [30.85, 110.98], [30.35, 112.19], [31.2, 120.2]],
+          story: "整合江汉及东南水系资料，考证长江峡谷、荆州水道、太湖与邗沟。沿水路辨山势、访城邑，逐步完成《水经注》主体。",
+          tags: ["三峡", "长江", "荆州", "太湖", "邗沟"], icon: "./Data/封面船只.png", scene: "./Data/封面底图2.png",
+          classic: { title: "行至三峡，观水成书", text: "江流进入三峡，两岸高山夹峙，滩险、深潭与急流随季节变化。郦道元把亲历、访闻与旧籍互证，留下兼具地理精度与文学气韵的山水书写。", source: "《水经注·江水》" },
+        },
+        {
+          id: "revision", year: "521-526年", era: "延昌至孝昌初年",
+          storyHeading: "延昌至孝昌初年（521-526年）　巡查补证",
+          placeIds: ["Luoyang", "Zhongyuan", "Guanzhong"], route: [[31.2, 120.2], [34.62, 112.448], [34.37, 109.22]],
+          story: "任御史中尉期间继续巡查中原与关中，补证山川源流，修订前稿，完成《水经注》四十卷的定稿。",
+          tags: ["中原", "关中", "校正山水记载", "四十卷"], icon: "./Data/3.png", scene: "./Data/底图参考6.png",
+        },
+        {
+          id: "final", year: "527年", era: "孝昌三年",
+          storyHeading: "孝昌三年（527年）　阴盘驿亭",
+          placeIds: ["Yingpanyiting_Xianlinntong"], route: [[34.62, 112.448], [34.37, 109.22]],
+          story: "受命为关右大使，前往关中途中被围困遇害，终年五十五岁。他以一生踏勘汇成的山河世界，则在《水经注》中延续。",
+          tags: ["阴盘驿亭", "关中", "行旅终章"], icon: "./Data/3.png", scene: "./Data/底图参考6.png",
         },
       ];
 
@@ -1038,6 +1088,7 @@
       const mountainArtLayer = L.layerGroup([], { pane: "mountainArt" }).addTo(map);
       const activePlaceLayer = L.layerGroup([], { pane: "points" }).addTo(map);
       let traveller;
+      let travellerFrame = 0;
 
       function readBundledGeoJson(path) {
         const key = path.replace(`${dataRoot}/`, "");
@@ -1128,10 +1179,10 @@
           interactive: false,
         }).addTo(map);
 
-        map.fitBounds(chinaLayer.getBounds().pad(0.01), {
+        map.fitBounds(chinaLayer.getBounds().pad(0), {
           animate: false,
-          paddingTopLeft: [16, 200],//[左侧留白, 顶部留白]
-          paddingBottomRight: [30, 10],//[右侧留白, 底部留白]
+          paddingTopLeft: [0, 200],//[左侧留白, 顶部留白]
+          paddingBottomRight: [0, 10],//[右侧留白, 底部留白]
         });
         const lockedZoom = map.getZoom();
         map.setMinZoom(lockedZoom);
@@ -1212,10 +1263,11 @@
         const stage = stages[index];
         routeLayer.clearLayers();
         activePlaceLayer.clearLayers();
+        hideClassicCard();
 
         drawCompletedRoutes(index);
 
-        const activeRoute = L.polyline(stage.route, {
+        L.polyline(stage.route, {
           pane: "route",
           color: "#934532",
           weight: 3.2,
@@ -1231,23 +1283,29 @@
           makePlaceMarker(latlng, placeNames[name] || name, true).addTo(activePlaceLayer);
         });
 
-        if (!traveller) {
-          traveller = makeTraveller(stage.route[stage.focusIndex ?? stage.route.length - 1]);
-        } else {
-          animateTraveller(stage.route.slice(0, (stage.focusIndex ?? stage.route.length - 1) + 1));
-        }
-
-        document.getElementById("storyCard").dataset.tag = stage.card;
-        document.getElementById("storyTitle").textContent = stage.storyHeading || stage.title;
+        document.getElementById("storyCard").dataset.tag = stage.era;
+        document.getElementById("storyTitle").textContent = stage.storyHeading;
         document.getElementById("storyText").textContent = stage.story;
         document.getElementById("storyImage").src = stage.scene || stage.icon;
         document.getElementById("storyMeta").innerHTML = stage.tags.map((tag) => `<span>${tag}</span>`).join("");
         document.querySelectorAll(".era-btn").forEach((btn, btnIndex) => {
           btn.classList.toggle("active", btnIndex === index);
         });
+
+        if (!traveller) {
+          traveller = makeTraveller(stage.route[stage.focusIndex ?? stage.route.length - 1]);
+        } else {
+          await animateTraveller(stage.route.slice(0, (stage.focusIndex ?? stage.route.length - 1) + 1));
+        }
+
+        const currentButton = document.querySelector(".era-btn.active");
+        if (!currentButton || Number(currentButton.dataset.index) !== index) return;
+
+        if (stage.classic) showClassicCard(stage.classic);
       }
 
       function animateTraveller(route) {
+        cancelAnimationFrame(travellerFrame);
         const steps = [];
         for (let i = 0; i < route.length - 1; i += 1) {
           const start = route[i];
@@ -1259,13 +1317,34 @@
         }
         steps.push(route[route.length - 1]);
 
-        let frame = 0;
-        const tick = () => {
-          traveller.setLatLng(steps[frame]);
-          frame += 1;
-          if (frame < steps.length) requestAnimationFrame(tick);
-        };
-        tick();
+        return new Promise((resolve) => {
+          let frame = 0;
+          const tick = () => {
+            traveller.setLatLng(steps[frame]);
+            frame += 1;
+            if (frame < steps.length) {
+              travellerFrame = requestAnimationFrame(tick);
+            } else {
+              resolve();
+            }
+          };
+          tick();
+        });
+      }
+
+      function hideClassicCard() {
+        const card = document.getElementById("classicCard");
+        card.classList.remove("is-visible");
+        card.setAttribute("aria-hidden", "true");
+      }
+
+      function showClassicCard(classic) {
+        document.getElementById("classicTitle").textContent = classic.title;
+        document.getElementById("classicText").textContent = classic.text;
+        document.getElementById("classicSource").textContent = classic.source;
+        const card = document.getElementById("classicCard");
+        card.classList.add("is-visible");
+        card.setAttribute("aria-hidden", "false");
       }
 
       function renderTimeline() {
@@ -1273,11 +1352,10 @@
         timeline.innerHTML = stages
           .map(
             (stage, index) => `
-              <button class="era-btn ${index === 0 ? "active" : ""}" type="button" data-index="${index}">
-                <img src="${stage.icon}" alt="" />
+              <button class="era-btn ${index === 0 ? "active" : ""} ${stage.classic ? "has-classic" : ""}" type="button" data-index="${index}">
                 <span>
-                  <b>${stage.card}</b>
-                  <small>公元 ${stage.year}</small>
+                  <b>${stage.era}</b>
+                  <small>（${stage.year}）</small>
                 </span>
               </button>
             `,
@@ -1291,6 +1369,7 @@
       async function init() {
         renderTimeline();
         bindLayerToggles();
+        document.getElementById("classicClose").addEventListener("click", hideClassicCard);
         await drawBaseLayers();
         await drawAllPlaces();
         traveller = makeTraveller(stages[0].route[stages[0].focusIndex ?? stages[0].route.length - 1]);
