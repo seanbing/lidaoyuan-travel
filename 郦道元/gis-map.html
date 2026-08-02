@@ -197,20 +197,36 @@
         box-shadow: inset -15px 0 28px rgba(88, 69, 44, 0.07);
       }
 
-      .corner-decoration {
-        position: absolute;
-        z-index: 0;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 126px;
-        object-fit: cover;
-        object-position: center 44%;
-        opacity: 0.3;
+      /* 地图边角山水位于行政底图上方、河流和标注下方，作为画卷景深而非 UI 背景。 */
+      .map-corner-art {
         mix-blend-mode: multiply;
         pointer-events: none;
-        -webkit-mask-image: linear-gradient(180deg, #000 0 48%, transparent 100%);
-        mask-image: linear-gradient(180deg, #000 0 48%, transparent 100%);
+        filter: sepia(0.24) saturate(0.56) brightness(1.08) contrast(0.9);
+      }
+
+      .map-corner-art-top {
+        -webkit-mask-image: radial-gradient(ellipse 96% 96% at 0 0, #000 0 44%, rgba(0, 0, 0, 0.72) 66%, transparent 100%);
+        mask-image: radial-gradient(ellipse 96% 96% at 0 0, #000 0 44%, rgba(0, 0, 0, 0.72) 66%, transparent 100%);
+      }
+
+      .map-corner-art-bottom {
+        -webkit-mask-image: radial-gradient(ellipse 96% 96% at 0 100%, #000 0 44%, rgba(0, 0, 0, 0.7) 66%, transparent 100%);
+        mask-image: radial-gradient(ellipse 96% 96% at 0 100%, #000 0 44%, rgba(0, 0, 0, 0.7) 66%, transparent 100%);
+      }
+
+      /* 城郭和楼阁作为文化地标贴图，白色宣纸背景通过正片叠底自然融入地图。 */
+      .building-art {
+        pointer-events: none;
+        opacity: 0.72;
+        mix-blend-mode: multiply;
+        filter: sepia(0.28) saturate(0.62) brightness(1.06) contrast(0.94);
+      }
+
+      .building-art img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
       }
 
       .side-panel h2,
@@ -376,19 +392,6 @@
         font-size: 18px;
         text-align: center;
       }
-
-      .legend-decoration {
-        display: block;
-        width: calc(100% + 36px);
-        max-height: 140px;
-        margin: 12px -18px 0;
-        object-fit: cover;
-        opacity: 0.82;
-        mix-blend-mode: multiply;
-        pointer-events: none;
-      }
-
-
 
       .layer-toggle {
         position: relative;
@@ -735,7 +738,7 @@
         height: 14.5%;
         display: grid;
         grid-template-columns: repeat(12, minmax(0, 1fr));
-        gap: 3px;
+        gap: 5px;
       }
 
       .timeline::before {
@@ -753,13 +756,13 @@
         display: grid;
         place-items: center;
         min-width: 0;
-        padding: 5px 3px 23px;
+        padding: 3px 0 22px;
         border: 0;
         color: var(--ink);
         background: transparent;
         cursor: pointer;
         text-align: center;
-        transition: color 220ms ease, background-color 220ms ease;
+        transition: color 220ms ease, transform 220ms ease;
       }
 
       .era-btn::after {
@@ -779,36 +782,56 @@
       .era-btn span {
         display: grid;
         align-content: center;
+        justify-items: center;
         width: 100%;
-        min-height: 64px;
-        padding: 4px 2px;
-        border-top: 1px solid transparent;
-        border-bottom: 1px solid transparent;
+        min-height: 76px;
+        padding: 4px 2px 5px;
+        border: 1px solid rgba(112, 88, 56, 0.2);
+        background:
+          linear-gradient(rgba(255, 252, 240, 0.74), rgba(235, 222, 196, 0.56)),
+          var(--paper);
+        box-shadow: inset 0 0 0 3px rgba(255, 252, 239, 0.25);
+      }
+
+      .era-art {
+        display: block;
+        width: 34px;
+        height: 29px;
+        margin-bottom: 2px;
+        object-fit: contain;
+        opacity: 0.76;
+        mix-blend-mode: multiply;
+        filter: sepia(0.22) saturate(0.72) contrast(0.94);
       }
 
       .era-btn b {
         display: block;
-        font-size: clamp(11px, 0.85vw, 15px);
-        line-height: 1.35;
+        font-family: KaiTi, STKaiti, serif;
+        font-size: clamp(10px, 0.72vw, 13px);
+        line-height: 1.2;
         font-weight: 600;
       }
 
       .era-btn small {
         display: block;
-        margin-top: 4px;
+        margin-top: 2px;
         color: var(--muted);
-        font-size: clamp(10px, 0.72vw, 12px);
-        line-height: 1.35;
+        font-family: "Noto Serif SC", "Source Han Serif SC", SimSun, serif;
+        font-size: clamp(9px, 0.62vw, 11px);
+        line-height: 1.2;
       }
 
       .era-btn.active {
         color: #315f6c;
-        background: linear-gradient(180deg, transparent, rgba(102, 153, 168, 0.1) 72%, transparent);
+        transform: translateY(-2px);
+        background: transparent;
       }
 
       .era-btn.active span {
-        border-top-color: rgba(75, 128, 143, 0.3);
-        border-bottom-color: rgba(75, 128, 143, 0.3);
+        border-color: rgba(75, 128, 143, 0.64);
+        box-shadow:
+          inset 0 0 0 3px rgba(229, 241, 238, 0.5),
+          0 0 0 2px rgba(94, 153, 173, 0.14);
       }
 
       .era-btn.active::after {
@@ -974,7 +997,6 @@
       <span class="art-layer boat" aria-hidden="true"></span>
 
       <aside class="side-panel" aria-label="地图说明">
-        <img class="corner-decoration" src="./Data/左上角贴图.png" alt="" aria-hidden="true" />
         <article class="story-card" id="storyCard" data-tag="少年研学">
           <div class="story-ribbon">行旅纪事</div>
           <h2 id="storyTitle">卷一 · 家山初识</h2>
@@ -1023,7 +1045,6 @@
               <li><span class="legend-symbol mountain"></span><span>山体节点</span></li>
             </ul>
           </div>
-          <img class="legend-decoration" src="./Data/左下角贴图.png" alt="" draggable="false" />
         </section>
         <div class="legend layer-control">
           <div class="layer-modes" role="group" aria-label="山水贴图显示方式">
@@ -1139,6 +1160,22 @@
           story: "受命为关右大使，前往关中途中被围困遇害，终年五十五岁。他以一生踏勘汇成的山河世界，则在《水经注》中延续。",
           tags: ["阴盘驿亭", "关中", "行旅终章"], icon: "./Data/3.png", scene: "./Data/底图参考6.png",
         },
+      ];
+
+      /* 十二个时间节点使用独立插画题签；Data/1.png 仅作为版式参考，不作为静态时间轴覆盖页面。 */
+      const timelineArt = [
+        "./Data/故事卡图片.png",
+        "./Data/故事卡图片.png",
+        "./Data/建筑物2.png",
+        "./Data/山体素材/大青山.png",
+        "./Data/建筑物1.png",
+        "./Data/水体素材/黄河.png",
+        "./Data/故事卡图片.png",
+        "./Data/山体素材/21c1b0bd-a3f1-4090-b990-71d339c709fb.png",
+        "./Data/山体素材/298c9a3c-19bc-4a2d-8705-d939827fd525.png",
+        "./Data/封面船只.png",
+        "./Data/3.png",
+        "./Data/建筑物2.png",
       ];
 
       const rivers = [
@@ -1304,18 +1341,24 @@
 
       const panes = {
         land: map.createPane("land"),
+        mapDecor: map.createPane("mapDecor"),
         rivers: map.createPane("rivers"),
         waterArt: map.createPane("waterArt"),
         mountainArt: map.createPane("mountainArt"),
+        culturalArt: map.createPane("culturalArt"),
         route: map.createPane("route"),
         points: map.createPane("points"),
       };
       panes.land.style.zIndex = 210;
+      panes.mapDecor.style.zIndex = 225;
+      panes.mapDecor.style.mixBlendMode = "multiply";
       panes.rivers.style.zIndex = 240;
       panes.waterArt.style.zIndex = 248;
       panes.waterArt.style.opacity = 0.48;
       panes.waterArt.style.mixBlendMode = "multiply";
       panes.mountainArt.style.zIndex = 252;
+      panes.culturalArt.style.zIndex = 260;
+      panes.culturalArt.style.mixBlendMode = "multiply";
       panes.route.style.zIndex = 270;
       panes.points.style.zIndex = 310;
 
@@ -1356,6 +1399,8 @@
       const routeLayer = L.layerGroup([], { pane: "route" }).addTo(map);
       const completedRouteLayer = L.layerGroup([], { pane: "route" }).addTo(map);
       const routeNodeLayer = L.layerGroup([], { pane: "route" }).addTo(map);
+      const mapDecorLayer = L.layerGroup([], { pane: "mapDecor" }).addTo(map);
+      const culturalArtLayer = L.layerGroup([], { pane: "culturalArt" }).addTo(map);
       const waterArtLayer = L.layerGroup([], { pane: "waterArt" }).addTo(map);
       const mountainArtLayer = L.layerGroup([], { pane: "mountainArt" }).addTo(map);
       const activePlaceLayer = L.layerGroup([], { pane: "points" }).addTo(map);
@@ -1417,7 +1462,7 @@
         return L.marker(latlng, {
           pane: "points",
           icon: L.icon({
-              iconUrl: "./Data/Q版小人奔跑.png",
+              iconUrl: "./Data/小人奔跑.GIF",
             iconSize: [88, 110],
             iconAnchor: [30, 58],
             className: "traveller-icon",
@@ -1440,6 +1485,39 @@
           }),
           interactive: false,
         });
+      }
+
+      function makeBuildingMarker(latlng, source, size, anchor) {
+        return L.marker(latlng, {
+          pane: "culturalArt",
+          icon: L.divIcon({
+            className: "building-art",
+            html: `<img src="${source}" alt="" />`,
+            iconSize: size,
+            iconAnchor: anchor,
+          }),
+          interactive: false,
+        });
+      }
+
+      function drawMapDecorations() {
+        /* 两张山水图覆盖地图西北和西南边缘，并在河流、路线和人物下方融合。 */
+        L.imageOverlay("./Data/左上角贴图.png", [[35.7, 100.0], [42.5, 112.1]], {
+          pane: "mapDecor",
+          className: "map-corner-art map-corner-art-top",
+          opacity: 0.3,
+          interactive: false,
+        }).addTo(mapDecorLayer);
+        L.imageOverlay("./Data/左下角贴图.png", [[27.5, 100.0], [35.2, 112.0]], {
+          pane: "mapDecor",
+          className: "map-corner-art map-corner-art-bottom",
+          opacity: 0.28,
+          interactive: false,
+        }).addTo(mapDecorLayer);
+
+        /* 洛阳城门和荆州楼阁按真实经纬度放置，作为城市地标而非屏幕绝对定位。 */
+        makeBuildingMarker([34.62, 112.448], "./Data/建筑物2.png", [138, 92], [69, 78]).addTo(culturalArtLayer);
+        makeBuildingMarker([30.35, 112.19], "./Data/建筑物1.png", [86, 86], [43, 73]).addTo(culturalArtLayer);
       }
 
       function getFeatureLatLng(feature) {
@@ -1485,6 +1563,8 @@
         const lockedZoom = map.getZoom();
         map.setMinZoom(lockedZoom);
         map.setMaxZoom(lockedZoom);
+
+        drawMapDecorations();
 
         await Promise.all(
           rivers.map(async (name) => {
@@ -1611,20 +1691,25 @@
       /* 真实行程节点使用空心朱红圆圈显示；弧线内部采样点不绘制圆圈。 */
       function drawRouteNodes(index, currentRoute) {
         routeNodeLayer.clearLayers();
-        const uniqueNodes = new Map();
+        const allNodes = new Map();
+        const visitedNodes = new Set();
+        stages.forEach((stage) => stage.route.forEach((point) => allNodes.set(point.join(","), point)));
         for (let stageIndex = 0; stageIndex < index; stageIndex += 1) {
-          stages[stageIndex].route.forEach((point) => uniqueNodes.set(point.join(","), point));
+          stages[stageIndex].route.forEach((point) => visitedNodes.add(point.join(",")));
         }
-        currentRoute.forEach((point) => uniqueNodes.set(point.join(","), point));
+        currentRoute.forEach((point) => visitedNodes.add(point.join(",")));
+        const currentKey = currentRoute[currentRoute.length - 1]?.join(",");
 
-        uniqueNodes.forEach((point) => {
+        allNodes.forEach((point, key) => {
+          const isCurrent = key === currentKey;
+          const isVisited = visitedNodes.has(key);
           L.circleMarker(point, {
             pane: "route",
-            radius: 5,
+            radius: isCurrent ? 6 : 4.5,
             color: "#a34b37",
             weight: 2,
             opacity: 0.92,
-            fillColor: "#f7ecd5",
+            fillColor: isCurrent ? "#4f91a6" : isVisited ? "#b86950" : "#f7ecd5",
             fillOpacity: 1,
             interactive: false,
           }).addTo(routeNodeLayer);
@@ -1757,10 +1842,11 @@
         timeline.innerHTML = stages
           .map(
             (stage, index) => `
-              <button class="era-btn ${index === 0 ? "active" : ""} ${stage.classic ? "has-classic" : ""}" type="button" data-index="${index}">
+              <button class="era-btn ${index === 0 ? "active" : ""} ${stage.classic ? "has-classic" : ""}" type="button" data-index="${index}" aria-label="${stage.era}，${stage.year}，${stage.storyPlace}">
                 <span>
-                  <b>${stage.era}</b>
-                  <small>（${stage.year}）</small>
+                  <img class="era-art" src="${timelineArt[index]}" alt="" aria-hidden="true" />
+                  <b>${stage.chapter.split("·")[1].trim()}</b>
+                  <small>${stage.year}</small>
                 </span>
               </button>
             `,
