@@ -1414,7 +1414,6 @@
 
       const routeLayer = L.layerGroup([], { pane: "route" }).addTo(map);
       const completedRouteLayer = L.layerGroup([], { pane: "route" }).addTo(map);
-      const routeNodeLayer = L.layerGroup([], { pane: "route" }).addTo(map);
       const mapDecorLayer = L.layerGroup([], { pane: "mapDecor" }).addTo(map);
       const culturalArtLayer = L.layerGroup([], { pane: "culturalArt" }).addTo(map);
       const waterArtLayer = L.layerGroup([], { pane: "waterArt" }).addTo(map);
@@ -1714,34 +1713,6 @@
         return curvedRoute;
       }
 
-      /* 真实行程节点使用空心朱红圆圈显示；弧线内部采样点不绘制圆圈。 */
-      function drawRouteNodes(index, currentRoute) {
-        routeNodeLayer.clearLayers();
-        const allNodes = new Map();
-        const visitedNodes = new Set();
-        stages.forEach((stage) => stage.route.forEach((point) => allNodes.set(point.join(","), point)));
-        for (let stageIndex = 0; stageIndex < index; stageIndex += 1) {
-          stages[stageIndex].route.forEach((point) => visitedNodes.add(point.join(",")));
-        }
-        currentRoute.forEach((point) => visitedNodes.add(point.join(",")));
-        const currentKey = currentRoute[currentRoute.length - 1]?.join(",");
-
-        allNodes.forEach((point, key) => {
-          const isCurrent = key === currentKey;
-          const isVisited = visitedNodes.has(key);
-          L.circleMarker(point, {
-            pane: "route",
-            radius: isCurrent ? 6 : 4.5,
-            color: "#a34b37",
-            weight: 2,
-            opacity: 0.92,
-            fillColor: isCurrent ? "#4f91a6" : isVisited ? "#b86950" : "#f7ecd5",
-            fillOpacity: 1,
-            interactive: false,
-          }).addTo(routeNodeLayer);
-        });
-      }
-
       function drawCompletedRoutes(index) {
         completedRouteLayer.clearLayers();
         for (let stageIndex = 0; stageIndex < index; stageIndex += 1) {
@@ -1766,7 +1737,8 @@
         if (currentRoute.length > 1) {
           L.polyline(currentCurvedRoute, travelRouteStyle).addTo(routeLayer);
         }
-        drawRouteNodes(index, currentRoute);
+        /* 路线中的中间坐标只负责塑造弧度，不再画成地点圆圈。
+         * 真正地点由 GeoJSON 图层统一绘制圆圈和名称，避免产生无名称的假地点。 */
 
         stage.placeIds.forEach(async (name) => {
           const data = await loadGeoJson(`${dataRoot}/places/${name}.geojson`);
