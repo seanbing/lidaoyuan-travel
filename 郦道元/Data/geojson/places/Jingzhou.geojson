@@ -1,8 +1,4 @@
 {
-"type": "FeatureCollection",
-"name": "Jingzhou",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { "NAME": "荆州" }, "geometry": { "type": "Point", "coordinates": [ 112.251351689000103, 30.343563848000031, 0.0 ] } }
-]
+  "type" : "FeatureCollection",
+  "features" : [{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.2513516890001,30.343563848000031]},"properties":{"FID":0,"NAME":"荆州"}}]
 }

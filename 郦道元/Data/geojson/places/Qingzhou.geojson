@@ -1,8 +1,4 @@
 {
-"type": "FeatureCollection",
-"name": "Qingzhou",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { "osm_id": "244081544", "code": 1001, "fclass": "city", "population": 376400, "name": "青州市" }, "geometry": { "type": "Point", "coordinates": [ 118.473811800000021, 36.684327100000075 ] } }
-]
+  "type" : "FeatureCollection",
+  "features" : [{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[118.47381180000002,36.684327100000075]},"properties":{"FID":0,"osm_id":"244081544","code":1001,"fclass":"city","population":376400,"name":"青州市"}}]
 }

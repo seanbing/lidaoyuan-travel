@@ -148,7 +148,7 @@
         width: 56%;
         height: 200%;
         object-fit: cover;
-        opacity: 0.5;
+        opacity: 0.7;
         filter: saturate(0.7) sepia(0.12) brightness(1.08);
         mix-blend-mode: multiply;
         pointer-events: none;
@@ -1096,7 +1096,7 @@
         {
           id: "yinshan", year: "494年", era: "太和十八年", chapter: "卷二 · 北巡阴山", storyPlace: "阴山",
           storyHeading: "太和十八年（494年）　阴山",
-          placeIds: ["Luoyang"], route: [[34.62, 112.448], [37.8, 110.6], [40.75, 108.5]],
+          placeIds: ["Hetao", "YinshanPlace"], route: [[34.62, 112.448], [37.8, 110.6], [40.75, 108.5]],
           story: "随孝文帝北巡阴山，观察河套黄河、草原、戈壁与高山之间的地貌差异，把大河走势与山脉屏障放在一起记录。",
           tags: ["阴山", "黄河河套", "北巡"], icon: "./Data/2.png", scene: "./Data/底图参考6.png",
           classic: { title: "阴山与河套", text: "《水经注》写黄河，不只记水道，也同时追索沿岸山势、塞障与城邑。抵达阴山节点后，山与河的关系才真正进入叙事中心。", source: "《水经注·河水》" },
@@ -1104,7 +1104,7 @@
         {
           id: "huanghuai", year: "495-499年", era: "太和末年", chapter: "卷三 · 巡察黄淮", storyPlace: "黄淮地区",
           storyHeading: "太和末年（495-499年）　黄淮地区",
-          placeIds: ["Zhongyuan", "Luoyang"], route: [[40.75, 108.5], [34.62, 112.448], [33.8, 116.5]],
+          placeIds: ["Huanghuai", "Luoyang"], route: [[40.75, 108.5], [34.62, 112.448], [33.8, 116.5]],
           story: "任治书侍御史期间巡察黄淮，勘察鸿沟、汴水等古代人工水道，考证旧河道变迁，并收集江淮水系史料。",
           tags: ["黄淮", "鸿沟", "汴水"], icon: "./Data/2.png", scene: "./Data/底图参考6.png",
         },
@@ -1118,14 +1118,14 @@
         {
           id: "mourning", year: "503-504年", era: "景明三年-正始元年", chapter: "卷四 · 丁忧立志", storyPlace: "范阳故里",
           storyHeading: "景明三年至正始元年（503-504年）　返乡丁忧",
-          placeIds: ["FanyangZhuozhou"], route: [[37.74, 115.67], [39.486, 115.974]],
+          placeIds: ["Dingyou"], route: [[37.74, 115.67], [39.486, 115.974]],
           story: "母亲去世后回乡守孝。他研读残缺古本《水经》，逐渐确立以文献为线索、以实地考察补证的注书方法。",
           tags: ["返乡", "研读《水经》", "立注书之志"], icon: "./Data/1.png", scene: "./Data/封面底图2.png",
         },
         {
           id: "upper-yellow", year: "约505年", era: "正始年间", chapter: "卷四 · 溯河寻源", storyPlace: "黄河上游",
           storyHeading: "正始年间（约505年）　黄河上游",
-          placeIds: ["Guanzhong"], route: [[39.486, 115.974], [34.37, 109.22], [35.6, 102.6]],
+          placeIds: ["UpperYellowRiver", "Guanzhong"], route: [[39.486, 115.974], [34.37, 109.22], [35.6, 102.6]],
           story: "沿黄河西行溯源，越秦岭、近积石山，考察高山如何分水、河谷如何导流，并据此辨析黄河与长江流域的山水分界。",
           tags: ["黄河上游", "秦岭", "积石山", "分水岭"], icon: "./Data/山贴图.png", scene: "./Data/山贴图.png",
           classic: { title: "积石山下，溯河寻源", text: "在《河水》篇的叙述中，山口、峡谷与河道互为线索。此处的彩蛋强调：郦道元所谓“访水”，往往也是沿河辨山。", source: "《水经注·河水》" },
@@ -1141,7 +1141,7 @@
         {
           id: "jianghan", year: "513-520年", era: "东荆州·洛阳", chapter: "卷五 · 江汉考水", storyPlace: "江汉·三峡·太湖",
           storyHeading: "513-520年　江汉、三峡与太湖",
-          placeIds: ["Jingzhou", "Guangling_Yangzhou"], route: [[33.74, 111.9], [30.85, 110.98], [30.35, 112.19], [31.2, 120.2]],
+          placeIds: ["Jingzhou"], route: [[33.74, 111.9], [30.85, 110.98], [30.35, 112.19], [31.2, 120.2]],
           story: "整合江汉及东南水系资料，考证长江峡谷、荆州水道、太湖与邗沟。沿水路辨山势、访城邑，逐步完成《水经注》主体。",
           tags: ["三峡", "长江", "荆州", "太湖", "邗沟"], icon: "./Data/封面船只.png", scene: "./Data/封面底图2.png",
           classic: { title: "行至三峡，观水成书", text: "江流进入三峡，两岸高山夹峙，滩险、深潭与急流随季节变化。郦道元把亲历、访闻与旧籍互证，留下兼具地理精度与文学气韵的山水书写。", source: "《水经注·江水》" },
@@ -1165,8 +1165,8 @@
       /* 十二个时间节点使用独立插画题签；Data/1.png 仅作为版式参考，不作为静态时间轴覆盖页面。 */
       const timelineArt = [
         "./Data/故事卡图片.png",
-        "./Data/故事卡图片.png",
-        "./Data/建筑物2.png",
+        "./Data/时间轴2.png",
+        "./Data/时间轴3.png",
         "./Data/山体素材/大青山.png",
         "./Data/建筑物1.png",
         "./Data/水体素材/黄河.png",
@@ -1182,42 +1182,48 @@
         "Huanghe",
         "Changjiang",
         "Taihu",
-        "Hutuohe_line",
-        "Zhanghe_Zhnagshui",
-        "Mihe_Juyangshui",
-        "Zihe_Zishui",
-        "Sihe_Sishui",
-        "Liyunhe_Hangou",
-        "Baiyangdian_Huabeihedian",
+        "Hutuohe",
+        "Zhangshui",
+        "Juyangshui",
+        "Zishui",
+        "Huaihe",
+        "Hangou",
+        "HuabeiHudian",
       ];
+
+      /* 面状水体使用湖泊填充样式，其余线状水体使用河流线样式。 */
+      const areaWaters = new Set(["Taihu", "Hutuohe", "Huaihe", "HuabeiHudian"]);
 
       /* GeoJSON 文件名与页面上显示的传统水系名称对应。 */
       const riverNames = {
         Huanghe: "黄河",
         Changjiang: "长江",
         Taihu: "太湖",
-        Hutuohe_line: "滹沱河",
-        Zhanghe_Zhnagshui: "漳水",
-        Mihe_Juyangshui: "巨洋水",
-        Zihe_Zishui: "淄水",
-        Sihe_Sishui: "泗水",
-        Liyunhe_Hangou: "邗沟",
-        Baiyangdian_Huabeihedian: "华北湖淀",
+        Hutuohe: "滹沱河",
+        Zhangshui: "漳水",
+        Juyangshui: "巨洋水",
+        Zishui: "淄水",
+        Huaihe: "淮河",
+        Hangou: "邗沟",
+        HuabeiHudian: "华北湖淀",
       };
 
-      /* 水体素材按河流数据顺序对应。每张透明 PNG 会自动贴合对应 GeoJSON 的地理范围。 */
-      const waterArt = {
-        Huanghe: "./Data/水体素材/黄河.png",
-        Changjiang: "./Data/水体素材/长江.png",
-        Taihu: "./Data/水体素材/太湖.png",
-        Hutuohe_line: "./Data/水体素材/ChatGPT Image 2026年8月1日 15_33_18 (4).png",
-        Zhanghe_Zhnagshui: "./Data/水体素材/漳河.png",
-        Mihe_Juyangshui: "./Data/水体素材/弥河.png",
-        Zihe_Zishui: "./Data/水体素材/ChatGPT Image 2026年8月1日 15_33_20 (7).png",
-        Sihe_Sishui: "./Data/水体素材/黄河故道.png",
-        Liyunhe_Hangou: "./Data/水体素材/ChatGPT Image 2026年8月1日 15_33_21 (9).png",
-        Baiyangdian_Huabeihedian: "./Data/水体素材/ChatGPT Image 2026年8月1日 15_33_22 (10).png",
+      const riverLabelOffsets = {
+        Juyangshui: [0, 0.7],
       };
+
+      // /* 水体素材按河流数据顺序对应。每张透明 PNG 会自动贴合对应 GeoJSON 的地理范围。 */
+      // const waterArt = {
+      //   Huanghe: "./Data/水体素材/黄河.png",
+      //   Changjiang: "./Data/水体素材/长江.png",
+      //   Taihu: "./Data/水体素材/太湖.png",
+      //   Hutuohe: "./Data/水体素材/ChatGPT Image 2026年8月1日 15_33_18 (4).png",
+      //   Zhangshui: "./Data/水体素材/漳河.png",
+      //   Juyangshui: "./Data/水体素材/弥河.png",
+      //   Zishui: "./Data/水体素材/ChatGPT Image 2026年8月1日 15_33_20 (7).png",
+      //   Hangou: "./Data/水体素材/ChatGPT Image 2026年8月1日 15_33_21 (9).png",
+      //   HuabeiHudian: "./Data/水体素材/ChatGPT Image 2026年8月1日 15_33_22 (10).png",
+      // };
 
       /*
        * 每张水体 PNG 四周都有不同宽度的透明留白。
@@ -1239,23 +1245,27 @@
 
       const mountains = [
         "Taihangshan",
-        "Wutaishan_Taihangshan",
-        "Wangwushan_Taihangshan",
-        "Funiushan_Qinling",
-        "Zhongnanshan_Qinling",
+        "Daqingshan",
+        "Wangwushan",
+        "Funiushan",
+        "Zhongnanshan",
         "Jishishan",
-        "Zhongshan_Yinshan",
+        "Yinshan",
         "Huashan",
       ];
 
       const placeNames = {
-        FanyangZhuozhou: "涿州",
+        FanyangZhuozhou: "范阳涿州",
         Qingzhou: "青州",
         Luoyang: "洛阳",
+        Hetao: "河套",
+        YinshanPlace: "阴山",
+        Huanghuai: "黄淮地区",
         Jizhou_Hengshui: "冀州",
+        Dingyou: "",
+        UpperYellowRiver: "黄河上游{积石山}",
         Luyang_Pingdingshanlushan: "鲁阳",
         Jingzhou: "荆州",
-        Guangling_Yangzhou: "广陵",
         Yingpanyiting_Xianlinntong: "阴盘驿亭",
         Guanzhong: "关中",
         Zhongyuan: "中原",
@@ -1272,12 +1282,12 @@
 
       const mountainNames = {
         Taihangshan: "太行山",
-        Wutaishan_Taihangshan: "五台山",
-        Wangwushan_Taihangshan: "王屋山",
-        Funiushan_Qinling: "伏牛山",
-        Zhongnanshan_Qinling: "终南山",
+        Daqingshan: "大青山",
+        Wangwushan: "王屋山",
+        Funiushan: "伏牛山",
+        Zhongnanshan: "终南山",
         Jishishan: "积石山",
-        Zhongshan_Yinshan: "阴山",
+        Yinshan: "阴山",
         Huashan: "华山",
       };
 
@@ -1287,22 +1297,22 @@
           size: [210, 140],
           anchor: [104, 95],
         },
-        Wutaishan_Taihangshan: {
+        Daqingshan: {
           src: "./Data/山体素材/247d808a-a2ab-4977-9730-4237ea8230f2.png",
           size: [170, 112],
           anchor: [82, 78],
         },
-        Wangwushan_Taihangshan: {
+        Wangwushan: {
           src: "./Data/山体素材/7fe87aa0-1282-4c32-9f67-1004a6616761.png",
           size: [170, 112],
           anchor: [84, 76],
         },
-        Funiushan_Qinling: {
+        Funiushan: {
           src: "./Data/山体素材/eb208901-7c49-4fa7-aaa6-05724ac95fd8.png",
           size: [210, 108],
           anchor: [105, 74],
         },
-        Zhongnanshan_Qinling: {
+        Zhongnanshan: {
           src: "./Data/山体素材/298c9a3c-19bc-4a2d-8705-d939827fd525.png",
           size: [180, 120],
           anchor: [90, 82],
@@ -1312,7 +1322,7 @@
           size: [190, 128],
           anchor: [94, 88],
         },
-        Zhongshan_Yinshan: {
+        Yinshan: {
           src: "./Data/山体素材/大青山.png",
           size: [190, 128],
           anchor: [95, 88],
@@ -1348,6 +1358,9 @@
         culturalArt: map.createPane("culturalArt"),
         route: map.createPane("route"),
         points: map.createPane("points"),
+        waterLabels: map.createPane("waterLabels"),
+        mountainLabels: map.createPane("mountainLabels"),
+        placeLabels: map.createPane("placeLabels"),
       };
       panes.land.style.zIndex = 210;
       panes.mapDecor.style.zIndex = 225;
@@ -1361,6 +1374,9 @@
       panes.culturalArt.style.mixBlendMode = "multiply";
       panes.route.style.zIndex = 270;
       panes.points.style.zIndex = 310;
+      panes.waterLabels.style.zIndex = 320;
+      panes.mountainLabels.style.zIndex = 330;
+      panes.placeLabels.style.zIndex = 340;
 
       const inkLandStyle = {
         color: "rgba(89, 83, 70, 0.2)",
@@ -1440,13 +1456,10 @@
           }),
         });
 
-        /* 活动图层只叠加高亮圆点，名称由底图常驻标签统一显示，避免文字重影。 */
-        if (active) return marker;
-
         const labelAnchor = placeLabelAnchors[label] || [-12, 18];
 
         const text = L.marker(latlng, {
-          pane: "points",
+          pane: "placeLabels",
           icon: L.divIcon({
             className: "place-label",
             html: label,
@@ -1502,16 +1515,16 @@
 
       function drawMapDecorations() {
         /* 两张山水图覆盖地图西北和西南边缘，并在河流、路线和人物下方融合。 */
-        L.imageOverlay("./Data/左上角贴图.png", [[35.7, 100.0], [42.5, 112.1]], {
+        L.imageOverlay("./Data/装饰1.png", [[35.7, 100.0], [42.5, 112.1]], {
           pane: "mapDecor",
           className: "map-corner-art map-corner-art-top",
-          opacity: 0.22,
+          opacity: 1,
           interactive: false,
         }).addTo(mapDecorLayer);
-        L.imageOverlay("./Data/左下角贴图.png", [[27.5, 100.0], [35.2, 112.0]], {
+        L.imageOverlay("./Data/装饰1.png", [[27.5, 100.0], [35.2, 112.0]], {
           pane: "mapDecor",
           className: "map-corner-art map-corner-art-bottom",
-          opacity: 0.2,
+          opacity: 1,
           interactive: false,
         }).addTo(mapDecorLayer);
 
@@ -1566,17 +1579,30 @@
 
         drawMapDecorations();
 
+        L.marker([38, 120], {
+          pane: "waterLabels",
+          icon: L.divIcon({
+            className: "river-label",
+            html: "渤海",
+            iconSize: [92, 24],
+            iconAnchor: [46, 12],
+          }),
+          interactive: false,
+        }).addTo(map);
+
         await Promise.all(
           rivers.map(async (name) => {
             const data = await loadGeoJson(`${dataRoot}/rivers/${name}.geojson`);
             const riverLayer = L.geoJSON(data, {
               pane: "rivers",
-              style: name === "Taihu" || name.includes("poly") ? lakeStyle : riverStyle,
+              style: areaWaters.has(name) ? lakeStyle : riverStyle,
               interactive: false,
             }).addTo(map);
             if (riverLayer.getBounds().isValid()) {
-              L.marker(riverLayer.getBounds().getCenter(), {
-                pane: "points",
+              const center = riverLayer.getBounds().getCenter();
+              const [latOffset = 0, lngOffset = 0] = riverLabelOffsets[name] || [];
+              L.marker([center.lat + latOffset, center.lng + lngOffset], {
+                pane: "waterLabels",
                 icon: L.divIcon({
                   className: "river-label",
                   html: riverNames[name] || name,
@@ -1608,7 +1634,7 @@
             const artMarker = makeMountainArtMarker(latlng, name);
             if (artMarker) artMarker.addTo(mountainArtLayer);
             L.marker(latlng, {
-              pane: "points",
+              pane: "mountainLabels",
               icon: L.divIcon({
                 className: "mountain-label",
                 html: mountainNames[name] || name,

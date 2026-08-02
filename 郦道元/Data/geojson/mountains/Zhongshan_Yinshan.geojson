@@ -1,8 +1,0 @@
-{
-"type": "FeatureCollection",
-"name": "Zhongshan_Yinshan",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { "osm_id": "9354408090", "code": 4111, "fclass": "peak", "name": "大青山" }, "geometry": { "type": "Point", "coordinates": [ 122.969537100000252, 46.516050200000052 ] } }
-]
-}

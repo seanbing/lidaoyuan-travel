@@ -1,0 +1,4 @@
+{
+  "type" : "FeatureCollection",
+  "features" : [{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[115.59631482300006,34.272639008000056]},"properties":{"FID":0,"NAME":"黄淮地区"}}]
+}

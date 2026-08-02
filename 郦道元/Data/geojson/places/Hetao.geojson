@@ -1,0 +1,4 @@
+{
+  "type" : "FeatureCollection",
+  "features" : [{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[109.49442649800005,40.900323836000041]},"properties":{"FID":0,"name":"阴山河套"}}]
+}

@@ -1,8 +1,4 @@
 {
-"type": "FeatureCollection",
-"name": "Luoyang",
-"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
-"features": [
-{ "type": "Feature", "properties": { "osm_id": "244081266", "code": 1001, "fclass": "city", "population": 1926000, "name": "洛阳市" }, "geometry": { "type": "Point", "coordinates": [ 112.447704600000066, 34.61965390000006 ] } }
-]
+  "type" : "FeatureCollection",
+  "features" : [{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.44770460000007,34.61965390000006]},"properties":{"FID":0,"osm_id":"244081266","code":1001,"fclass":"city","population":1926000,"name":"洛阳市"}}]
 }
