@@ -499,7 +499,24 @@ window.LDY_GEOJSON_BUNDLE = {"china/ChinaBoundline.geojson":{
 },"places/Jingzhou.geojson":{
   "type" : "FeatureCollection",
   "features" : [{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[112.2513516890001,30.343563848000031]},"properties":{"FID":0,"NAME":"荆州"}}]
-},"places/Zhongyuan.geojson":{
+},"places/Taihu.geojson":{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [120.2, 31.2]
+      },
+      "properties": {
+        "FID": 0,
+        "NAME": "太湖"
+      }
+    }
+  ]
+}
+,"places/Zhongyuan.geojson":{
   "type" : "FeatureCollection",
   "features" : [{"type":"Feature","id":0,"geometry":{"type":"Point","coordinates":[113.13205345100005,34.404944509000075]},"properties":{"FID":0,"NAME":"中原"}}]
 },"places/Guanzhong.geojson":{

@@ -18,6 +18,7 @@ places/Dingyou.geojson
 places/UpperYellowRiver.geojson
 places/Luyang_Pingdingshanlushan.geojson
 places/Jingzhou.geojson
+places/Taihu.geojson
 places/Zhongyuan.geojson
 places/Guanzhong.geojson
 places/Yingpanyiting_Xianlinntong.geojson

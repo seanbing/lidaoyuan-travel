@@ -1,0 +1,17 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 0,
+      "geometry": {
+        "type": "Point",
+        "coordinates": [120.2, 31.2]
+      },
+      "properties": {
+        "FID": 0,
+        "NAME": "太湖"
+      }
+    }
+  ]
+}
