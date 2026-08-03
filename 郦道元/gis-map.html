@@ -592,17 +592,17 @@
       .story-card {
         position: absolute;
         z-index: 18;
-        top: 17%;
-        right: 1.6%;
+        top: 11%;
+        right: 1.4%;
         display: grid;
-        grid-template-columns: 68px minmax(0, 1fr);
-        grid-template-rows: auto auto minmax(0, 1fr) auto;
-        column-gap: 14px;
-        width: min(28vw, 460px);
-        min-width: 360px;
-        min-height: 286px;
+        grid-template-columns: 58px minmax(0, 1fr);
+        grid-template-rows: auto auto auto auto;
+        column-gap: 12px;
+        width: min(24vw, 390px);
+        min-width: 318px;
+        min-height: 0;
         margin: 0;
-        padding: 16px 16px 16px 14px;
+        padding: 16px 14px 18px 12px;
         border: 1px solid rgba(103, 78, 48, 0.34);
         border-radius: 6px;
         background:
@@ -654,14 +654,14 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 42px;
+        width: 38px;
         margin: 0;
         padding: 15px 0 10px;
         border: 1px solid rgba(112, 86, 53, 0.22);
         background: rgba(255, 250, 235, 0.42);
         color: #342a20;
         font-family: "Ma Shan Zheng", KaiTi, STKaiti, serif;
-        font-size: 24px;
+        font-size: 22px;
         font-weight: 700;
         line-height: 1.45;
         letter-spacing: 0;
@@ -730,14 +730,15 @@
       .story-figure {
         grid-column: 2;
         position: relative;
-        height: clamp(92px, 12vh, 130px);
-        margin-top: 10px;
-        overflow: hidden;
+        aspect-ratio: 16 / 9;
+        height: auto;
+        margin-top: 12px;
+        overflow: visible;
         background: rgba(228, 216, 190, 0.38);
       }
 
       .story-figure::after {
-        content: "";
+        content: none;
         position: absolute;
         inset: 0;
         background: radial-gradient(ellipse at center, transparent 50%, rgba(239, 228, 204, 0.4) 78%, rgba(239, 228, 204, 0.88) 100%);
@@ -747,14 +748,14 @@
       .story-figure img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         object-position: center;
         display: block;
         opacity: 0.88;
         filter: grayscale(0.3) sepia(0.2) saturate(0.72) brightness(1.08) contrast(0.92);
         mix-blend-mode: multiply;
-        -webkit-mask-image: radial-gradient(ellipse 96% 92% at center, #000 58%, rgba(0, 0, 0, 0.7) 78%, transparent 100%);
-        mask-image: radial-gradient(ellipse 96% 92% at center, #000 58%, rgba(0, 0, 0, 0.7) 78%, transparent 100%);
+        -webkit-mask-image: none;
+        mask-image: none;
       }
 
       .classic-card {
@@ -900,7 +901,7 @@
         left: calc(max(18%, 320px) + 18px);
         right: 18px;
         bottom: 1.8%;
-        height: 14.5%;
+        height: 18%;
         display: grid;
         grid-template-columns: repeat(12, minmax(0, 1fr));
         gap: 5px;
@@ -949,7 +950,7 @@
         align-content: center;
         justify-items: center;
         width: 100%;
-        min-height: 92px;
+        min-height: 118px;
         padding: 4px 2px 5px;
         border: 1px solid rgba(112, 88, 56, 0.2);
         background:
@@ -960,9 +961,9 @@
 
       .era-art {
         display: block;
-        width: 52px;
-        height: 44px;
-        margin-bottom: 3px;
+        width: 78px;
+        height: 68px;
+        margin-bottom: 4px;
         object-fit: contain;
         opacity: 0.76;
         mix-blend-mode: multiply;
@@ -1130,8 +1131,8 @@
           left: 12px;
           right: 12px;
           bottom: 12px;
-          height: 128px;
-          grid-template-columns: repeat(12, 92px);
+          height: 154px;
+          grid-template-columns: repeat(12, 116px);
           overflow-x: auto;
           overflow-y: hidden;
         }
@@ -1142,7 +1143,7 @@
 
         .map-shell {
           left: 18%;
-          bottom: 150px;
+          bottom: 176px;
           z-index: 2;
         }
       }
@@ -1213,7 +1214,7 @@
         </div>
         <p id="storyText">郦道元出生于北魏官宦世家。故乡河渠纵横、北接山地，为他日后观察山川形势埋下最初的种子。</p>
         <div class="story-figure">
-          <img id="storyImage" src="./Data/故事卡图片.png" alt="郦道元在山海间考察" />
+          <img id="storyImage" src="./Data/故事卡素材/1.png" alt="郦道元在山海间考察" />
         </div>
         <div class="story-meta" id="storyMeta">
           <span>范阳涿州</span><span>启程</span>
@@ -1319,6 +1320,21 @@
           tags: ["阴盘驿亭", "关中", "行旅终章"], icon: "./Data/3.png", scene: "./Data/底图参考6.png",
         },
       ];
+
+      const storyImages = {
+        birth: "./Data/故事卡素材/1.png",
+        qingzhou: "./Data/故事卡素材/2.png",
+        luoyang: "./Data/故事卡素材/3.png",
+        yinshan: "./Data/故事卡素材/4.png",
+        huanghuai: "./Data/故事卡素材/5.png",
+        jizhou: "./Data/故事卡素材/6.png",
+        mourning: "./Data/故事卡素材/7.png",
+        "upper-yellow": "./Data/故事卡素材/8.png",
+        luyang: "./Data/故事卡素材/9.png",
+        jianghan: "./Data/故事卡素材/10.png",
+        revision: "./Data/故事卡素材/11.png",
+        final: "./Data/故事卡素材/12.png",
+      };
 
       const classicNotes = {
         qingzhou: {
@@ -1494,18 +1510,18 @@
 
       /* 十二个时间节点使用独立插画题签；Data/1.png 仅作为版式参考，不作为静态时间轴覆盖页面。 */
       const timelineArt = [
-        "./Data/时间轴1.png",
-        "./Data/时间轴2.png",
-        "./Data/时间轴3.png",
+        "./Data/时间轴素材/时间轴1.png",
+        "./Data/时间轴素材/时间轴2.png",
+        "./Data/时间轴素材/时间轴3.png",
         "./Data/山体素材/大青山.png",
-        "./Data/时间轴5.png",
-        "./Data/时间轴6.png",
-        "./Data/时间轴7.png",
-        "./Data/时间轴8.png",
-        "./Data/时间轴9.png",
-        "./Data/时间轴10.png",
-        "./Data/时间轴11.png",
-        "./Data/时间轴8.png",
+        "./Data/时间轴素材/时间轴5.png",
+        "./Data/时间轴素材/时间轴6.png",
+        "./Data/时间轴素材/时间轴7.png",
+        "./Data/时间轴素材/时间轴8.png",
+        "./Data/时间轴素材/时间轴9.png",
+        "./Data/时间轴素材/时间轴10.png",
+        "./Data/时间轴素材/时间轴11.png",
+        "./Data/时间轴素材/时间轴12.png",
       ];
 
       const rivers = [
@@ -1848,34 +1864,36 @@
 
       function drawMapDecorations() {
         /* 地图装饰图统一放在 mapDecor 层：位于中国底图上方，但低于河流、路线、地点和人物。 */
-        L.imageOverlay("./Data/山脉2.png", [[37, 82.0], [46.3, 103.0]], {
-          pane: "mapDecor",
-          className: "map-corner-art map-corner-art-northwest",
-          opacity: 0.9,
-          interactive: false,
-        }).addTo(mapDecorLayer);
-         L.imageOverlay("./Data/山脉2.png", [[33, 80.0], [42, 99.0]], {
+        L.imageOverlay("./Data/装饰素材/1.png", [[39, 80.0], [48, 98.0]], {
           pane: "mapDecor",
           className: "mountain-fade-overlay",
           opacity: 0.9,
           interactive: false,
         }).addTo(mapDecorLayer);
 
-
-        L.imageOverlay("./Data/山脉2.png", [[26, 80.0], [36.5, 99.0]], {
+           L.imageOverlay("./Data/山脉2.png", [[33, 80.0], [46.3, 100.0]], {
+          pane: "mapDecor",
+          className: "mountain-fade-overlay",
+          opacity: 0.9,
+          interactive: false,
+        }).addTo(mapDecorLayer);
+        
+         L.imageOverlay("./Data/装饰素材/2.png", [[30, 80.0], [40, 99.0]], {
           pane: "mapDecor",
           className: "mountain-fade-overlay",
           opacity: 0.9,
           interactive: false,
         }).addTo(mapDecorLayer);
 
-        // /* 两张山水图覆盖地图西北和西南边缘，并在河流、路线和人物下方融合。 */
-        // L.imageOverlay("./Data/装饰1.png", [[35.7, 100.0], [42.5, 112.1]], {
-        //   pane: "mapDecor",
-        //   className: "map-corner-art map-corner-art-top",
-        //   opacity: 1,
-        //   interactive: false,
-        // }).addTo(mapDecorLayer);
+        L.imageOverlay("./Data/装饰素材/3.png", [[26, 80.0], [36.5, 99.0]], {
+          pane: "mapDecor",
+          className: "mountain-fade-overlay",
+          opacity: 0.9,
+          interactive: false,
+        }).addTo(mapDecorLayer);
+
+        
+     
        
 
         /* 洛阳城门和荆州楼阁按真实经纬度放置，作为城市地标而非屏幕绝对定位。 */
@@ -2220,7 +2238,7 @@
         document.getElementById("storyYear").textContent = `（${stage.year}）`;
         document.getElementById("storyPlace").textContent = stage.storyPlace;
         document.getElementById("storyText").textContent = stage.story;
-        document.getElementById("storyImage").src = "./Data/故事卡图片.png";
+        document.getElementById("storyImage").src = storyImages[stage.id] || "./Data/故事卡素材/1.png";
         document.getElementById("storyMeta").innerHTML = stage.tags.map((tag) => `<span>${tag}</span>`).join("");
         document.querySelectorAll(".era-btn").forEach((btn, btnIndex) => {
           btn.classList.toggle("active", btnIndex === index);
