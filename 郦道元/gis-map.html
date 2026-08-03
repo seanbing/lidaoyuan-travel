@@ -181,20 +181,23 @@
         z-index: 14;
         display: flex;
         flex-direction: column;
+        gap: 10px;
         top: 0;
         bottom: 0;
         left: 0;
         width: 18%;
         min-width: 320px;
         padding: 2.2vh 18px 18px;
-        border-right: 1px solid var(--panel-line);
-        border-left: 1px solid rgba(255, 252, 238, 0.42);
         background:
-          linear-gradient(90deg, rgba(214, 198, 163, 0.58), rgba(246, 237, 215, 0.78)),
+          linear-gradient(90deg, rgba(223, 209, 179, 0.72), rgba(246, 237, 215, 0.58) 72%, rgba(246, 237, 215, 0.18) 94%, transparent),
           radial-gradient(circle at 45% 4%, rgba(98, 115, 92, 0.18), transparent 18%),
           radial-gradient(circle at 48% 94%, rgba(83, 106, 87, 0.2), transparent 20%),
           var(--paper);
-        box-shadow: inset -15px 0 28px rgba(88, 69, 44, 0.07);
+        box-shadow:
+          inset -28px 0 36px rgba(88, 69, 44, 0.05),
+          18px 0 42px rgba(228, 214, 184, 0.2);
+        -webkit-mask-image: linear-gradient(90deg, #000 0 86%, rgba(0, 0, 0, 0.68) 94%, transparent 100%);
+        mask-image: linear-gradient(90deg, #000 0 86%, rgba(0, 0, 0, 0.68) 94%, transparent 100%);
       }
 
       /* 地图边角山水位于行政底图上方、河流和标注下方，作为画卷景深而非 UI 背景。 */
@@ -202,6 +205,14 @@
         mix-blend-mode: multiply;
         pointer-events: none;
         filter: sepia(0.18) saturate(0.48) brightness(1.14) contrast(0.88);
+      }
+
+      .mountain-fade-overlay {
+        mix-blend-mode: multiply;
+        pointer-events: none;
+        filter: sepia(0.18) saturate(0.7) brightness(1.08) contrast(0.9);
+        -webkit-mask-image: radial-gradient(ellipse 88% 88% at center, #000 0 48%, rgba(0, 0, 0, 0.58) 68%, transparent 100%);
+        mask-image: radial-gradient(ellipse 88% 88% at center, #000 0 48%, rgba(0, 0, 0, 0.58) 68%, transparent 100%);
       }
 
       .map-corner-art-top {
@@ -237,6 +248,81 @@
         text-align: center;
       }
 
+      .author-profile {
+        position: relative;
+        z-index: 3;
+        display: grid;
+        grid-template-columns: 112px minmax(0, 1fr);
+        align-items: center;
+        min-height: 124px;
+        padding: 8px 10px 8px 0;
+        overflow: hidden;
+        border-bottom: 1px solid rgba(103, 82, 54, 0.08);
+        background:
+          radial-gradient(ellipse at 18% 58%, rgba(120, 96, 61, 0.1), transparent 55%),
+          linear-gradient(90deg, rgba(248, 241, 220, 0.04), rgba(248, 241, 220, 0.18), transparent);
+      }
+
+      .author-profile::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, transparent 0 66%, rgba(246, 237, 215, 0.24) 100%);
+        pointer-events: none;
+      }
+
+      .author-portrait {
+        position: relative;
+        z-index: 1;
+        align-self: end;
+        width: 124px;
+        height: 128px;
+        margin-left: -19px;
+        margin-bottom: -8px;
+        object-fit: cover;
+        object-position: 25% 18%;
+        opacity: 0.86;
+        mix-blend-mode: multiply;
+        filter: sepia(0.22) saturate(0.62) brightness(1.08) contrast(0.88);
+        -webkit-mask-image: radial-gradient(ellipse 74% 82% at 45% 52%, #000 0 42%, rgba(0, 0, 0, 0.48) 66%, transparent 100%);
+        mask-image: radial-gradient(ellipse 74% 82% at 45% 52%, #000 0 42%, rgba(0, 0, 0, 0.48) 66%, transparent 100%);
+      }
+
+      .author-copy {
+        position: relative;
+        z-index: 1;
+        min-width: 0;
+        padding: 3px 0 0 6px;
+        color: #433729;
+        font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
+      }
+
+      .author-copy strong {
+        display: block;
+        margin-bottom: 7px;
+        color: #2f291f;
+        font-family: "Ma Shan Zheng", KaiTi, STKaiti, serif;
+        font-size: 27px;
+        font-weight: 700;
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+
+      .author-copy span {
+        display: block;
+        margin-bottom: 8px;
+        color: #5e5245;
+        font-size: 15px;
+        line-height: 1.2;
+      }
+
+      .author-copy p {
+        margin: 0;
+        color: #4f463a;
+        font-size: 14px;
+        line-height: 1.7;
+      }
+
       .mini-map {
         position: relative;
         flex: 1 1 auto;
@@ -260,18 +346,33 @@
         position: relative;
         z-index: 2;
         flex: 1 1 auto;
-        min-height: 240px;
-        margin-top: 12px;
+        min-height: 0;
+        margin-top: 0;
         padding: 12px 14px 10px;
         overflow: hidden;
-        border: 1px solid var(--panel-line);
+        border: 1px solid rgba(103, 82, 54, 0.1);
         background:
-          linear-gradient(rgba(251, 246, 230, 0.78), rgba(231, 217, 191, 0.68)),
+          linear-gradient(rgba(251, 246, 230, 0.44), rgba(231, 217, 191, 0.28)),
           var(--paper);
-        box-shadow: inset 0 0 16px rgba(78, 58, 34, 0.08);
+        box-shadow: inset 0 0 18px rgba(78, 58, 34, 0.045);
+      }
+
+      .route-overview::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background-image: url("./Data/宣纸样式.png");
+        background-repeat: repeat;
+        background-size: 620px auto;
+        opacity: 0.5;
+        mix-blend-mode: multiply;
+        pointer-events: none;
       }
 
       .route-overview h3 {
+        position: relative;
+        z-index: 1;
         margin: 0 0 7px;
         color: #40372d;
         font-size: 16px;
@@ -280,23 +381,29 @@
       }
 
       .route-mini-map {
+        position: relative;
+        z-index: 1;
         width: 100%;
-        height: clamp(112px, 17vh, 154px);
+        height: clamp(220px, 25vh, 280px);
         display: block;
         border-bottom: 1px solid rgba(103, 82, 54, 0.16);
       }
 
+      .mini-map-image {
+        opacity: 0.8;
+        mix-blend-mode: multiply;
+        filter: sepia(0.12) saturate(0.74) brightness(1.04) contrast(0.92);
+      }
+
       .mini-land {
-        fill: rgba(226, 214, 188, 0.32);
-        stroke: rgba(92, 85, 68, 0.34);
-        stroke-width: 1.2;
+        display: none;
       }
 
       .mini-route-line {
         fill: none;
         stroke: #9b4b35;
-        stroke-width: 2.2;
-        stroke-dasharray: 5 6;
+        stroke-width: 1.4;
+        stroke-dasharray: 4 5;
         stroke-linecap: round;
         stroke-linejoin: round;
       }
@@ -304,7 +411,7 @@
       .mini-route-node {
         fill: #f8edd7;
         stroke: #9b4b35;
-        stroke-width: 2;
+        stroke-width: 1.7;
         transition: r 180ms ease, fill 180ms ease, stroke 180ms ease;
       }
 
@@ -313,10 +420,10 @@
       }
 
       .mini-route-node.active {
-        r: 6;
+        r: 5.5;
         fill: #4f91a6;
         stroke: #f7edda;
-        stroke-width: 3;
+        stroke-width: 2.6;
       }
 
       .legend {
@@ -483,22 +590,28 @@
       }
 
       .story-card {
-        position: relative;
-        z-index: 2;
-        width: 100%;
-        min-height: 0;
-        flex: 0 0 auto;
+        position: absolute;
+        z-index: 18;
+        top: 17%;
+        right: 1.6%;
+        display: grid;
+        grid-template-columns: 68px minmax(0, 1fr);
+        grid-template-rows: auto auto minmax(0, 1fr) auto;
+        column-gap: 14px;
+        width: min(28vw, 460px);
+        min-width: 360px;
+        min-height: 286px;
         margin: 0;
-        padding: 14px 18px 15px;
+        padding: 16px 16px 16px 14px;
         border: 1px solid rgba(103, 78, 48, 0.34);
-        border-radius: 2px;
+        border-radius: 6px;
         background:
-          linear-gradient(rgba(255, 252, 239, 0.9), rgba(234, 218, 187, 0.78)),
+          linear-gradient(90deg, rgba(224, 207, 176, 0.64), rgba(255, 252, 239, 0.9) 18%, rgba(236, 221, 195, 0.76)),
           var(--paper);
         box-shadow:
           inset 0 0 0 4px rgba(255, 252, 238, 0.42),
           inset 0 0 24px rgba(82, 58, 31, 0.13),
-          0 10px 24px rgba(65, 50, 33, 0.11);
+          0 16px 34px rgba(65, 50, 33, 0.16);
       }
 
       .story-card::after {
@@ -511,60 +624,61 @@
       }
 
       .story-ribbon {
-        position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 138px;
-        height: 23px;
-        margin: 0 auto 6px;
-        color: #94513f;
-        background: transparent;
-        font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
-        font-size: 12px;
+        position: absolute;
+        top: 17px;
+        left: 23px;
+        z-index: 2;
+        display: grid;
+        place-items: center;
+        width: 22px;
+        height: 22px;
+        color: #b3432f;
+        border: 1px solid rgba(163, 63, 47, 0.58);
+        background: rgba(255, 246, 224, 0.72);
+        font-family: KaiTi, STKaiti, "Ma Shan Zheng", serif;
+        font-size: 15px;
+        font-weight: 700;
         letter-spacing: 0;
       }
 
       .story-ribbon::before,
       .story-ribbon::after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        width: 48px;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(139, 90, 65, 0.54));
-      }
-
-      .story-ribbon::before {
-        right: 100%;
-        transform: translateY(-50%) scaleX(-1);
-      }
-
-      .story-ribbon::after {
-        left: 100%;
-        transform: translateY(-50%);
+        content: none;
       }
 
       .story-card h2 {
+        grid-column: 1;
+        grid-row: 1 / 5;
+        align-self: stretch;
+        justify-self: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 42px;
         margin: 0;
+        padding: 15px 0 10px;
+        border: 1px solid rgba(112, 86, 53, 0.22);
+        background: rgba(255, 250, 235, 0.42);
         color: #342a20;
         font-family: "Ma Shan Zheng", KaiTi, STKaiti, serif;
-        font-size: clamp(20px, 1.55vw, 25px);
+        font-size: 24px;
         font-weight: 700;
-        line-height: 1.28;
+        line-height: 1.45;
         letter-spacing: 0;
         text-align: center;
+        writing-mode: vertical-rl;
       }
 
       .story-dateline {
+        grid-column: 2;
         display: flex;
         align-items: baseline;
-        justify-content: center;
+        justify-content: flex-start;
         gap: 4px;
-        margin: 5px 0 8px;
+        margin: 2px 0 8px;
         color: #493b2e;
         font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
-        font-size: 13px;
+        font-size: 15px;
         font-weight: 700;
         white-space: nowrap;
       }
@@ -582,46 +696,42 @@
       }
 
       .story-card p {
+        grid-column: 2;
         margin: 0;
         color: #4c4338;
         font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
-        font-size: 13px;
-        line-height: 1.78;
+        font-size: 14px;
+        line-height: 1.85;
         max-width: none;
         text-align: justify;
       }
 
       .story-meta {
+        grid-column: 2;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 0;
-        margin-top: 7px;
-        padding-top: 6px;
-        border-top: 1px solid rgba(105, 82, 52, 0.15);
+        gap: 8px;
+        margin-top: 10px;
+        padding-top: 0;
+        border-top: 0;
       }
 
       .story-meta span {
-        padding: 0 7px;
-        border-right: 1px solid rgba(105, 82, 52, 0.25);
+        padding: 4px 12px;
+        border: 1px solid rgba(105, 82, 52, 0.26);
+        border-radius: 999px;
         color: #76624d;
-        background: transparent;
+        background: rgba(225, 208, 180, 0.45);
         font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", SimSun, serif;
-        font-size: 11px;
-      }
-
-      .story-meta span:first-child {
-        padding-left: 0;
-      }
-
-      .story-meta span:last-child {
-        border-right: 0;
+        font-size: 12px;
       }
 
       .story-figure {
+        grid-column: 2;
         position: relative;
-        height: clamp(92px, 13vh, 132px);
-        margin-top: 8px;
+        height: clamp(92px, 12vh, 130px);
+        margin-top: 10px;
         overflow: hidden;
         background: rgba(228, 216, 190, 0.38);
       }
@@ -648,26 +758,34 @@
       }
 
       .classic-card {
-        position: absolute;
+        position: relative;
         z-index: 18;
-        right: 1.6%;
-        top: 23.5%;
-        width: min(31vw, 500px);
-        padding: 20px 26px 22px;
+        display: grid;
+        grid-template-columns: 46px minmax(0, 1fr);
+        column-gap: 12px;
+        width: 100%;
+        min-width: 0;
+        max-height: 0;
+        padding: 0 16px 0 10px;
         border: 1px solid var(--panel-line);
+        border-width: 0;
         border-radius: 6px;
         background:
-          linear-gradient(rgba(255, 251, 236, 0.74), rgba(238, 225, 199, 0.68)),
+          linear-gradient(90deg, rgba(222, 205, 174, 0.72), rgba(255, 251, 236, 0.84) 20%, rgba(238, 225, 199, 0.68)),
           var(--paper);
         box-shadow:
           inset 0 0 0 4px rgba(255, 252, 238, 0.34),
           0 16px 34px rgba(70, 53, 34, 0.16);
         opacity: 0;
         visibility: hidden;
+        overflow: hidden;
         transform: translateY(18px) scale(0.97);
-        transform-origin: 78% 45%;
+        transform-origin: 18% 45%;
         pointer-events: none;
         transition:
+          max-height 460ms cubic-bezier(0.2, 0.74, 0.26, 1),
+          padding 460ms cubic-bezier(0.2, 0.74, 0.26, 1),
+          border-width 460ms cubic-bezier(0.2, 0.74, 0.26, 1),
           opacity 360ms ease,
           transform 460ms cubic-bezier(0.2, 0.74, 0.26, 1),
           visibility 0s linear 460ms;
@@ -682,6 +800,9 @@
       }
 
       .classic-card.is-visible {
+        max-height: 330px;
+        padding: 16px 16px 14px 10px;
+        border-width: 1px;
         opacity: 1;
         visibility: visible;
         transform: translateY(0) scale(1);
@@ -690,21 +811,65 @@
       }
 
       .classic-card h2 {
-        margin: 0 0 9px;
-        padding-right: 30px;
-        font-size: 21px;
+        grid-column: 1;
+        grid-row: 1 / 4;
+        align-self: stretch;
+        justify-self: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        margin: 0;
+        padding: 12px 0;
+        border: 1px solid rgba(112, 86, 53, 0.2);
+        background: rgba(255, 250, 235, 0.36);
+        font-family: "Ma Shan Zheng", KaiTi, STKaiti, serif;
+        font-size: 20px;
+        line-height: 1.42;
+        writing-mode: vertical-rl;
+      }
+
+      .classic-body {
+        grid-column: 2;
+        min-width: 0;
+        max-height: 282px;
+        padding-right: 4px;
+        overflow-y: auto;
+      }
+
+      .classic-entry + .classic-entry {
+        margin-top: 12px;
+        padding-top: 10px;
+        border-top: 1px solid rgba(112, 86, 53, 0.16);
+      }
+
+      .classic-card h3 {
+        margin: 0 0 5px;
+        color: #4f3329;
+        font-size: 14px;
+        line-height: 1.45;
+        font-family: "Noto Serif SC", "Source Han Serif SC", SimSun, serif;
       }
 
       .classic-card p {
         margin: 0;
         color: #53483c;
-        line-height: 1.75;
-        font-size: 14px;
+        line-height: 1.68;
+        font-size: 13px;
+      }
+
+      .classic-quote {
+        color: #44372b;
+      }
+
+      .classic-translation {
+        margin-top: 6px !important;
+        color: #6a5a49 !important;
       }
 
       .classic-source {
         display: inline-block;
-        margin-top: 12px;
+        margin-bottom: 7px;
         padding: 4px 10px;
         color: #704739;
         border: 1px solid rgba(139, 76, 54, 0.28);
@@ -715,17 +880,17 @@
       .classic-close {
         position: absolute;
         z-index: 2;
-        top: 11px;
-        right: 12px;
-        width: 30px;
-        height: 30px;
+        top: 8px;
+        right: 8px;
+        width: 24px;
+        height: 24px;
         padding: 0;
         border: 0;
         border-radius: 50%;
         color: #5b5042;
         background: rgba(194, 177, 145, 0.35);
-        font-size: 24px;
-        line-height: 28px;
+        font-size: 20px;
+        line-height: 22px;
         cursor: pointer;
       }
 
@@ -784,7 +949,7 @@
         align-content: center;
         justify-items: center;
         width: 100%;
-        min-height: 76px;
+        min-height: 92px;
         padding: 4px 2px 5px;
         border: 1px solid rgba(112, 88, 56, 0.2);
         background:
@@ -795,9 +960,9 @@
 
       .era-art {
         display: block;
-        width: 34px;
-        height: 29px;
-        margin-bottom: 2px;
+        width: 52px;
+        height: 44px;
+        margin-bottom: 3px;
         object-fit: contain;
         opacity: 0.76;
         mix-blend-mode: multiply;
@@ -997,52 +1162,34 @@
       <span class="art-layer boat" aria-hidden="true"></span>
 
       <aside class="side-panel" aria-label="地图说明">
-        <article class="story-card" id="storyCard" data-tag="少年研学">
-          <div class="story-ribbon">行旅纪事</div>
-          <h2 id="storyTitle">卷一 · 家山初识</h2>
-          <div class="story-dateline">
-            <span id="storyEra">延兴二年</span>
-            <span class="story-year" id="storyYear">（472年）</span>
-            <i aria-hidden="true"></i>
-            <span id="storyPlace">范阳涿州</span>
+        <section class="author-profile" aria-label="郦道元人物简介">
+          <img class="author-portrait" src="./Data/右上角人物.png" alt="郦道元人物像" />
+          <div class="author-copy">
+            <strong>郦道元</strong>
+            <span>（472-527年）</span>
+            <p>北魏地理学家、散文家<br>《水经注》作者</p>
           </div>
-          <p id="storyText">郦道元出生于北魏官宦世家。故乡河渠纵横、北接山地，为他日后观察山川形势埋下最初的种子。</p>
-          <div class="story-figure">
-            <img id="storyImage" src="./Data/故事卡图片.png" alt="郦道元在山海间考察" />
-          </div>
-          <div class="story-meta" id="storyMeta">
-            <span>范阳涿州</span><span>启程</span>
-          </div>
+        </section>
+        <article class="classic-card" id="classicCard" aria-hidden="true" aria-live="polite">
+          <button class="classic-close" id="classicClose" type="button" aria-label="关闭《水经注》彩蛋">×</button>
+          <h2 id="classicTitle">《水经注》山水札记</h2>
+          <div class="classic-body" id="classicEntries"></div>
         </article>
         <section class="route-overview" aria-labelledby="routeOverviewTitle">
           <h3 id="routeOverviewTitle">郦道元行旅路径</h3>
-          <svg class="route-mini-map" viewBox="0 0 280 150" role="img" aria-label="郦道元十二阶段行旅路线缩略图">
-            <path class="mini-land" d="M42 30 L73 13 L112 20 L136 11 L174 22 L205 20 L238 40 L247 68 L236 91 L254 113 L232 137 L198 132 L174 143 L145 130 L115 139 L87 123 L56 119 L45 96 L27 76 Z" />
-            <path class="mini-route-line" d="M220 35 L232 70 L176 88 L148 30 L198 102 L208 55 L220 35 L80 75 L165 102 L172 127 L232 122 L150 92 L132 86" />
-            <g aria-hidden="true">
-              <circle class="mini-route-node active" data-mini-index="0" cx="220" cy="35" r="4" />
-              <circle class="mini-route-node" data-mini-index="1" cx="232" cy="70" r="4" />
-              <circle class="mini-route-node" data-mini-index="2" cx="176" cy="88" r="4" />
-              <circle class="mini-route-node" data-mini-index="3" cx="148" cy="30" r="4" />
-              <circle class="mini-route-node" data-mini-index="4" cx="198" cy="102" r="4" />
-              <circle class="mini-route-node" data-mini-index="5" cx="208" cy="55" r="4" />
-              <circle class="mini-route-node" data-mini-index="6" cx="220" cy="35" r="4" />
-              <circle class="mini-route-node" data-mini-index="7" cx="80" cy="75" r="4" />
-              <circle class="mini-route-node" data-mini-index="8" cx="165" cy="102" r="4" />
-              <circle class="mini-route-node" data-mini-index="9" cx="172" cy="127" r="4" />
-              <circle class="mini-route-node" data-mini-index="10" cx="232" cy="122" r="4" />
-              <circle class="mini-route-node" data-mini-index="11" cx="132" cy="86" r="4" />
-            </g>
-            <text x="250" y="25" fill="#6b604f" font-size="12">北</text>
-            <path d="M256 30 L256 48 M256 30 L251 38 M256 30 L261 38" fill="none" stroke="#6b604f" stroke-width="1.5" />
+          <svg class="route-mini-map" viewBox="0 0 280 200" role="img" aria-label="郦道元十二阶段行旅路线缩略图">
+            <image class="mini-map-image" href="./Data/行走路径3.png" x="0" y="0" width="280" height="200" preserveAspectRatio="xMidYMid meet" aria-hidden="true" />
+            <g id="miniChinaLayer" aria-hidden="true"></g>
+            <g id="miniRouteLayer" aria-hidden="true"></g>
+            <g id="miniPointLayer" aria-hidden="true"></g>
           </svg>
           <div class="legend" aria-label="地图图例">
             <ul>
-              <li><span class="legend-symbol route"></span><span>行旅方向</span></li>
+              <li><span class="legend-symbol route"></span><span>行旅路径</span></li>
               <li><span class="legend-symbol current"></span><span>当前位置</span></li>
               <li><span class="legend-symbol city"></span><span>重要地点</span></li>
-              <li><span class="legend-symbol river"></span><span>主要河流</span></li>
-              <li><span class="legend-symbol mountain"></span><span>山体节点</span></li>
+              <!-- <li><span class="legend-symbol river"></span><span>主要河流</span></li> -->
+              <!-- <li><span class="legend-symbol mountain"></span><span>山体节点</span></li> -->
             </ul>
           </div>
         </section>
@@ -1055,11 +1202,22 @@
         </div>
       </aside>
 
-      <article class="classic-card" id="classicCard" aria-hidden="true" aria-live="polite">
-        <button class="classic-close" id="classicClose" type="button" aria-label="关闭《水经注》彩蛋">×</button>
-        <h2 id="classicTitle">《水经注》山水札记</h2>
-        <p id="classicText"></p>
-        <span class="classic-source" id="classicSource"></span>
+      <article class="story-card" id="storyCard" data-tag="少年研学">
+        <div class="story-ribbon">记</div>
+        <h2 id="storyTitle">卷一 · 家山初识</h2>
+        <div class="story-dateline">
+          <span id="storyEra">延兴二年</span>
+          <span class="story-year" id="storyYear">（472年）</span>
+          <i aria-hidden="true"></i>
+          <span id="storyPlace">范阳涿州</span>
+        </div>
+        <p id="storyText">郦道元出生于北魏官宦世家。故乡河渠纵横、北接山地，为他日后观察山川形势埋下最初的种子。</p>
+        <div class="story-figure">
+          <img id="storyImage" src="./Data/故事卡图片.png" alt="郦道元在山海间考察" />
+        </div>
+        <div class="story-meta" id="storyMeta">
+          <span>范阳涿州</span><span>启程</span>
+        </div>
       </article>
 
       <nav class="timeline" id="timeline" aria-label="郦道元行旅时间轴"></nav>
@@ -1075,28 +1233,28 @@
         {
           id: "birth", year: "472年", era: "延兴二年", chapter: "卷一 · 家山初识", storyPlace: "范阳涿州",
           storyHeading: "延兴二年（472年）　范阳涿州",
-          placeIds: ["FanyangZhuozhou"], route: [[39.486, 115.974]],
+          placeIds: ["FanyangZhuozhou"], route: [[39.483350200000075, 115.96858000000009]],
           story: "郦道元出生于北魏官宦世家。故乡河渠纵横、北接山地，为他日后观察山川形势埋下最初的种子。",
           tags: ["范阳涿州", "启程"], icon: "./Data/1.png", scene: "./Data/封面底图2.png",
         },
         {
           id: "qingzhou", year: "489年之前", era: "太和年间", chapter: "卷一 · 少年游学", storyPlace: "青州",
           storyHeading: "太和年间（489年前）　青州",
-          placeIds: ["Qingzhou"], route: [[39.486, 115.974], [36.685, 118.479]],
+          placeIds: ["Qingzhou"], route: [[39.483350200000075, 115.96858000000009], [36.684327100000075, 118.47381180000002]],
           story: "随父宦游青州，踏勘淄水、巨洋水，观察渤海沿岸与山东山地，在山海相接处立下访水求真的志向。",
           tags: ["青州", "渤海", "淄水", "山东山地"], icon: "./Data/1.png", scene: "./Data/封面底图2.png",
         },
         {
           id: "luoyang", year: "489年", era: "太和十三年", chapter: "卷二 · 洛阳入仕", storyPlace: "洛阳",
           storyHeading: "太和十三年（489年）　洛阳",
-          placeIds: ["Luoyang"], route: [[36.685, 118.479], [34.62, 112.448]],
+          placeIds: ["Luoyang"], route: [[36.684327100000075, 118.47381180000002], [34.61965390000006, 112.44770460000007]],
           story: "父亲郦范病逝，郦道元承袭爵位并赴洛阳入仕。少年山海游学结束，他开始把沿途观察带入官场巡行。",
           tags: ["洛阳", "入仕"], icon: "./Data/2.png", scene: "./Data/底图参考6.png",
         },
         {
           id: "yinshan", year: "494年", era: "太和十八年", chapter: "卷二 · 北巡阴山", storyPlace: "阴山",
           storyHeading: "太和十八年（494年）　阴山",
-          placeIds: ["Hetao", "YinshanPlace"], route: [[34.62, 112.448], [37.8, 110.6], [40.75, 108.5]],
+          placeIds: ["Hetao", "YinshanPlace"], route: [[34.61965390000006, 112.44770460000007], [40.900323836000041, 109.49442649800005], [46.516050200000052, 122.96953710000025]],
           story: "随孝文帝北巡阴山，观察河套黄河、草原、戈壁与高山之间的地貌差异，把大河走势与山脉屏障放在一起记录。",
           tags: ["阴山", "黄河河套", "北巡"], icon: "./Data/2.png", scene: "./Data/底图参考6.png",
           classic: { title: "阴山与河套", text: "《水经注》写黄河，不只记水道，也同时追索沿岸山势、塞障与城邑。抵达阴山节点后，山与河的关系才真正进入叙事中心。", source: "《水经注·河水》" },
@@ -1104,28 +1262,28 @@
         {
           id: "huanghuai", year: "495-499年", era: "太和末年", chapter: "卷三 · 巡察黄淮", storyPlace: "黄淮地区",
           storyHeading: "太和末年（495-499年）　黄淮地区",
-          placeIds: ["Huanghuai", "Luoyang"], route: [[40.75, 108.5], [34.62, 112.448], [33.8, 116.5]],
+          placeIds: ["Huanghuai", "Luoyang"], route: [[46.516050200000052, 122.96953710000025], [34.61965390000006, 112.44770460000007], [34.272639008000056, 115.59631482300006]],
           story: "任治书侍御史期间巡察黄淮，勘察鸿沟、汴水等古代人工水道，考证旧河道变迁，并收集江淮水系史料。",
           tags: ["黄淮", "鸿沟", "汴水"], icon: "./Data/2.png", scene: "./Data/底图参考6.png",
         },
         {
           id: "jizhou", year: "500-503年", era: "景明元年-景明三年", chapter: "卷三 · 冀州问水", storyPlace: "冀州",
           storyHeading: "景明元年至三年（500-503年）　冀州",
-          placeIds: ["Jizhou_Hengshui"], route: [[33.8, 116.5], [37.74, 115.67]],
+          placeIds: ["Jizhou_Hengshui"], route: [[34.272639008000056, 115.59631482300006], [37.73643050000004, 115.66772290000006]],
           story: "任冀州镇东府长史，巡行漳水、滹沱河与华北湖淀，逐步梳理山地来水、平原河道和湖泊之间的连通体系。",
           tags: ["冀州", "漳水", "滹沱河", "湖淀"], icon: "./Data/2.png", scene: "./Data/底图参考6.png",
         },
         {
           id: "mourning", year: "503-504年", era: "景明三年-正始元年", chapter: "卷四 · 丁忧立志", storyPlace: "范阳故里",
           storyHeading: "景明三年至正始元年（503-504年）　返乡丁忧",
-          placeIds: ["Dingyou"], route: [[37.74, 115.67], [39.486, 115.974]],
+          placeIds: ["Dingyou"], route: [[37.73643050000004, 115.66772290000006], [39.483350200000075, 115.96858000000009]],
           story: "母亲去世后回乡守孝。他研读残缺古本《水经》，逐渐确立以文献为线索、以实地考察补证的注书方法。",
           tags: ["返乡", "研读《水经》", "立注书之志"], icon: "./Data/1.png", scene: "./Data/封面底图2.png",
         },
         {
           id: "upper-yellow", year: "约505年", era: "正始年间", chapter: "卷四 · 溯河寻源", storyPlace: "黄河上游",
           storyHeading: "正始年间（约505年）　黄河上游",
-          placeIds: ["UpperYellowRiver", "Guanzhong"], route: [[39.486, 115.974], [34.37, 109.22], [35.6, 102.6]],
+          placeIds: ["UpperYellowRiver", "Guanzhong"], route: [[39.483350200000075, 115.96858000000009], [34.31965629900003, 108.56519297800008], [35.712669500543086, 102.90093850124742]],
           story: "沿黄河西行溯源，越秦岭、近积石山，考察高山如何分水、河谷如何导流，并据此辨析黄河与长江流域的山水分界。",
           tags: ["黄河上游", "秦岭", "积石山", "分水岭"], icon: "./Data/山贴图.png", scene: "./Data/山贴图.png",
           classic: { title: "积石山下，溯河寻源", text: "在《河水》篇的叙述中，山口、峡谷与河道互为线索。此处的彩蛋强调：郦道元所谓“访水”，往往也是沿河辨山。", source: "《水经注·河水》" },
@@ -1133,7 +1291,7 @@
         {
           id: "luyang", year: "508-512年", era: "永平年间", chapter: "卷五 · 鲁阳访源", storyPlace: "鲁阳",
           storyHeading: "永平年间（508-512年）　鲁阳",
-          placeIds: ["Luyang_Pingdingshanlushan"], route: [[35.6, 102.6], [34.37, 109.22], [33.74, 111.9]],
+          placeIds: ["Luyang_Pingdingshanlushan"], route: [[35.712669500543086, 102.90093850124742], [34.31965629900003, 108.56519297800008], [33.743490000000065, 112.90834130000007]],
           story: "任鲁阳太守时深入伏牛山地，寻访淮河上游与汝水、颍水支流，核对古碑并向山民询问水源与旧道。",
           tags: ["鲁阳", "伏牛山", "汝水", "淮河上游"], icon: "./Data/山贴图.png", scene: "./Data/山贴图.png",
           classic: { title: "汝水出山", text: "行至鲁阳与汝水相关地域时，页面才展开这则典籍札记：山谷、泉源、支流和沿岸遗迹共同组成一条河的完整身世。", source: "《水经注·汝水》" },
@@ -1141,7 +1299,7 @@
         {
           id: "jianghan", year: "513-520年", era: "东荆州·洛阳", chapter: "卷五 · 江汉考水", storyPlace: "江汉·三峡·太湖",
           storyHeading: "513-520年　江汉、三峡与太湖",
-          placeIds: ["Jingzhou"], route: [[33.74, 111.9], [30.85, 110.98], [30.35, 112.19], [31.2, 120.2]],
+          placeIds: ["Jingzhou"], route: [[33.743490000000065, 112.90834130000007], [30.85, 110.98], [30.343563848000031, 112.2513516890001], [31.2, 120.2]],
           story: "整合江汉及东南水系资料，考证长江峡谷、荆州水道、太湖与邗沟。沿水路辨山势、访城邑，逐步完成《水经注》主体。",
           tags: ["三峡", "长江", "荆州", "太湖", "邗沟"], icon: "./Data/封面船只.png", scene: "./Data/封面底图2.png",
           classic: { title: "行至三峡，观水成书", text: "江流进入三峡，两岸高山夹峙，滩险、深潭与急流随季节变化。郦道元把亲历、访闻与旧籍互证，留下兼具地理精度与文学气韵的山水书写。", source: "《水经注·江水》" },
@@ -1149,33 +1307,205 @@
         {
           id: "revision", year: "521-526年", era: "延昌至孝昌初年", chapter: "卷六 · 汇考成书", storyPlace: "中原·关中",
           storyHeading: "延昌至孝昌初年（521-526年）　巡查补证",
-          placeIds: ["Luoyang", "Zhongyuan", "Guanzhong"], route: [[31.2, 120.2], [34.62, 112.448], [34.37, 109.22]],
+          placeIds: ["Luoyang", "Zhongyuan", "Guanzhong"], route: [[31.2, 120.2], [34.61965390000006, 112.44770460000007], [34.404944509000075, 113.13205345100005], [34.31965629900003, 108.56519297800008]],
           story: "任御史中尉期间继续巡查中原与关中，补证山川源流，修订前稿，完成《水经注》四十卷的定稿。",
           tags: ["中原", "关中", "校正山水记载", "四十卷"], icon: "./Data/3.png", scene: "./Data/底图参考6.png",
         },
         {
           id: "final", year: "527年", era: "孝昌三年", chapter: "卷六 · 关右绝笔", storyPlace: "阴盘驿亭",
           storyHeading: "孝昌三年（527年）　阴盘驿亭",
-          placeIds: ["Yingpanyiting_Xianlinntong"], route: [[34.62, 112.448], [34.37, 109.22]],
+          placeIds: ["Yingpanyiting_Xianlinntong"], route: [[34.61965390000006, 112.44770460000007], [34.368444800000077, 109.20929370000005]],
           story: "受命为关右大使，前往关中途中被围困遇害，终年五十五岁。他以一生踏勘汇成的山河世界，则在《水经注》中延续。",
           tags: ["阴盘驿亭", "关中", "行旅终章"], icon: "./Data/3.png", scene: "./Data/底图参考6.png",
         },
       ];
 
+      const classicNotes = {
+        qingzhou: {
+          title: "青州山海札记",
+          entries: [
+            {
+              source: "《水经注·巨洋水》",
+              heading: "渤海",
+              quote: "當渤海之口，由沙門大海以西，皆爲青州北海地，則邑所負之海，謂之渤海也可，即謂之北海也亦可。",
+              translation: "正对渤海的入海口，从沙门岛大海以西，都是青州的北海之地，那么青州北临的海，称之为渤海也可以，称之为北海也可以。",
+            },
+            {
+              source: "《水经注·淄水》",
+              heading: "淄水",
+              quote: "淄水出县西南山下，世谓之原泉。《地理志》曰：原山，淄水所出。故《经》有原山之论矣。《淮南子》曰：水出自饴山。盖山别名也。东北流迳莱芜谷，屈而西北流，迳其县故城南。",
+              translation: "淄水发源于莱芜县西南的山下，世人称它为原泉。《地理志》说：原山是淄水发源地，所以《水经》中有关于原山的论述。《淮南子》说水出自饴山，饴山大概是原山的别名。淄水向东北流经莱芜谷，转弯向西北流，经过莱芜县旧城的南面。",
+            },
+            {
+              source: "《水经注·巨洋水》",
+              heading: "巨洋水",
+              quote: "巨洋水出朱虚县泰山，北过其县西。泰山，即东小泰山也。巨洋水，即《国语》所谓具水矣。巨洋水自朱虚北入临朐县，熏冶泉水注之。",
+              translation: "巨洋水发源于朱虚县的泰山，向北流经该县西面。泰山，就是东小泰山。巨洋水，就是《国语》中所说的具水。巨洋水从朱虚县向北流入临朐县，熏冶泉水注入其中。",
+            },
+          ],
+        },
+        luoyang: {
+          title: "洛阳入仕札记",
+          entries: [
+            {
+              source: "《水经注·河水》",
+              heading: "芒干水",
+              quote: "芒干水又西，塞水出怀朔镇东北芒中，南流迳广德殿西山下。",
+              translation: "芒干水继续向西流，塞水发源于怀朔镇东北方的芒中之地，向南流经广德殿西边的山脚下。",
+            },
+          ],
+        },
+        yinshan: {
+          title: "阴山与黄河札记",
+          entries: [
+            {
+              source: "《水经注·河水》",
+              heading: "阴山",
+              quote: "阴山东西千余里，单于之苑囿也。自孝武出师，攘之于漠北，匈奴失阴山，过之，未尝不哭。",
+              translation: "阴山山脉东西长达一千多里，是匈奴单于的苑囿。自从汉武帝出兵，将匈奴驱逐到漠北，匈奴失去了阴山，再经过这里时，没有不痛哭流涕的。",
+            },
+            {
+              source: "《水经注·河水》",
+              heading: "黄河",
+              quote: "河水又東逕宜梁縣之故城南。闞駰曰：五原西南六十里，今世謂之石崖城。又有芒干水，出塞外，南迳钟山，山即阴山。故郎中侯应言于汉曰：阴山东西千余里，单于之苑囿也。河水又右會區水。",
+              translation: "黄河又向东流经宜梁县旧城南面。芒干水发源于塞外，向南流经钟山，钟山就是阴山。所以郎中侯应对汉帝说：阴山东西长达一千多里，是匈奴单于的苑囿。黄河又在右边汇合了区水。",
+            },
+          ],
+        },
+        huanghuai: {
+          title: "黄淮通渠札记",
+          entries: [
+            {
+              source: "《水经注·河水》",
+              heading: "黄河、淮河、泗水",
+              quote: "大禹塞荥泽，开之以通淮、泗。",
+              translation: "大禹堵塞了荥泽，开凿水道使黄河水与淮河、泗水相通。",
+            },
+          ],
+        },
+        jizhou: {
+          title: "冀州湖河札记",
+          entries: [
+            {
+              source: "《水经注·浊漳水》",
+              heading: "漳水",
+              quote: "阚駰曰：有潞水，为冀州浸，即漳水也。余按《燕书》，王猛与慕容评相遇于潞川也。评障锢山泉，鬻水与军，入绢匹，水二石，无佗大川，可以为浸，所有巨浪长湍，惟漳水耳。故世人亦谓浊漳为潞水矣。",
+              translation: "阚駰说：有潞水，是冀州的大泽，就是漳水。我查考《燕书》，王猛与慕容评在潞川相遇。慕容评堵塞山泉，把水卖给军队，每匹绢买水二石。没有其他大河可以称为大泽，所有巨浪长流的水，只有漳水罢了，所以世人也称浊漳水为潞水。",
+            },
+            {
+              source: "《水经注·浊漳水》",
+              heading: "滹沱河",
+              quote: "衡漳又东北，左会滹沱故渎，谓之合口。",
+              translation: "衡漳水又向东北流，在左侧与滹沱河的古河道汇合，汇合之处称为合口。",
+            },
+            {
+              source: "《水经注·易水》",
+              heading: "华北湖淀",
+              quote: "湖淀之波漾者曰淀。易水又东，渥水注之，谓之大渥淀、小渥淀。又滱水会博水，迳阳城县，散为泽渚，为叠舸折芰之所，曰阳城淀。益昌有濩淀。",
+              translation: "湖淀中水波荡漾的叫作淀。易水又向东流，渥水注入其中，形成大渥淀和小渥淀。滱水又与博水汇合，流经阳城县，散开成为泽渚，是众多船只采折菱角的地方，叫作阳城淀。益昌有濩淀。",
+            },
+          ],
+        },
+        mourning: {
+          title: "访渎搜渠札记",
+          entries: [
+            {
+              source: "《水经注·原序》",
+              heading: "作注方法",
+              quote: "脉其枝流之吐纳，诊其沿路之所躔，访渎搜渠，缉而缀之。",
+              translation: "梳理河流支脉的分合出入，考察它们沿途经过的地方，访求水渠河道，搜集整理并连缀成文。",
+            },
+          ],
+        },
+        "upper-yellow": {
+          title: "黄河上游札记",
+          entries: [
+            {
+              source: "《水经注·河水》",
+              heading: "黄河",
+              quote: "河出昆仑，重源潜发，沦于蒲昌，出于海水，迳积石而为中国河。",
+              translation: "黄河发源于昆仑山，水源多次潜流暗涌于地下，流入蒲昌海，又从水中重新流出，流经积石山后便成为中国的黄河。",
+            },
+            {
+              source: "《水经注·河水》",
+              heading: "华山",
+              quote: "华岳本一山当河，河水过而曲行，河神巨灵，手荡脚蹋，开而为两，今掌足之迹仍存华岩。",
+              translation: "华山原本是一座山，阻挡着黄河的去路，河水经过这里只能弯曲绕行。河神巨灵用手推荡、用脚蹬踢，将华山劈开成两半，使河水得以通行。至今，华山的岩壁上还留存着他的手掌和足迹。",
+            },
+          ],
+        },
+        luyang: {
+          title: "鲁阳寻源札记",
+          entries: [
+            {
+              source: "《水经注·滍水》",
+              heading: "滍水",
+              quote: "滍水出南阳鲁阳县西之尧山。滍水又东迳鲁阳县故城南，城即刘累之故邑也。",
+              translation: "滍水发源于南阳郡鲁阳县西面的尧山。滍水又向东流经鲁阳县故城的南面，这座城就是刘累的旧居。",
+            },
+          ],
+        },
+        jianghan: {
+          title: "江汉东南札记",
+          entries: [
+            {
+              source: "《水经注·江水》",
+              heading: "长江",
+              quote: "江水又东，涌水注之，水自夏水南通于江，谓之涌口。江水左迤为中夏水，右则中郎浦出焉。",
+              translation: "长江又向东流，涌水注入其中。涌水从夏水向南连通长江，汇合之处叫做涌口。长江向左分岔形成中夏水，向右则分出中郎浦。",
+            },
+            {
+              source: "《水经注·淮水》",
+              heading: "邗沟",
+              quote: "昔吴将伐齐，北霸中原，自广陵城东南筑邗城，城下掘深沟，谓之韩江，亦曰邗溟沟。中渎水首受江，自广陵至山阳入淮。",
+              translation: "从前吴国将要讨伐齐国，向北称霸中原，从广陵城的东南方向修筑邗城，在城下挖掘深沟，称之为韩江，也叫邗溟沟。中渎水的源头承接长江，从广陵到山阳流入淮河。",
+            },
+          ],
+        },
+        revision: {
+          title: "定稿补证札记",
+          entries: [
+            {
+              source: "《水经注·浊漳水》",
+              heading: "中原、关中水系",
+              quote: "衡漳水在鉅鹿县，又北迳南宫县故城，又东北，左会滹沱故渎，谓之合口。",
+              translation: "衡漳水在鉅鹿县境内，又向北流经南宫县的旧城，又向东北方向流去，在左侧与滹沱河的古河道汇合，汇合的地方叫作合口。",
+            },
+          ],
+        },
+        final: {
+          title: "山河绝笔札记",
+          entries: [
+            {
+              source: "《水经注·原序》",
+              heading: "访渎搜渠",
+              quote: "访渎搜渠，缉而缀之。",
+              translation: "访求水渠河道，搜集整理并连缀成文。",
+            },
+          ],
+        },
+      };
+
+      stages.forEach((stage) => {
+        if (classicNotes[stage.id]) {
+          stage.classic = classicNotes[stage.id];
+        }
+      });
+
       /* 十二个时间节点使用独立插画题签；Data/1.png 仅作为版式参考，不作为静态时间轴覆盖页面。 */
       const timelineArt = [
-        "./Data/故事卡图片.png",
+        "./Data/时间轴1.png",
         "./Data/时间轴2.png",
         "./Data/时间轴3.png",
         "./Data/山体素材/大青山.png",
-        "./Data/建筑物1.png",
-        "./Data/水体素材/黄河.png",
-        "./Data/故事卡图片.png",
-        "./Data/山体素材/21c1b0bd-a3f1-4090-b990-71d339c709fb.png",
-        "./Data/山体素材/298c9a3c-19bc-4a2d-8705-d939827fd525.png",
-        "./Data/封面船只.png",
-        "./Data/3.png",
-        "./Data/建筑物2.png",
+        "./Data/时间轴5.png",
+        "./Data/时间轴6.png",
+        "./Data/时间轴7.png",
+        "./Data/时间轴8.png",
+        "./Data/时间轴9.png",
+        "./Data/时间轴10.png",
+        "./Data/时间轴11.png",
+        "./Data/时间轴8.png",
       ];
 
       const rivers = [
@@ -1230,18 +1560,18 @@
        * 这里记录“有效水墨内容”在整张图片中的归一化边界：[左、上、右、下]。
        * 贴图时会据此反推整张图片的地理边界，使蓝色笔触而不是 PNG 画布与 GeoJSON 对齐。
        */
-      const waterArtCrop = {
-        "黄河.png": [0.0299, 0.1006, 0.9642, 0.8799],
-        "长江.png": [0.0189, 0.0918, 0.9805, 0.8223],
-        "太湖.png": [0.1035, 0.043, 0.8346, 0.9443],
-        "ChatGPT Image 2026年8月1日 15_33_18 (4).png": [0.0029, 0.0924, 0.9531, 0.9349],
-        "漳河.png": [0.0202, 0.1201, 0.9395, 0.6416],
-        "弥河.png": [0.0911, 0.0732, 0.9076, 0.9355],
-        "ChatGPT Image 2026年8月1日 15_33_20 (7).png": [0.069, 0.0498, 0.9395, 0.9531],
-        "黄河故道.png": [0.1133, 0.0654, 0.875, 0.9541],
-        "ChatGPT Image 2026年8月1日 15_33_21 (9).png": [0.0521, 0.0732, 0.9616, 0.9473],
-        "ChatGPT Image 2026年8月1日 15_33_22 (10).png": [0.0143, 0.0732, 0.9746, 0.9199],
-      };
+      // const waterArtCrop = {
+      //   "黄河.png": [0.0299, 0.1006, 0.9642, 0.8799],
+      //   "长江.png": [0.0189, 0.0918, 0.9805, 0.8223],
+      //   "太湖.png": [0.1035, 0.043, 0.8346, 0.9443],
+      //   "ChatGPT Image 2026年8月1日 15_33_18 (4).png": [0.0029, 0.0924, 0.9531, 0.9349],
+      //   "漳河.png": [0.0202, 0.1201, 0.9395, 0.6416],
+      //   "弥河.png": [0.0911, 0.0732, 0.9076, 0.9355],
+      //   "ChatGPT Image 2026年8月1日 15_33_20 (7).png": [0.069, 0.0498, 0.9395, 0.9531],
+      //   "黄河故道.png": [0.1133, 0.0654, 0.875, 0.9541],
+      //   "ChatGPT Image 2026年8月1日 15_33_21 (9).png": [0.0521, 0.0732, 0.9616, 0.9473],
+      //   "ChatGPT Image 2026年8月1日 15_33_22 (10).png": [0.0143, 0.0732, 0.9746, 0.9199],
+      // };
 
       const mountains = [
         "Taihangshan",
@@ -1263,7 +1593,7 @@
         Huanghuai: "黄淮地区",
         Jizhou_Hengshui: "冀州",
         Dingyou: "",
-        UpperYellowRiver: "黄河上游{积石山}",
+        UpperYellowRiver: "黄河上游",
         Luyang_Pingdingshanlushan: "鲁阳",
         Jingzhou: "荆州",
         Yingpanyiting_Xianlinntong: "阴盘驿亭",
@@ -1282,12 +1612,12 @@
 
       const mountainNames = {
         Taihangshan: "太行山",
-        Daqingshan: "大青山",
+        Daqingshan: "",
         Wangwushan: "王屋山",
         Funiushan: "伏牛山",
         Zhongnanshan: "终南山",
         Jishishan: "积石山",
-        Yinshan: "阴山",
+        Yinshan: "",
         Huashan: "华山",
       };
 
@@ -1373,8 +1703,8 @@
       panes.culturalArt.style.zIndex = 260;
       panes.culturalArt.style.mixBlendMode = "multiply";
       panes.route.style.zIndex = 270;
-      panes.points.style.zIndex = 310;
       panes.waterLabels.style.zIndex = 320;
+      panes.points.style.zIndex = 325;
       panes.mountainLabels.style.zIndex = 330;
       panes.placeLabels.style.zIndex = 340;
 
@@ -1455,6 +1785,8 @@
           }),
         });
 
+        if (active) return marker;
+
         const labelAnchor = placeLabelAnchors[label] || [-12, 18];
 
         const text = L.marker(latlng, {
@@ -1475,7 +1807,7 @@
           pane: "points",
           icon: L.icon({
               iconUrl: "./Data/小人奔跑.GIF",
-            iconSize: [88, 110],
+            iconSize: [70, 90],
             iconAnchor: [30, 58],
             className: "traveller-icon",
           }),
@@ -1499,7 +1831,8 @@
         });
       }
 
-      function makeBuildingMarker(latlng, source, size, anchor) {
+      function makeBuildingMarker(latlng, source, size) {
+        const anchor = [size[0] / 2, size[1] / 2];
         return L.marker(latlng, {
           pane: "culturalArt",
           icon: L.divIcon({
@@ -1513,23 +1846,40 @@
       }
 
       function drawMapDecorations() {
-        /* 两张山水图覆盖地图西北和西南边缘，并在河流、路线和人物下方融合。 */
-        L.imageOverlay("./Data/装饰1.png", [[35.7, 100.0], [42.5, 112.1]], {
+        /* 地图装饰图统一放在 mapDecor 层：位于中国底图上方，但低于河流、路线、地点和人物。 */
+        L.imageOverlay("./Data/山脉2.png", [[37, 82.0], [46.3, 103.0]], {
           pane: "mapDecor",
-          className: "map-corner-art map-corner-art-top",
-          opacity: 1,
+          className: "map-corner-art map-corner-art-northwest",
+          opacity: 0.9,
           interactive: false,
         }).addTo(mapDecorLayer);
-        L.imageOverlay("./Data/装饰1.png", [[27.5, 100.0], [35.2, 112.0]], {
+         L.imageOverlay("./Data/山脉2.png", [[33, 80.0], [42, 99.0]], {
           pane: "mapDecor",
-          className: "map-corner-art map-corner-art-bottom",
-          opacity: 1,
+          className: "mountain-fade-overlay",
+          opacity: 0.9,
           interactive: false,
         }).addTo(mapDecorLayer);
 
+
+        L.imageOverlay("./Data/山脉2.png", [[26, 80.0], [36.5, 99.0]], {
+          pane: "mapDecor",
+          className: "mountain-fade-overlay",
+          opacity: 0.9,
+          interactive: false,
+        }).addTo(mapDecorLayer);
+
+        // /* 两张山水图覆盖地图西北和西南边缘，并在河流、路线和人物下方融合。 */
+        // L.imageOverlay("./Data/装饰1.png", [[35.7, 100.0], [42.5, 112.1]], {
+        //   pane: "mapDecor",
+        //   className: "map-corner-art map-corner-art-top",
+        //   opacity: 1,
+        //   interactive: false,
+        // }).addTo(mapDecorLayer);
+       
+
         /* 洛阳城门和荆州楼阁按真实经纬度放置，作为城市地标而非屏幕绝对定位。 */
-        makeBuildingMarker([34.62, 112.448], "./Data/建筑物2.png", [138, 92], [69, 78]).addTo(culturalArtLayer);
-        makeBuildingMarker([30.35, 112.19], "./Data/建筑物1.png", [86, 86], [43, 73]).addTo(culturalArtLayer);
+        makeBuildingMarker([34.61965390000006, 112.44770460000007], "./Data/建筑物2.png", [80, 50]).addTo(culturalArtLayer);
+        makeBuildingMarker([30.343563848000031, 112.2513516890001], "./Data/建筑物1.png", [64, 64]).addTo(culturalArtLayer);
       }
 
       function getFeatureLatLng(feature) {
@@ -1557,6 +1907,109 @@
         return L.latLngBounds([south, west], [north, east]);
       }
 
+      function getMiniMapProjector() {
+        const plot = { left: 28, right: 222, top: 18, bottom: 168 };
+        const bounds = { west: 73, east: 135, south: 18, north: 54 };
+
+        return ([lng, lat]) => [
+          plot.left + ((lng - bounds.west) / (bounds.east - bounds.west)) * (plot.right - plot.left),
+          plot.top + ((bounds.north - lat) / (bounds.north - bounds.south)) * (plot.bottom - plot.top),
+        ];
+      }
+
+      function geometryToMiniPaths(geometry, project) {
+        if (!geometry) return [];
+        const polygons = geometry.type === "Polygon" ? [geometry.coordinates] : geometry.coordinates;
+        return polygons.flatMap((polygon) =>
+          polygon.map((ring) =>
+            ring
+              .map((coordinate, index) => {
+                const [x, y] = project(coordinate);
+                return `${index === 0 ? "M" : "L"}${x.toFixed(1)} ${y.toFixed(1)}`;
+              })
+              .join(" ") + " Z",
+          ),
+        );
+      }
+
+      function createMiniRoutePath(points) {
+        if (points.length < 2) return "";
+        return points
+          .map((point, index) => {
+            const [x, y] = point;
+            if (index === 0) return `M${x.toFixed(1)} ${y.toFixed(1)}`;
+            const [prevX, prevY] = points[index - 1];
+            const bend = index % 2 === 0 ? 8 : -8;
+            const controlX = (prevX + x) / 2;
+            const controlY = (prevY + y) / 2 + bend;
+            return `Q${controlX.toFixed(1)} ${controlY.toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`;
+          })
+          .join(" ");
+      }
+
+      async function renderRouteMiniMap() {
+        const svg = document.querySelector(".route-mini-map");
+        const chinaLayer = document.getElementById("miniChinaLayer");
+        const routeLayerSvg = document.getElementById("miniRouteLayer");
+        const pointLayer = document.getElementById("miniPointLayer");
+        if (!svg || !chinaLayer || !routeLayerSvg || !pointLayer) return;
+
+        const project = getMiniMapProjector();
+        const china = await loadGeoJson(`${dataRoot}/china/ChinaBoundpoly.geojson`);
+        chinaLayer.innerHTML = "";
+        china.features.forEach((feature) => {
+          geometryToMiniPaths(feature.geometry, project).forEach((pathData) => {
+            const land = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            land.setAttribute("class", "mini-land");
+            land.setAttribute("d", pathData);
+            chinaLayer.appendChild(land);
+          });
+        });
+
+        const miniRouteStops = [];
+        const miniStagePoints = [];
+        const seenStops = new Set();
+        for (const [stageIndex, stage] of stages.entries()) {
+          let stagePoint = null;
+          for (const placeId of stage.placeIds) {
+            if (placeId === "Dingyou") continue;
+            const data = await loadGeoJson(`${dataRoot}/places/${placeId}.geojson`);
+            const latlng = getFeatureLatLng(data.features[0]);
+            if (!latlng) continue;
+            const key = `${latlng[0].toFixed(4)},${latlng[1].toFixed(4)}`;
+            const point = project([latlng[1], latlng[0]]);
+            if (!seenStops.has(key)) {
+              miniRouteStops.push({ point, stageIndex, stageId: stage.id, placeId });
+              seenStops.add(key);
+            }
+            stagePoint = point;
+          }
+          miniStagePoints.push(stagePoint);
+        }
+        const validPoints = miniRouteStops.map((stop) => stop.point);
+
+        routeLayerSvg.innerHTML = "";
+        const routePath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        routePath.setAttribute("class", "mini-route-line");
+        routePath.setAttribute("d", createMiniRoutePath(validPoints));
+        routeLayerSvg.appendChild(routePath);
+
+        pointLayer.innerHTML = "";
+        miniRouteStops.forEach((stop, index) => {
+          const { point, placeId, stageIndex } = stop;
+          const [x, y] = point;
+          const node = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          node.setAttribute("class", `mini-route-node${stageIndex === 0 ? " active" : ""}`);
+          node.setAttribute("data-mini-index", String(index));
+          node.setAttribute("data-stage-index", String(stageIndex));
+          node.setAttribute("data-place-id", placeId);
+          node.setAttribute("cx", x.toFixed(1));
+          node.setAttribute("cy", y.toFixed(1));
+          node.setAttribute("r", "4");
+          pointLayer.appendChild(node);
+        });
+      }
+
       async function drawBaseLayers() {
         const china = await loadGeoJson(`${dataRoot}/china/ChinaBoundpoly.geojson`);
         const chinaLayer = L.geoJSON(china, {
@@ -1566,7 +2019,7 @@
         }).addTo(map);
 
         /* 只保留郦道元主要活动及山水节点所在区域，裁去无地标的西部空白。 */
-        const travelBounds = L.latLngBounds([27.5, 100.0], [42.5, 124.5]);
+        const travelBounds = L.latLngBounds([27.5, 100.0], [47.2, 124.5]);
         map.fitBounds(travelBounds, {
           animate: false,
           paddingTopLeft: [28, 24],
@@ -1578,11 +2031,22 @@
 
         drawMapDecorations();
 
-        L.marker([38, 120], {
+        L.marker([38.5, 120], {
           pane: "waterLabels",
           icon: L.divIcon({
             className: "river-label",
             html: "渤海",
+            iconSize: [92, 24],
+            iconAnchor: [46, 12],
+          }),
+          interactive: false,
+        }).addTo(map);
+
+        L.marker([34, 122], {
+          pane: "waterLabels",
+          icon: L.divIcon({
+            className: "river-label",
+            html: "黄海",
             iconSize: [92, 24],
             iconAnchor: [46, 12],
           }),
@@ -1632,11 +2096,13 @@
             if (!latlng) return;
             const artMarker = makeMountainArtMarker(latlng, name);
             if (artMarker) artMarker.addTo(mountainArtLayer);
+            const mountainLabel = mountainNames[name] || "";
+            if (!mountainLabel) return;
             L.marker(latlng, {
               pane: "mountainLabels",
               icon: L.divIcon({
                 className: "mountain-label",
-                html: mountainNames[name] || name,
+                html: mountainLabel,
                 iconSize: [70, 42],
                 iconAnchor: [35, 20],
               }),
@@ -1759,9 +2225,16 @@
           btn.classList.toggle("active", btnIndex === index);
         });
         document.querySelectorAll(".mini-route-node").forEach((node, nodeIndex) => {
-          node.classList.toggle("active", nodeIndex === index);
-          node.classList.toggle("visited", nodeIndex < index);
+          const nodeStageIndex = Number(node.dataset.stageIndex || nodeIndex);
+          node.classList.toggle("active", nodeStageIndex === index);
+          node.classList.toggle("visited", nodeStageIndex < index);
         });
+
+        if (stage.classic) {
+          showClassicCard(stage.classic);
+        } else {
+          hideClassicCard();
+        }
 
         if (!traveller) {
           traveller = makeTraveller(stage.route[stage.focusIndex ?? stage.route.length - 1]);
@@ -1773,8 +2246,6 @@
 
         const currentButton = document.querySelector(".era-btn.active");
         if (!currentButton || Number(currentButton.dataset.index) !== index) return;
-
-        if (stage.classic) showClassicCard(stage.classic);
       }
 
       function animateTraveller(route) {
@@ -1828,8 +2299,34 @@
 
       function showClassicCard(classic) {
         document.getElementById("classicTitle").textContent = classic.title;
-        document.getElementById("classicText").textContent = classic.text;
-        document.getElementById("classicSource").textContent = classic.source;
+        const entries = Array.isArray(classic.entries)
+          ? classic.entries
+          : [{ source: classic.source, heading: classic.title, quote: classic.text, translation: "" }];
+        const entriesBox = document.getElementById("classicEntries");
+        entriesBox.replaceChildren();
+        entries.forEach((entry) => {
+          const item = document.createElement("section");
+          item.className = "classic-entry";
+
+          const source = document.createElement("span");
+          source.className = "classic-source";
+          source.textContent = entry.source || "《水经注》";
+
+          const heading = document.createElement("h3");
+          heading.textContent = entry.heading || "山水记";
+
+          const quote = document.createElement("p");
+          quote.className = "classic-quote";
+          quote.textContent = entry.quote || "";
+
+          const translation = document.createElement("p");
+          translation.className = "classic-translation";
+          translation.textContent = entry.translation ? `译文：${entry.translation}` : "";
+
+          item.append(source, heading, quote);
+          if (entry.translation) item.append(translation);
+          entriesBox.append(item);
+        });
         const card = document.getElementById("classicCard");
         card.classList.add("is-visible");
         card.setAttribute("aria-hidden", "false");
@@ -1859,6 +2356,7 @@
         renderTimeline();
         bindLayerToggles();
         document.getElementById("classicClose").addEventListener("click", hideClassicCard);
+        await renderRouteMiniMap();
         await drawBaseLayers();
         await drawAllPlaces();
         traveller = makeTraveller(stages[0].route[stages[0].focusIndex ?? stages[0].route.length - 1]);
